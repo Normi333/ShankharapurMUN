@@ -1,0 +1,23 @@
+.barchart-container {
+  flex-direction: column;
+  overflow: visible;
+}
+
+canvas {
+  width: 100% !important;
+  height: 300px !important;
+}
+
+.chart-wrapper {
+  width: 100%;
+  height: 100%;
+  /* display: flex; */
+  /* justify-content: center;
+  align-items: center; */
+  position: relative;
+}
+
+.chart-card.expanded .chart-wrapper {
+  max-width: 90%; /* or whatever you feel looks good */
+  width: 100%;
+}

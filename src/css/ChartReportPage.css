@@ -1,0 +1,11 @@
+.chart-content {
+  padding: 12px;
+  flex-grow: 2;
+}
+
+.chart-report-container {
+  display: flex;
+  height: 100vh;
+  box-sizing: border-box;
+}
+

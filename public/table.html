@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample Data Table</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h2 {
+            color: #0056b3;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        table {
+            width: 80%; /* Adjust table width as needed */
+            border-collapse: collapse;
+            margin: 0 auto; /* Center the table */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            background-color: #fff;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px 15px;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9; /* Zebra striping */
+        }
+        tr:hover {
+            background-color: #e9e9e9; /* Highlight row on hover */
+        }
+        .container {
+            max-width: 960px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Product Inventory Report</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Product ID</th>
+                    <th>Product Name</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>In Stock</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>P001</td>
+                    <td>Laptop Pro X</td>
+                    <td>Electronics</td>
+                    <td>$1200.00</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>P002</td>
+                    <td>Mechanical Keyboard</td>
+                    <td>Peripherals</td>
+                    <td>$85.50</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>P003</td>
+                    <td>Wireless Mouse Z</td>
+                    <td>Peripherals</td>
+                    <td>$30.00</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td>P004</td>
+                    <td>USB-C Hub (7-in-1)</td>
+                    <td>Accessories</td>
+                    <td>$45.99</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>P005</td>
+                    <td>External SSD 1TB</td>
+                    <td>Storage</td>
+                    <td>$99.99</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>P006</td>
+                    <td>4K Monitor (27-inch)</td>
+                    <td>Displays</td>
+                    <td>$350.00</td>
+                    <td>No</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

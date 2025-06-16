@@ -1,0 +1,16 @@
+/* .chart-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+} */
+
+.chart-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(360px, 1fr)
+  ); /* wider cards */
+  gap: 1.5rem;
+  padding: 1rem;
+}

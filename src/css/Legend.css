@@ -1,0 +1,83 @@
+.legend-box {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  /* background: #2f4050; */
+  background: hsl(203, 99%, 34%);
+  border: 1px solid #ffffff;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 6px;
+  z-index: 1000;
+  color: #ffffff;
+  min-width: 180px;
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); */
+}
+
+.legend-box strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: #ffffff;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.legend-color {
+  width: 20px;
+  height: 10px;
+  margin-right: 8px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.legend-color.forest {
+  background-color: #60de12;
+}
+
+.legend-color.river {
+  background-color: #215ef8;
+}
+
+.legend-color.roads-all {
+  background-color: yellow;
+}
+
+.legend-color.roads-Internal {
+  background-color: orange;
+}
+
+.legend-color.roads-External {
+  background-color: purple;
+}
+
+.legend-color.buildings-all {
+  background-color: gray;
+}
+
+.legend-color.buildings-Residential {
+  background-color: #c44f0c;
+}
+
+.legend-color.buildings-Government-Agro-Office {
+  background-color: blue;
+}
+
+.legend-color.buildings-Government {
+  background-color: green;
+}
+
+.legend-color.buildings-Hotel {
+  background-color: yellow;
+}
+
+.gis-container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  font-family: Poppins, "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
