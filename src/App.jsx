@@ -16,15 +16,6 @@ function App() {
   const location = useLocation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // For a real app, you'd check localStorage or a token here on initial load
-  // useEffect(() => {
-  //   // Example: Check if a token exists in localStorage to set initial login state
-  //   const userToken = localStorage.getItem("userToken");
-  //   if (userToken) {
-  //     setIsLoggedIn(true);
-  //   }
-  // }, []); // Run once on component mount
-
   useEffect(() => {
     const htmlElement = document.querySelector("html");
     if (htmlElement) {
@@ -64,8 +55,9 @@ function App() {
             isLoggedIn ? <MapPage /> : <Login setIsLoggedIn={setIsLoggedIn} />
           }
         />
+        {/* <Route path="/ReportView/:path" element={<ReportView />} /> */}
         <Route
-          path="/ReportView"
+          path="/ReportView/:path"
           element={
             isLoggedIn ? (
               <ReportView />

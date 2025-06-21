@@ -1,26 +1,277 @@
+// import React, { useState } from "react";
+// import { useParams } from "react-router-dom";
+
+// import ReportSidebar from "../partials/ReportSidebar";
+// import Header from "../partials/Header";
+// import MyDataComponent from "../components/MyDataComponent";
+
+// const reportConfig = {
+//   mothertongue: {
+//     endpoint: "hsurvey_mothertongue",
+//     title: "मातृभाषाको आधारमा वर्गिकरण",
+//   },
+//   religion: {
+//     endpoint: "hsurvey_religion",
+//     title: "धर्मको आधारमा वर्गिकरण",
+//   },
+//   caste: {
+//     endpoint: "hsurvey_caste",
+//     title: "जातिको आधारमा वर्गिकरण",
+//   },
+//   workdivision: {
+//     endpoint: "hsurvey_workdivision",
+//     title: "कामको विभाजनको आधारमा वर्गिकरण",
+//   },
+//   cookingfuel: {
+//     endpoint: "hsurvey_cookingfuel",
+//     title: "खाना पकाउने इन्धनको आधारमा वर्गिकरण",
+//   },
+//   noncurable: {
+//     endpoint: "hsurvey_noncurable",
+//     title: "निको नहुने रोगको आधारमा वर्गिकरण",
+//   },
+//   "inv-source": {
+//     endpoint: "Inv_source_report",
+//     title: "लगानीको स्रोतको रिपोर्ट",
+//   },
+//   housestatus: {
+//     endpoint: "hsurvey_housestatus",
+//     title: "घरको स्थितिको आधारमा वर्गिकरण",
+//   },
+//   "rent-details": {
+//     endpoint: "RentDetailsReport",
+//     title: "भाडाको विवरण रिपोर्ट",
+//   },
+//   "loan-source": {
+//     endpoint: "loan_source_report",
+//     title: "ऋणको स्रोत रिपोर्ट",
+//   },
+//   "saving-source": {
+//     endpoint: "Saving_source_report",
+//     title: "बचतको स्रोत रिपोर्ट",
+//   },
+//   incomeexpense: {
+//     endpoint: "hsurvey_incomeexpense",
+//     title: "आम्दानी र खर्चको आधारमा वर्गिकरण",
+//   },
+//   foreign: {
+//     endpoint: "hsurvey_foreign",
+//     title: "विदेशीको आधारमा वर्गिकरण",
+//   },
+//   "service-details": {
+//     endpoint: "Service_details_report",
+//     title: "सेवाको विवरण रिपोर्ट",
+//   },
+//   "death-count": {
+//     endpoint: "lg_hsurvey_death_count",
+//     title: "मृत्युको संख्याको आधारमा वर्गिकरण",
+//   },
+//   "land-details": {
+//     endpoint: "Land_details_report",
+//     title: "जग्गाको विवरण रिपोर्ट",
+//   },
+//   "building-details": {
+//     endpoint: "BuildingDetailsReport",
+//     title: "भवनको विवरण रिपोर्ट",
+//   },
+//   "disaster-details": {
+//     endpoint: "lg_hsurvey_disaster_details",
+//     title: "प्रकोपको विवरण रिपोर्ट",
+//   },
+//   lsdetails: {
+//     endpoint: "hsurvey_lsdetails",
+//     title: "लघु उद्योगको विवरण",
+//   },
+//   electricitysource: {
+//     endpoint: "hsurvey_electricitysource",
+//     title: "बिजुलीको स्रोतको आधारमा वर्गिकरण",
+//   },
+//   toiletstatus: {
+//     endpoint: "hsurvey_toiletstatus",
+//     title: "शौचालयको स्थितिको आधारमा वर्गिकरण",
+//   },
+//   watersource: {
+//     endpoint: "hsurvey_watersource",
+//     title: "पानीको स्रोतको आधारमा वर्गिकरण",
+//   },
+//   agegroup: {
+//     endpoint: "hsurvey_agegroup",
+//     title: "उमेर समूहको आधारमा वर्गिकरण",
+//   },
+// };
+
+// function WelcomePage() {
+//   return (
+//     <div className="flex flex-col justify-center items-center h-full bg-gradient-to-br from-blue-900 via-gray-900 to-gray-800 text-white text-center rounded-lg p-10 shadow-xl">
+//       <h1 className="text-5xl font-bold mb-6">सर्वेक्षण ड्यासबोर्ड</h1>
+//       <p className="text-lg sm:text-xl text-gray-300 max-w-2xl leading-relaxed">
+//         बायाँतर्फको साइडबारबाट कुनै पनि सर्वेक्षण रिपोर्ट छान्नुहोस् र तपाईंको
+//         डाटा सजिलै हेर्नुहोस्।
+//       </p>
+//     </div>
+//   );
+// }
+
+// export default function ReportView() {
+//   const { path } = useParams();
+//   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+//   const report = path ? reportConfig[path] : null;
+
+//   return (
+//     <div className="flex h-screen overflow-hidden">
+//       {/* Sidebar */}
+//       <ReportSidebar
+//         sidebarOpen={sidebarOpen}
+//         setSidebarOpen={setSidebarOpen}
+//       />
+
+//       {/* Content area */}
+//       <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
+//         {/* Header */}
+//         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+
+//         {/* Main content */}
+//         <main className="grow">
+//           <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-4xl mx-auto">
+//             <div className="bg-white p-6 rounded-lg shadow-md min-h-[500px]">
+//               {report ? (
+//                 <MyDataComponent
+//                   urlPostfix={report.endpoint}
+//                   title={report.title}
+//                 />
+//               ) : (
+//                 <WelcomePage />
+//               )}
+//             </div>
+//           </div>
+//         </main>
+//       </div>
+//     </div>
+//   );
+// }
+
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 
-// import Sidebar from "../partials/Sidebar";
 import ReportSidebar from "../partials/ReportSidebar";
 import Header from "../partials/Header";
+import MyDataComponent from "../components/MyDataComponent";
 
-// Welcome page component with Tailwind CSS
+const reportConfig = {
+  mothertongue: {
+    endpoint: "hsurvey_mothertongue",
+    title: "मातृभाषाको आधारमा वर्गिकरण",
+    path: "/mothertongue",
+  },
+  religion: {
+    endpoint: "hsurvey_religion",
+    title: "धर्मको आधारमा वर्गिकरण",
+    path: "/religion",
+  },
+  caste: {
+    endpoint: "hsurvey_caste",
+    title: "जातिको आधारमा वर्गिकरण",
+  },
+  workdivision: {
+    endpoint: "hsurvey_workdivision",
+    title: "कामको विभाजनको आधारमा वर्गिकरण",
+  },
+  cookingfuel: {
+    endpoint: "hsurvey_cookingfuel",
+    title: "खाना पकाउने इन्धनको आधारमा वर्गिकरण",
+  },
+  noncurable: {
+    endpoint: "hsurvey_noncurable",
+    title: "निको नहुने रोगको आधारमा वर्गिकरण",
+  },
+  "inv-source": {
+    endpoint: "Inv_source_report",
+    title: "लगानीको स्रोतको रिपोर्ट",
+  },
+  housestatus: {
+    endpoint: "hsurvey_housestatus",
+    title: "घरको स्थितिको आधारमा वर्गिकरण",
+  },
+  "rent-details": {
+    endpoint: "RentDetailsReport",
+    title: "भाडाको विवरण रिपोर्ट",
+  },
+  "loan-source": {
+    endpoint: "loan_source_report",
+    title: "ऋणको स्रोत रिपोर्ट",
+  },
+  "saving-source": {
+    endpoint: "Saving_source_report",
+    title: "बचतको स्रोत रिपोर्ट",
+  },
+  incomeexpense: {
+    endpoint: "hsurvey_incomeexpense",
+    title: "आम्दानी र खर्चको आधारमा वर्गिकरण",
+  },
+  foreign: {
+    endpoint: "hsurvey_foreign",
+    title: "विदेशीको आधारमा वर्गिकरण",
+  },
+  "service-details": {
+    endpoint: "Service_details_report",
+    title: "सेवाको विवरण रिपोर्ट",
+  },
+  "death-count": {
+    endpoint: "lg_hsurvey_death_count",
+    title: "मृत्युको संख्याको आधारमा वर्गिकरण",
+  },
+  "land-details": {
+    endpoint: "Land_details_report",
+    title: "जग्गाको विवरण रिपोर्ट",
+  },
+  "building-details": {
+    endpoint: "BuildingDetailsReport",
+    title: "भवनको विवरण रिपोर्ट",
+  },
+  "disaster-details": {
+    endpoint: "lg_hsurvey_disaster_details",
+    title: "प्रकोपको विवरण रिपोर्ट",
+  },
+  lsdetails: {
+    endpoint: "hsurvey_lsdetails",
+    title: "लघु उद्योगको विवरण",
+  },
+  electricitysource: {
+    endpoint: "hsurvey_electricitysource",
+    title: "बिजुलीको स्रोतको आधारमा वर्गिकरण",
+  },
+  toiletstatus: {
+    endpoint: "hsurvey_toiletstatus",
+    title: "शौचालयको स्थितिको आधारमा वर्गिकरण",
+  },
+  watersource: {
+    endpoint: "hsurvey_watersource",
+    title: "पानीको स्रोतको आधारमा वर्गिकरण",
+  },
+  agegroup: {
+    endpoint: "hsurvey_agegroup",
+    title: "उमेर समूहको आधारमा वर्गिकरण",
+  },
+};
+
 function WelcomePage() {
   return (
-    <div className="flex flex-col justify-center items-center h-full bg-gray-900 text-white text-center rounded-lg p-8">
-      <h1 className="text-4xl font-bold mb-6">सर्वेक्षण ड्यासबोर्ड</h1>
-      <p className="text-lg text-gray-300 max-w-xl leading-relaxed">
-        बायाँ तर्फको साइडबारबाट कुनै पनि सर्वेक्षण रिपोर्ट छान्नुहोस् र तपाईंको
-        डाटा हेर्नुहोस्।
+    <div className="flex flex-col justify-center items-center h-full bg-gradient-to-br from-blue-900 via-gray-900 to-gray-800 text-white text-center rounded-lg p-10 shadow-xl">
+      <h1 className="text-5xl font-bold mb-6">सर्वेक्षण ड्यासबोर्ड</h1>
+      <p className="text-lg sm:text-xl text-gray-300 max-w-2xl leading-relaxed">
+        बायाँतर्फको साइडबारबाट कुनै पनि सर्वेक्षण रिपोर्ट छान्नुहोस् र तपाईंको
+        डाटा सजिलै हेर्नुहोस्।
       </p>
     </div>
   );
 }
 
 export default function ReportView() {
-  const { reportId } = useParams();
+  const { path } = useParams();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const report = path ? reportConfig[path] : null;
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -38,16 +289,13 @@ export default function ReportView() {
         {/* Main content */}
         <main className="grow">
           <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-4xl mx-auto">
+            {/* REMOVED min-h-[500px] here */}
             <div className="bg-white p-6 rounded-lg shadow-md">
-              {reportId ? (
-                <div className="text-center text-gray-700 font-[Kalimati]">
-                  <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
-                    Report: {reportId}
-                  </h1>
-                  <p className="text-base">
-                    रिपोर्ट विवरण यहाँ प्रदर्शित हुनेछ।
-                  </p>
-                </div>
+              {report ? (
+                <MyDataComponent
+                  urlPostfix={report.endpoint}
+                  title={report.title}
+                />
               ) : (
                 <WelcomePage />
               )}
