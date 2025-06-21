@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 
 import SearchModal from "../components/ModalSearch";
-import Notifications from "../components/DropdownNotifications";
+// import Notifications from "../components/DropdownNotifications";
 import Help from "../components/DropdownHelp";
 import UserMenu from "../components/DropdownProfile";
 import ThemeToggle from "../components/ThemeToggle";
-import DropdownReports from "../components/DropdownReport"; // Import the new DropdownReports component
+import DropdownReports from "../components/DropdownReport";
+import DropdownWardSelection from "../components/DropdownWardSelection";
 
 function Header({
   sidebarOpen,
   setSidebarOpen,
   variant = "default",
-  onSelectReport, // <--- NEW PROP: This function will be passed from ChartReportPage
+  onSelectReport,
+  onSelectWard,
 }) {
   const [searchModalOpen, setSearchModalOpen] = useState(false);
 
@@ -60,7 +62,7 @@ function Header({
 
           {/* Header: Right side */}
           <div className="flex items-center space-x-3">
-            <div>
+            {/* <div>
               <button
                 className={`w-8 h-8 flex items-center justify-center hover:bg-gray-100 lg:hover:bg-gray-200 dark:hover:bg-gray-700/50 dark:lg:hover:bg-gray-800 rounded-full ml-3 ${
                   searchModalOpen && "bg-gray-200 dark:bg-gray-800"
@@ -89,15 +91,14 @@ function Header({
                 modalOpen={searchModalOpen}
                 setModalOpen={setSearchModalOpen}
               />
-            </div>
-            {/* Reports Dropdown - Pass the onSelectReport prop */}
+            </div> */}
+            <DropdownWardSelection align={"left"} onSelectWard={onSelectWard} />
             <DropdownReports
               align="right"
               onSelectReport={onSelectReport}
             />{" "}
-            {/* <--- ADDED THIS LINE */}
-            <Notifications align="right" />
-            <Help align="right" />
+            {/* <Notifications align="right" />
+            <Help align="right" /> */}
             <ThemeToggle />
             {/* Divider */}
             <hr className="w-px h-6 bg-gray-200 dark:bg-gray-700/60 border-none" />

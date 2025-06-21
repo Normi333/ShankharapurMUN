@@ -1,6 +1,7 @@
 // src/pages/Login.jsx
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import logo from "../images/GovermentLogo.png";
 
 // <--- CHANGE: Receive setIsLoggedIn as a prop
 function Login({ setIsLoggedIn }) {
@@ -40,9 +41,10 @@ function Login({ setIsLoggedIn }) {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 p-4">
       <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
-        <h2 className="text-3xl font-bold text-center text-gray-800 dark:text-gray-100 mb-8">
+        {/* <h2 className="text-3xl font-bold text-center text-gray-800 dark:text-gray-100 mb-8">
           Welcome Back!
-        </h2>
+        </h2> */}
+        <img src={logo} alt="Your Company Logo" className="w-15 h-15" />
 
         {error && (
           <div
