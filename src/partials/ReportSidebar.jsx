@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import logo from "../images/GovermentLogo.png";
+import ReportView from "../pages/ReportView";
 
 import SidebarLinkGroup from "./SidebarLinkGroup";
 
@@ -195,7 +196,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
               </span>
             </h3>
           </div> */}
-          <div>
+          {/* <div>
             <h3 className="text-xs uppercase text-gray-400 dark:text-gray-500 font-semibold pl-3">
               <span className="lg:hidden lg:sidebar-expanded:block 2xl:block">
                 Report List
@@ -204,7 +205,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
             <ul className="mt-3">
               <li className="pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0">
                 <NavLink
-                  to="/reports/:id"
+                  to="/ReportView"
                   className={`block text-gray-800 dark:text-gray-100 truncate transition duration-150 hover:text-gray-900 dark:hover:text-white`}
                 >
                   <div className="flex items-center">
@@ -253,7 +254,42 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                 </NavLink>
               </li>
             </ul>
+          </div> */}
+          <div>
+            <h3 className="text-xs uppercase text-gray-400 dark:text-gray-500 font-semibold pl-3">
+              <span className="lg:hidden lg:sidebar-expanded:block 2xl:block">
+                Report Section
+              </span>
+            </h3>
+            <ul className="mt-3">
+              <li className="pl-4 pr-3 py-2 rounded-lg mb-0.5">
+                <NavLink
+                  to="/ReportView"
+                  className="block text-gray-800 dark:text-gray-100 truncate transition duration-150 hover:text-gray-900 dark:hover:text-white"
+                >
+                  <div className="flex items-center">
+                    <svg
+                      className={`shrink-0 fill-current ${
+                        pathname.includes("ReportView")
+                          ? "text-violet-500"
+                          : "text-gray-400 dark:text-gray-500"
+                      }`}
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6H6zm7 1.5L18.5 9H13V3.5zM8 13h8v2H8v-2zm0 4h5v2H8v-2z" />
+                    </svg>
+                    <span className="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                      Select Report
+                    </span>
+                  </div>
+                </NavLink>
+              </li>
+            </ul>
           </div>
+
           {/* Add other groups or footer here if needed */}
         </div>
       </div>

@@ -10,7 +10,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import ChartReportPage from "./pages/ChartReportPage";
 import MapPage from "./pages/MapPage";
-// import ReportView from "./pages/ReportView";
+import ReportView from "./pages/ReportView";
 
 function App() {
   const location = useLocation();
@@ -62,6 +62,16 @@ function App() {
           path="/maps"
           element={
             isLoggedIn ? <MapPage /> : <Login setIsLoggedIn={setIsLoggedIn} />
+          }
+        />
+        <Route
+          path="/ReportView"
+          element={
+            isLoggedIn ? (
+              <ReportView />
+            ) : (
+              <Login setIsLoggedIn={setIsLoggedIn} />
+            )
           }
         />
       </Routes>
