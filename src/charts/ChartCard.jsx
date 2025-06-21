@@ -30,7 +30,7 @@ const ChartCard = ({ title, children, loading = false }) => {
             : "relative h-[455px] m-4"
         } border border-gray-300 bg-white shadow-md flex flex-col transition-all duration-300`}
       >
-        <div className="bg-[rgb(132,112,255)] text-white px-4 py-3 flex justify-between items-center">
+        <div className="bg-[#003893] text-white px-4 py-3 flex justify-between items-center">
           {loading ? (
             <Skeleton width="{120} height={20}" />
           ) : (

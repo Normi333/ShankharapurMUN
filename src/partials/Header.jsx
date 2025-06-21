@@ -93,10 +93,10 @@ function Header({
               />
             </div> */}
             <DropdownWardSelection align={"left"} onSelectWard={onSelectWard} />
-            <DropdownReports
+            {/* <DropdownReports
               align="right"
               onSelectReport={onSelectReport}
-            />{" "}
+            />{" "} */}
             {/* <Notifications align="right" />
             <Help align="right" /> */}
             <ThemeToggle />
