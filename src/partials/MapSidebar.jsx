@@ -248,19 +248,11 @@ function Sidebar({
                           : "text-gray-400 dark:text-gray-500"
                       }`}
                       xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 512 512"
                       width="16"
                       height="16"
-                      viewBox="0 0 24 24"
-                      strokeWidth="2"
-                      stroke="currentColor"
-                      fill="none"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
                     >
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                      <path d="M12 18.5l-3 -1.5l-6 3v-13l6 -3l6 3l6 -3v13l-6 3z" />
-                      <path d="M12 18.5v-13" />
-                      <path d="M18 9l0 7.5" />
+                      <path d="M416 0L320 32 192 0 96 32 0 0v480l96 32 128-32 128 32 96-32V0zM192 32l96 32v416l-96-32V32zm-96 0l64-21.3V416l-64 21.3V32zm320 448l-64 21.3V96l64-21.3V480z" />
                     </svg>
                     <span className="text-sm font-bold ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                       नक्सा
