@@ -65,6 +65,14 @@ function Map({ selectedLayers }) {
         color: "green",
       };
     } else if (
+      selectedLayers.includes("buildings-Finance") &&
+      BuildingType === "Finance Company"
+    ) {
+      return {
+        weight: 8,
+        color: "purple",
+      };
+    } else if (
       selectedLayers.includes("buildings-Hotel") &&
       BuildingType === "Hotels"
     ) {
@@ -149,6 +157,8 @@ function Map({ selectedLayers }) {
         buildingType === "Government-Agro Office") ||
       (selectedLayers.includes("buildings-Government") &&
         buildingType === "Government office") ||
+      (selectedLayers.includes("buildings-Finance") &&
+        buildingType === "Finance Company") ||
       (selectedLayers.includes("buildings-Hotel") && buildingType === "Hotels")
     );
   };
@@ -203,6 +213,7 @@ function Map({ selectedLayers }) {
           selectedLayers.includes("buildings-Residential") ||
           selectedLayers.includes("buildings-Government-Agro Office") ||
           selectedLayers.includes("buildings-Government") ||
+          selectedLayers.includes("buildings-Finance") ||
           selectedLayers.includes("buildings-Hotel")) && (
           <GeoJSON
             data={BuildingData}

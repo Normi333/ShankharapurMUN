@@ -47,6 +47,7 @@ function Sidebar({
         },
         { id: "buildings-Government", name: "Government Office" },
         { id: "buildings-Hotel", name: "Hotel" },
+        { id: "buildings-Finance", name: "Finance Company" },
       ],
     },
     transportationLayers: {

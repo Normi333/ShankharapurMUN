@@ -21,12 +21,15 @@ const legendItems = {
     label: "Buildings (Government)",
     className: "buildings-Government",
   },
+  "buildings-Finance": {
+    label: "Buildings (Finance)",
+    className: "buildings-Finance",
+  },
   "buildings-Hotel": {
     label: "Buildings (Hotel)",
     className: "buildings-Hotel",
   },
 };
-
 
 function Legend({ selectedLayers }) {
   const visibleLegends = selectedLayers.filter((key) => legendItems[key]);

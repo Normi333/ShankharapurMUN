@@ -71,6 +71,10 @@
   background-color: green;
 }
 
+.legend-color.buildings-Finance {
+  background-color: purple;
+}
+
 .legend-color.buildings-Hotel {
   background-color: yellow;
 }
