@@ -9,12 +9,10 @@ const reportConfig = {
   mothertongue: {
     endpoint: "hsurvey_mothertongue",
     title: "मातृभाषाको आधारमा वर्गिकरण",
-    path: "/mothertongue",
   },
   religion: {
     endpoint: "hsurvey_religion",
     title: "धर्मको आधारमा वर्गिकरण",
-    path: "/religion",
   },
   caste: {
     endpoint: "hsurvey_caste",
@@ -108,10 +106,42 @@ function WelcomePage() {
       <h1 className="text-4xl sm:text-5xl font-bold mb-4">
         सर्वेक्षण ड्यासबोर्ड
       </h1>
-      <p className="text-base sm:text-lg text-white max-w-2xl leading-relaxed">
+      <p className="text-base sm:text-lg text-white max-w-2xl leading-relaxed mb-6">
         बायाँतर्फको साइडबारबाट कुनै पनि सर्वेक्षण रिपोर्ट छान्नुहोस् र तपाईंको
         डाटा सजिलै हेर्नुहोस्।
       </p>
+      <ol
+        className="list-decimal list-inside mx-auto"
+        style={{
+          listStylePosition: "inside",
+          maxWidth: "500px",
+          textAlign: "justify",
+        }}
+      >
+        <li>मातृभाषाको आधारमा वर्गिकरण</li>
+        <li>धर्मको आधारमा वर्गिकरण</li>
+        <li>जातिको आधारमा वर्गिकरण</li>
+        <li>कामको विभाजनको आधारमा वर्गिकरण</li>
+        <li>खाना पकाउने इन्धनको आधारमा वर्गिकरण</li>
+        <li>निको नहुने रोगको आधारमा वर्गिकरण</li>
+        <li>लगानीको स्रोतको रिपोर्ट</li>
+        <li>घरको स्थितिको आधारमा वर्गिकरण</li>
+        <li>बहाल विवरण रिपोर्ट</li>
+        <li>ऋणको स्रोत रिपोर्ट</li>
+        <li>बचतको स्रोत रिपोर्ट</li>
+        <li>आम्दानी र खर्चको आधारमा वर्गिकरण</li>
+        <li>विदेशीको आधारमा वर्गिकरण</li>
+        <li>सेवाको विवरण रिपोर्ट</li>
+        <li>मृत्युको संख्याको आधारमा वर्गिकरण</li>
+        <li>जग्गाको विवरण रिपोर्ट</li>
+        <li>भवनको विवरण रिपोर्ट</li>
+        <li>प्रकोपको विवरण रिपोर्ट</li>
+        <li>लघु उद्योगको विवरण</li>
+        <li>बिजुलीको स्रोतको आधारमा वर्गिकरण</li>
+        <li>शौचालयको स्थितिको आधारमा वर्गिकरण</li>
+        <li>पानीको स्रोतको आधारमा वर्गिकरण</li>
+        <li>उमेर समूहको आधारमा वर्गिकरण</li>
+      </ol>
     </div>
   );
 }

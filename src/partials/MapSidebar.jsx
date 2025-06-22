@@ -207,11 +207,11 @@ function Sidebar({
                       width="16"
                       height="16"
                       viewBox="0 0 24 24"
-                      stroke-width="2"
+                      strokeWidth="2"
                       stroke="currentColor"
                       fill="none"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     >
                       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                       <rect x="4" y="5" width="6" height="5" rx="1" />
@@ -251,11 +251,11 @@ function Sidebar({
                       width="16"
                       height="16"
                       viewBox="0 0 24 24"
-                      stroke-width="2"
+                      strokeWidth="2"
                       stroke="currentColor"
                       fill="none"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     >
                       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                       <path d="M12 18.5l-3 -1.5l-6 3v-13l6 -3l6 3l6 -3v13l-6 3z" />
