@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import Header from "../partials/Header";
 import Sidebar from "../partials/Sidebar"; // Assuming this is your sidebar
-import ChartGrid from "../charts/ChartGrid"; // Your default content component
+// import ChartGrid from "../charts/ChartGrid"; // Your default content component
+import Info from "../components/Info";
 import ReportDisplay from "../partials/ReportDisplay"; // Import the component that displays HTML reports
 
 const ChartReportPage = () => {
@@ -43,13 +44,15 @@ const ChartReportPage = () => {
               {" "}
               {/* Add overflow-auto here if content is large */}
               {/* Conditional rendering based on selectedReportUrl */}
-              {selectedReportUrl ? (
+              {/* {selectedReportUrl ? (
                 // If a report URL is selected, render the ReportDisplay component
                 <ReportDisplay reportUrl={selectedReportUrl} />
               ) : (
                 // Otherwise, render the default ChartGrid component
                 <ChartGrid />
-              )}
+              )} */}
+              {/* <ChartGrid /> */}
+              <Info />
             </div>
           </div>
         </main>

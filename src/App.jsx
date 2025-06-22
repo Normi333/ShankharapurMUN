@@ -13,6 +13,7 @@ import MapPage from "./pages/MapPage";
 import ReportView from "./pages/HouseholdReport";
 import HouseholdReport from "./pages/HouseholdReport";
 import Institutionaldetailsstatistics from "./pages/Institutionaldetailsstatistics";
+import Info from "./components/Info";
 
 function App() {
   const location = useLocation();
@@ -75,6 +76,7 @@ function App() {
             )
           }
         /> */}
+        <Route path="/info" element={<Info />} />
       </Routes>
     </>
   );

@@ -100,57 +100,24 @@ const reportConfig = {
   },
 };
 
-function WelcomePage() {
-  return (
-    <div className="flex flex-col justify-center items-center h-full bg-gradient-to-br from-[#003893] to-[#DC143C] text-white text-center rounded-lg p-10 shadow-lg">
-      <h1 className="text-4xl sm:text-5xl font-bold mb-4">
-        सर्वेक्षण ड्यासबोर्ड
-      </h1>
-      <p className="text-base sm:text-lg text-white max-w-2xl leading-relaxed mb-6">
-        बायाँतर्फको साइडबारबाट कुनै पनि सर्वेक्षण रिपोर्ट छान्नुहोस् र तपाईंको
-        डाटा सजिलै हेर्नुहोस्।
-      </p>
-      <ol
-        className="list-decimal list-inside mx-auto"
-        style={{
-          listStylePosition: "inside",
-          maxWidth: "500px",
-          textAlign: "justify",
-        }}
-      >
-        <li>मातृभाषाको आधारमा वर्गिकरण</li>
-        <li>धर्मको आधारमा वर्गिकरण</li>
-        <li>जातिको आधारमा वर्गिकरण</li>
-        <li>कामको विभाजनको आधारमा वर्गिकरण</li>
-        <li>खाना पकाउने इन्धनको आधारमा वर्गिकरण</li>
-        <li>निको नहुने रोगको आधारमा वर्गिकरण</li>
-        <li>लगानीको स्रोतको रिपोर्ट</li>
-        <li>घरको स्थितिको आधारमा वर्गिकरण</li>
-        <li>बहाल विवरण रिपोर्ट</li>
-        <li>ऋणको स्रोत रिपोर्ट</li>
-        <li>बचतको स्रोत रिपोर्ट</li>
-        <li>आम्दानी र खर्चको आधारमा वर्गिकरण</li>
-        <li>विदेशीको आधारमा वर्गिकरण</li>
-        <li>सेवाको विवरण रिपोर्ट</li>
-        <li>मृत्युको संख्याको आधारमा वर्गिकरण</li>
-        <li>जग्गाको विवरण रिपोर्ट</li>
-        <li>भवनको विवरण रिपोर्ट</li>
-        <li>प्रकोपको विवरण रिपोर्ट</li>
-        <li>लघु उद्योगको विवरण</li>
-        <li>बिजुलीको स्रोतको आधारमा वर्गिकरण</li>
-        <li>शौचालयको स्थितिको आधारमा वर्गिकरण</li>
-        <li>पानीको स्रोतको आधारमा वर्गिकरण</li>
-        <li>उमेर समूहको आधारमा वर्गिकरण</li>
-      </ol>
-    </div>
-  );
-}
+// Removed WelcomePage component since it will no longer be used directly.
+// If you still need WelcomePage for other purposes, keep it, but it won't be rendered here.
+// You might remove it if its only purpose was this default view.
 
+// ReportView Component - MODIFIED
 export default function ReportView() {
   const { path } = useParams();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const report = path ? reportConfig[path] : null;
+  // Determine the report to display
+  let currentReport = null;
+  if (path) {
+    currentReport = reportConfig[path];
+  } else {
+    // If no path is provided, show the first report from reportConfig
+    const firstReportKey = Object.keys(reportConfig)[0];
+    currentReport = reportConfig[firstReportKey];
+  }
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -166,19 +133,25 @@ export default function ReportView() {
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
         {/* Main content */}
-        <main className="grow">
-          <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-4xl mx-auto">
-            {/* REMOVED min-h-[500px] here */}
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              {report ? (
+        <main className="grow flex flex-col">
+          <div
+            className={`flex-grow flex items-stretch justify-center px-4 sm:px-6 lg:px-8 py-4 bg-[#f5f6f8]`}
+            // Removed conditional background as it will always be a report now
+          >
+            {/* Render MyDataComponent with the determined report */}
+            {currentReport ? (
+              <div className="bg-white p-6 rounded-lg shadow-md w-full h-full">
                 <MyDataComponent
-                  urlPostfix={report.endpoint}
-                  title={report.title}
+                  urlPostfix={currentReport.endpoint}
+                  title={currentReport.title}
                 />
-              ) : (
-                <WelcomePage />
-              )}
-            </div>
+              </div>
+            ) : (
+              // Fallback if reportConfig is empty or something goes wrong
+              <div className="text-center text-gray-600">
+                No report data available.
+              </div>
+            )}
           </div>
         </main>
       </div>
