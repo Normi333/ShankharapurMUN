@@ -131,35 +131,10 @@ function MyDataComponent({
   if (authError) return null;
   if (loading) {
     return (
-      <div
-        style={{
-          width: "100%",
-          height: "100%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          background: "#1a1a1a",
-          color: "#fff",
-          fontSize: "1.2rem",
-        }}
-      >
-        <div
-          style={{
-            textAlign: "center",
-          }}
-        >
-          <div
-            style={{
-              border: "4px solid #444",
-              borderTop: "4px solid #1e3a8a",
-              borderRadius: "50%",
-              width: "40px",
-              height: "40px",
-              animation: "spin 1s linear infinite",
-              margin: "0 auto 20px auto",
-            }}
-          ></div>
-          <p>डाटा लोड हुँदैछ...</p>
+      <div className="w-full h-full flex justify-center items-center bg-gradient-to-br from-[#003893] to-[#DC143C] text-white text-[1.2rem]">
+        <div className="flex flex-col items-center justify-center text-center py-10">
+          <div className="w-10 h-10 border-4 border-[#ffffff50] border-t-white rounded-full animate-spin mb-4"></div>
+          <p className="text-white text-sm sm:text-base">डाटा लोड हुँदैछ...</p>
         </div>
       </div>
     );

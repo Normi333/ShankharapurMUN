@@ -1,35 +1,6 @@
-// import Header from "../partials/Header";
-// import React, { useState } from "react";
-// import ReportSidebar from "../partials/ReportSidebar";
-// import ChartGrid from "../charts/ChartGrid";
-
-// const ChartReportPage = () => {
-//   const [selectedReport, setSelectedReport] = useState(null);
-
-//   return (
-//     <div className="flex h-screen overflow-hidden">
-//       <ReportSidebar />
-//       <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
-//         <Header className="z-[1001]" />
-
-//         <div className="flex h-screen box-border">
-//           <div className="p-3 flex-grow">
-//             {selectedReport ? (
-//               <div dangerouslySetInnerHTML={{ __html: selectedReport }} />
-//             ) : (
-//               <ChartGrid />
-//             )}
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default ChartReportPage;
 import React, { useState } from "react";
 import Header from "../partials/Header";
-import ReportSidebar from "../partials/ReportSidebar"; // Assuming this is your sidebar
+import Sidebar from "../partials/Sidebar"; // Assuming this is your sidebar
 import ChartGrid from "../charts/ChartGrid"; // Your default content component
 import ReportDisplay from "../partials/ReportDisplay"; // Import the component that displays HTML reports
 
@@ -49,7 +20,7 @@ const ChartReportPage = () => {
   return (
     <div className="flex h-screen overflow-hidden">
       {/* ReportSidebar (your existing sidebar) */}
-      <ReportSidebar />
+      <Sidebar />
 
       {/* Content area */}
       <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">

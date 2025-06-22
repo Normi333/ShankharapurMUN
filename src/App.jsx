@@ -10,7 +10,9 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import ChartReportPage from "./pages/ChartReportPage";
 import MapPage from "./pages/MapPage";
-import ReportView from "./pages/ReportView";
+import ReportView from "./pages/HouseholdReport";
+import HouseholdReport from "./pages/HouseholdReport";
+import Institutionaldetailsstatistics from "./pages/Institutionaldetailsstatistics";
 
 function App() {
   const location = useLocation();
@@ -33,13 +35,19 @@ function App() {
           element={<Login setIsLoggedIn={setIsLoggedIn} />}
         />{" "}
         {/* <Route path="/signup" element={<Signup />} /> */}
-        <Route
+        {/* <Route
           path="/"
           element={
             isLoggedIn ? <Dashboard /> : <Login setIsLoggedIn={setIsLoggedIn} />
           }
-        />
+        /> */}
+        <Route path="/householdreport" element={<HouseholdReport />} />
         <Route
+          path="/statisticsreport"
+          element={<Institutionaldetailsstatistics />}
+        />
+        <Route path="/" element={<ChartReportPage />} />
+        {/* <Route
           path="/report"
           element={
             isLoggedIn ? (
@@ -48,15 +56,16 @@ function App() {
               <Login setIsLoggedIn={setIsLoggedIn} />
             )
           }
-        />
-        <Route
+        /> */}
+        <Route path="/maps" element={<MapPage />} />
+        {/* <Route
           path="/maps"
           element={
             isLoggedIn ? <MapPage /> : <Login setIsLoggedIn={setIsLoggedIn} />
           }
-        />
-        {/* <Route path="/ReportView/:path" element={<ReportView />} /> */}
-        <Route
+        /> */}
+        <Route path="/ReportView/:path" element={<ReportView />} />
+        {/* <Route
           path="/ReportView/:path"
           element={
             isLoggedIn ? (
@@ -65,7 +74,7 @@ function App() {
               <Login setIsLoggedIn={setIsLoggedIn} />
             )
           }
-        />
+        /> */}
       </Routes>
     </>
   );

@@ -7,10 +7,10 @@ import Legend from "../components/Legend";
 const MapPage = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedLayers, setSelectedLayers] = useState([
-    "district",
-    "roads",
-    "sagarmatha",
-    "makalu",
+    // "district",
+    // "roads",
+    // "sagarmatha",
+    // "makalu",
   ]);
 
   return (
