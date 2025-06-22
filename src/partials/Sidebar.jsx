@@ -225,7 +225,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                 >
                   <div className="flex items-center">
                     <svg
-                      className={`shrink-0 fill-current ${
+                      className={`shrink-0 fill-none stroke-current ${
                         pathname.includes("householdreport")
                           ? "text-violet-500"
                           : "text-gray-400 dark:text-gray-500"
@@ -234,17 +234,17 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                       width="16"
                       height="16"
                       viewBox="0 0 24 24"
-                      stroke-width="2"
+                      strokeWidth="2"
                       stroke="currentColor"
-                      fill="none"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     >
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                      <path d="M8 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h5.862a2 2 0 0 0 1.414 -.586l3.121 -3.121a2 2 0 0 0 .586 -1.414v-2l2.828 -2.828a2 2 0 0 0 -.586 -3.414l-5.828 -5.828a2 2 0 0 0 -3.414 -.586z" />
-                      <line x1="18" y1="18" x2="22" y2="22" />
-                      <line x1="17" y1="9" x2="17" y2="13" />
-                      <line x1="13" y1="9" x2="13" y2="15" />
+                      <path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" />
+                      <path d="M14 3v6h6" />
+                      <line x1="10" y1="14" x2="14" y2="14" />
+                      <line x1="10" y1="18" x2="14" y2="18" />
+                      <circle cx="17" cy="17" r="3" />
+                      <line x1="19.5" y1="19.5" x2="21" y2="21" />
                     </svg>
                     <span className="text-sm font-bold ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                       घरधुरी रिपोर्ट
@@ -262,14 +262,14 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                   end
                   to="/statisticsreport"
                   className={`block text-gray-800 dark:text-gray-100 truncate transition duration-150 ${
-                    pathname.includes("report")
+                    pathname.includes("statisticsreport")
                       ? ""
                       : "hover:text-gray-900 dark:hover:text-white"
                   }`}
                 >
                   <div className="flex items-center">
                     <svg
-                      className={`shrink-0 fill-current ${
+                      className={`shrink-0 fill-none stroke-current ${
                         pathname.includes("statisticsreport")
                           ? "text-violet-500"
                           : "text-gray-400 dark:text-gray-500"
@@ -278,17 +278,17 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                       width="16"
                       height="16"
                       viewBox="0 0 24 24"
-                      stroke-width="2"
+                      strokeWidth="2"
                       stroke="currentColor"
-                      fill="none"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     >
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                      <path d="M8 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h5.862a2 2 0 0 0 1.414 -.586l3.121 -3.121a2 2 0 0 0 .586 -1.414v-2l2.828 -2.828a2 2 0 0 0 -.586 -3.414l-5.828 -5.828a2 2 0 0 0 -3.414 -.586z" />
-                      <line x1="18" y1="18" x2="22" y2="22" />
-                      <line x1="17" y1="9" x2="17" y2="13" />
-                      <line x1="13" y1="9" x2="13" y2="15" />
+                      <path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" />
+                      <path d="M14 3v6h6" />
+                      <line x1="10" y1="14" x2="14" y2="14" />
+                      <line x1="10" y1="18" x2="14" y2="18" />
+                      <circle cx="17" cy="17" r="3" />
+                      <line x1="19.5" y1="19.5" x2="21" y2="21" />
                     </svg>
                     <span className="text-sm font-bold ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                       संस्थागत विवरण
