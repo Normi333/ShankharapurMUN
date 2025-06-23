@@ -9,12 +9,6 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
   const trigger = useRef(null);
   const sidebar = useRef(null);
 
-  // Removed sidebarExpanded state and its localStorage handling
-  // const storedSidebarExpanded = localStorage.getItem("sidebar-expanded");
-  // const [sidebarExpanded, setSidebarExpanded] = useState(
-  //   storedSidebarExpanded === null ? false : storedSidebarExpanded === "true"
-  // );
-
   // close on click outside (only for mobile overlay sidebar)
   useEffect(() => {
     const clickHandler = ({ target }) => {
@@ -164,7 +158,7 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
   // SVG icon reused in list
   const listIcon = (
     <svg
-      className="w-5 h-5 mt-1 text-gray-300" // Adjusted text color for dark background
+      className="w-5 h-5 mt-1 text-gray-100" // Changed text-gray-300 to text-gray-100 for better visibility
       xmlns="http://www.w3.org/2000/svg"
       fill="currentColor"
       viewBox="0 0 24 24"
@@ -188,19 +182,17 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
         id="sidebar"
         ref={sidebar}
         className={`flex flex-col absolute z-40 left-0 top-0 lg:static lg:left-auto lg:top-auto lg:translate-x-0 h-[100dvh] overflow-y-scroll no-scrollbar w-64 shrink-0 bg-[#3D6CB3] p-4 transition-all duration-200 ease-in-out ${
-          // Changed bg-white dark:bg-gray-800 to bg-[#003893]
-          // Removed lg:w-20, lg:sidebar-expanded:!w-64, 2xl:w-64
-          sidebarOpen ? "translate-x-0" : "-translate-x-full" // Changed from -translate-x-64 to -translate-x-full
+          sidebarOpen ? "translate-x-0" : "-translate-x-full"
         } ${
           variant === "v2"
             ? "border-r border-gray-200 dark:border-gray-700/60"
-            : "shadow-xs" // Removed 'rounded-r-2xl'
+            : "shadow-xs"
         }`}
       >
         <div className="flex justify-between mb-10 pr-3 sm:px-2">
           <button
             ref={trigger}
-            className="lg:hidden text-gray-300 hover:text-gray-100" // Adjusted color for dark background
+            className="lg:hidden text-gray-300 hover:text-gray-100"
             onClick={() => setSidebarOpen(!sidebarOpen)}
             aria-controls="sidebar"
             aria-expanded={sidebarOpen}
@@ -219,28 +211,27 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
           </NavLink>
         </div>
         <div className="space-y-8">
+          {/* Main Navigation Links */}
           <div>
-            {/* Removed the commented out 'Pages' heading related to expand/collapse */}
-            <ul>
+            <ul className="space-y-0.5">
               <li
-                className={`pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 ${
+                className={`pl-4 pr-3 py-2 rounded-lg ${
                   pathname === "/"
-                    ? "bg-gradient-to-r from-violet-500/[0.2] to-transparent" // Adjusted gradient for dark bg
+                    ? "bg-gradient-to-r from-violet-500/[0.2] to-transparent"
                     : ""
-                }`}
+                } border-b border-white/[0.2]`}
               >
                 <NavLink
                   end
                   to="/"
                   className={`block text-white truncate transition duration-150 ${
-                    // Changed text-gray-800 dark:text-gray-100 to text-white
-                    pathname === "/" ? "" : "hover:text-gray-200" // Adjusted hover color for dark bg
+                    pathname === "/" ? "" : "hover:text-gray-200"
                   }`}
                 >
                   <div className="flex items-center">
                     <svg
                       className={`shrink-0 fill-current ${
-                        pathname === "/" ? "text-violet-200" : "text-gray-300" // Adjusted active/inactive icon color
+                        pathname === "/" ? "text-violet-200" : "text-gray-100"
                       }`}
                       xmlns="http://www.w3.org/2000/svg"
                       width="16"
@@ -259,24 +250,23 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                       <rect x="14" y="14" width="6" height="5" rx="1" />
                     </svg>
                     <span className="text-sm font-bold ml-4 opacity-100">
-                      {/* Removed lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 */}
                       Dashboard
                     </span>
                   </div>
                 </NavLink>
               </li>
               <li
-                className={`pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 ${
+                className={`pl-4 pr-3 py-2 rounded-lg ${
                   pathname.includes("map")
                     ? "bg-gradient-to-r from-violet-500/[0.2] to-transparent"
                     : ""
-                }`}
+                } border-b border-white/[0.2]`}
               >
                 <NavLink
                   end
                   to="/maps"
                   className={`block text-white truncate transition duration-150 ${
-                    pathname.includes("map") ? "" : "hover:text-gray-200" // Adjusted hover color
+                    pathname.includes("map") ? "" : "hover:text-gray-200"
                   }`}
                 >
                   <div className="flex items-center">
@@ -284,7 +274,7 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                       className={`shrink-0 fill-current ${
                         pathname.includes("map")
                           ? "text-violet-200"
-                          : "text-gray-300" // Adjusted active/inactive icon color
+                          : "text-gray-100"
                       }`}
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 512 512"
@@ -294,18 +284,17 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                       <path d="M416 0L320 32 192 0 96 32 0 0v480l96 32 128-32 128 32 96-32V0zM192 32l96 32v416l-96-32V32zm-96 0l64-21.3V416l-64 21.3V32zm320 448l-64 21.3V96l64-21.3V480z" />
                     </svg>
                     <span className="text-sm font-bold ml-4 opacity-100">
-                      {/* Removed lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 */}
                       नक्सा
                     </span>
                   </div>
                 </NavLink>
               </li>
               <li
-                className={`pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 ${
+                className={`pl-4 pr-3 py-2 rounded-lg ${
                   pathname.includes("householdreport")
                     ? "bg-gradient-to-r from-violet-500/[0.2] to-transparent"
                     : ""
-                }`}
+                } border-b border-white/[0.2]`}
               >
                 <NavLink
                   end
@@ -313,7 +302,7 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                   className={`block text-white truncate transition duration-150 ${
                     pathname.includes("householdreport")
                       ? ""
-                      : "hover:text-gray-200" // Adjusted hover color
+                      : "hover:text-gray-200"
                   }`}
                 >
                   <div className="flex items-center">
@@ -321,7 +310,7 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                       className={`shrink-0 fill-none stroke-current ${
                         pathname.includes("householdreport")
                           ? "text-violet-200"
-                          : "text-gray-300" // Adjusted active/inactive icon color
+                          : "text-gray-100"
                       }`}
                       xmlns="http://www.w3.org/2000/svg"
                       width="16"
@@ -340,14 +329,14 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                       <line x1="19.5" y1="19.5" x2="21" y2="21" />
                     </svg>
                     <span className="text-sm font-bold ml-4 opacity-100">
-                      {/* Removed lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 */}
                       घरधुरी रिपोर्ट
                     </span>
                   </div>
                 </NavLink>
               </li>
+              {/* Removed 'border-b border-white/[0.2]' from this li to remove the line below it */}
               <li
-                className={`pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 ${
+                className={`pl-4 pr-3 pt-2 pb-3 rounded-lg last:mb-0 ${
                   pathname.includes("statisticsreport")
                     ? "bg-gradient-to-r from-violet-500/[0.2] to-transparent"
                     : ""
@@ -359,7 +348,7 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                   className={`block text-white truncate transition duration-150 ${
                     pathname.includes("statisticsreport")
                       ? ""
-                      : "hover:text-gray-200" // Adjusted hover color
+                      : "hover:text-gray-200"
                   }`}
                 >
                   <div className="flex items-center">
@@ -367,7 +356,7 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                       className={`shrink-0 fill-none stroke-current ${
                         pathname.includes("statisticsreport")
                           ? "text-violet-200"
-                          : "text-gray-300" // Adjusted active/inactive icon color
+                          : "text-gray-100"
                       }`}
                       xmlns="http://www.w3.org/2000/svg"
                       width="16"
@@ -386,7 +375,6 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                       <line x1="19.5" y1="19.5" x2="21" y2="21" />
                     </svg>
                     <span className="text-sm font-bold ml-4 opacity-100">
-                      {/* Removed lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 */}
                       संस्थागत विवरण
                     </span>
                   </div>
@@ -396,29 +384,33 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
           </div>
 
           {/* Survey Reports List */}
-          <div>
+          <div className="mt-8 pt-8 border-t border-white/[0.2]">
             <h3 className="text-xs uppercase text-gray-300 font-semibold pl-3 mb-3">
-              {/* Changed text-gray-400 dark:text-gray-500 to text-gray-300 */}
               घरधुरी रिपोर्ट
             </h3>
-            <ul className="space-y-1 max-h-[60vh] overflow-y-auto px-2">
+            <ul className="space-y-0.5 max-h-[60vh] overflow-y-auto px-2">
               {surveys.map(({ path, title, endpoint }, index) => (
-                <li key={index}>
+                <li
+                  key={index}
+                  className={`${
+                    index < surveys.length - 1
+                      ? "border-b border-white/[0.2]"
+                      : ""
+                  }`}
+                >
                   <NavLink
                     to={`/ReportView${path}`}
-                    className={
-                      ({ isActive }) =>
-                        `flex items-start gap-3 px-4 py-3 rounded transition ${
-                          isActive
-                            ? "bg-violet-500/[0.2] text-white font-bold" // Adjusted active background and text
-                            : "text-gray-300" // Inactive text color
-                        } hover:bg-violet-500/[0.1]` // Adjusted hover background
+                    className={({ isActive }) =>
+                      `flex items-start gap-3 px-4 py-3 rounded transition ${
+                        isActive
+                          ? "bg-violet-500/[0.2] text-white font-bold"
+                          : "text-gray-100"
+                      } hover:bg-violet-500/[0.1]`
                     }
                   >
-                    {listIcon} {/* List icon is already adjusted above */}
+                    {listIcon}
                     <div className="flex flex-col">
                       <span className="text-sm">{title}</span>
-                      {/* <span className="text-xs text-gray-400">{endpoint}</span> */}
                     </div>
                   </NavLink>
                 </li>
