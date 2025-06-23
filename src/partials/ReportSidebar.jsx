@@ -81,7 +81,7 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
     {
       path: "/rent-details",
       title: "बहाल विवरण रिपोर्ट",
-      endpoint: "rentDetailsReport",
+      endpoint: "rent_details_report",
     },
     {
       path: "/loan-source",
@@ -91,7 +91,7 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
     {
       path: "/saving-source",
       title: "बचतको स्रोत रिपोर्ट",
-      endpoint: "Saving_source_report",
+      endpoint: "saving_source_report",
     },
     {
       path: "/incomeexpense",
@@ -106,7 +106,7 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
     {
       path: "/service-details",
       title: "सेवाको विवरण रिपोर्ट",
-      endpoint: "Service_details_report",
+      endpoint: "service_details_report",
     },
     {
       path: "/death-count",
@@ -116,23 +116,23 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
     {
       path: "/land-details",
       title: "जग्गाको विवरण रिपोर्ट",
-      endpoint: "Land_details_report",
+      endpoint: "land_details_report",
     },
     {
       path: "/building-details",
       title: "भवनको विवरण रिपोर्ट",
-      endpoint: "BuildingDetailsReport",
+      endpoint: "building_details_report",
     },
     {
       path: "/disaster-details",
       title: "प्रकोपको विवरण रिपोर्ट",
       endpoint: "lg_hsurvey_disaster_details",
     },
-    {
-      path: "/lsdetails",
-      title: "लघु उद्योगको विवरण",
-      endpoint: "hsurvey_lsdetails",
-    },
+    // {
+    //   path: "/lsdetails",
+    //   title: "लघु उद्योगको विवरण",
+    //   endpoint: "hsurvey_lsdetails",
+    // },
     {
       path: "/electricitysource",
       title: "बिजुलीको स्रोतको आधारमा वर्गिकरण",
@@ -388,34 +388,34 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
             <h3 className="text-xs uppercase text-gray-300 font-semibold pl-3 mb-3">
               घरधुरी रिपोर्ट
             </h3>
-            <ul className="space-y-0.5 max-h-[60vh] overflow-y-auto px-2">
-              {surveys.map(({ path, title, endpoint }, index) => (
-                <li
-                  key={index}
-                  className={`${
-                    index < surveys.length - 1
-                      ? "border-b border-white/[0.2]"
-                      : ""
-                  }`}
-                >
-                  <NavLink
-                    to={`/ReportView${path}`}
-                    className={({ isActive }) =>
-                      `flex items-start gap-3 px-4 py-3 rounded transition ${
-                        isActive
-                          ? "bg-violet-500/[0.2] text-white font-bold"
-                          : "text-gray-100"
-                      } hover:bg-violet-500/[0.1]`
-                    }
+            <div className="mt-3">
+              <ul className="mt-3">
+                {surveys.map(({ path, title, endpoint }, index) => (
+                  <li
+                    key={index}
+                    className={`pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 border-b border-white/[0.2]`}
                   >
-                    {listIcon}
-                    <div className="flex flex-col">
-                      <span className="text-sm">{title}</span>
-                    </div>
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
+                    <NavLink
+                      to={`/ReportView${path}`}
+                      className={({ isActive }) =>
+                        `block text-white transition duration-150 ${
+                          isActive
+                            ? "bg-violet-500/[0.2] text-white font-bold"
+                            : "hover:text-gray-200"
+                        }`
+                      }
+                    >
+                      <div className="flex items-center">
+                        {listIcon}
+                        <span className="text-sm font-bold ml-4 opacity-100 break-words whitespace-normal">
+                          {title}
+                        </span>
+                      </div>
+                    </NavLink>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </div>

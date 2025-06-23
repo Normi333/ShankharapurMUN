@@ -13,7 +13,7 @@ export default {
         },
     },
     plugins: [
-        require('tailwind-scrollbar-hide') // Correctly added here
+        require('tailwind-scrollbar'),// Correctly added here
     ],
     safelist: [
         // --- Essential Layout Classes from ChartReportPage.jsx ---
@@ -91,6 +91,11 @@ export default {
         'chartjs-tooltip-title',
         'chartjs-tooltip-body',
         'chartjs-tooltip-footer',
+
+        'scrollbar',
+        'scrollbar-thumb-gray-400', // Example: for light gray thumb
+        'scrollbar-track-gray-200', // Example: for lighter track
+        'thin',
         {
             pattern: /text-(xs|sm|base|lg|xl|2xl|3xl|4xl)/,
         },

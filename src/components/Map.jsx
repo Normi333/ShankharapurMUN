@@ -8,7 +8,7 @@ import BuildingData from "../data/Buildings_map.json";
 import RiverData from "../data/River_map.json";
 
 function Map({ selectedLayers }) {
-  const position = [27.770975, 85.517033];
+  const position = [27.774502, 85.515318];
 
   const roadStyle = (feature) => {
     const roadType = feature.properties.Type;
@@ -167,7 +167,7 @@ function Map({ selectedLayers }) {
     <div className="map-area">
       <MapContainer
         center={position}
-        zoom={14}
+        zoom={14.5}
         zoomControl={false}
         className="map"
       >

@@ -271,7 +271,7 @@ const reportConfig = {
     title: "विदेशीको आधारमा वर्गिकरण",
   },
   "service-details": {
-    endpoint: "Service_details_report",
+    endpoint: "service_details_report",
     title: "सेवाको विवरण रिपोर्ट",
   },
   "death-count": {
@@ -279,11 +279,11 @@ const reportConfig = {
     title: "मृत्युको संख्याको आधारमा वर्गिकरण",
   },
   "land-details": {
-    endpoint: "Land_details_report",
+    endpoint: "land_details_report",
     title: "जग्गाको विवरण रिपोर्ट",
   },
   "building-details": {
-    endpoint: "BuildingDetailsReport",
+    endpoint: "building_details_report",
     title: "भवनको विवरण रिपोर्ट",
   },
   "disaster-details": {

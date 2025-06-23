@@ -39,7 +39,7 @@ const reportConfig = {
     title: "घरको स्थितिको आधारमा वर्गिकरण",
   },
   "rent-details": {
-    endpoint: "rentDetailsReport",
+    endpoint: "rent_details_report",
     title: "बहाल विवरण रिपोर्ट",
   },
   "loan-source": {
@@ -47,7 +47,7 @@ const reportConfig = {
     title: "ऋणको स्रोत रिपोर्ट",
   },
   "saving-source": {
-    endpoint: "Saving_source_report",
+    endpoint: "saving_source_report",
     title: "बचतको स्रोत रिपोर्ट",
   },
   incomeexpense: {
@@ -59,7 +59,7 @@ const reportConfig = {
     title: "विदेशीको आधारमा वर्गिकरण",
   },
   "service-details": {
-    endpoint: "Service_details_report",
+    endpoint: "service_details_report",
     title: "सेवाको विवरण रिपोर्ट",
   },
   "death-count": {
@@ -67,20 +67,16 @@ const reportConfig = {
     title: "मृत्युको संख्याको आधारमा वर्गिकरण",
   },
   "land-details": {
-    endpoint: "Land_details_report",
+    endpoint: "land_details_report",
     title: "जग्गाको विवरण रिपोर्ट",
   },
   "building-details": {
-    endpoint: "BuildingDetailsReport",
+    endpoint: "building_details_report",
     title: "भवनको विवरण रिपोर्ट",
   },
   "disaster-details": {
     endpoint: "lg_hsurvey_disaster_details",
     title: "प्रकोपको विवरण रिपोर्ट",
-  },
-  lsdetails: {
-    endpoint: "hsurvey_lsdetails",
-    title: "लघु उद्योगको विवरण",
   },
   electricitysource: {
     endpoint: "hsurvey_electricitysource",

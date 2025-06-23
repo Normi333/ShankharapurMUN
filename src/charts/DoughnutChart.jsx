@@ -106,23 +106,6 @@ function DoughnutChart({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    if (!chart) return;
-
-    if (darkMode) {
-      chart.options.plugins.tooltip.titleColor = tooltipTitleColor.dark;
-      chart.options.plugins.tooltip.bodyColor = tooltipBodyColor.dark;
-      chart.options.plugins.tooltip.backgroundColor = tooltipBgColor.dark;
-      chart.options.plugins.tooltip.borderColor = tooltipBorderColor.dark;
-    } else {
-      chart.options.plugins.tooltip.titleColor = tooltipTitleColor.light;
-      chart.options.plugins.tooltip.bodyColor = tooltipBodyColor.light;
-      chart.options.plugins.tooltip.backgroundColor = tooltipBgColor.light;
-      chart.options.plugins.tooltip.borderColor = tooltipBorderColor.light;
-    }
-    chart.update('none');
-  }, [currentTheme]);
-
   return (
     <div className="grow flex flex-col justify-center">
       <div>

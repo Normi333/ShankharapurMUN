@@ -193,27 +193,6 @@ function BarChart01({ data, width, height }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    if (!chart) return;
-
-    if (darkMode) {
-      chart.options.scales.x.ticks.color = textColor.dark;
-      chart.options.scales.y.ticks.color = textColor.dark;
-      chart.options.scales.y.grid.color = gridColor.dark;
-      chart.options.plugins.tooltip.bodyColor = tooltipBodyColor.dark;
-      chart.options.plugins.tooltip.backgroundColor = tooltipBgColor.dark;
-      chart.options.plugins.tooltip.borderColor = tooltipBorderColor.dark;
-    } else {
-      chart.options.scales.x.ticks.color = textColor.light;
-      chart.options.scales.y.ticks.color = textColor.light;
-      chart.options.scales.y.grid.color = gridColor.light;
-      chart.options.plugins.tooltip.bodyColor = tooltipBodyColor.light;
-      chart.options.plugins.tooltip.backgroundColor = tooltipBgColor.light;
-      chart.options.plugins.tooltip.borderColor = tooltipBorderColor.light;
-    }
-    chart.update("none");
-  }, [currentTheme]);
-
   return (
     <React.Fragment>
       <div className="px-5 py-3">

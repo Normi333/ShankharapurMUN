@@ -214,13 +214,19 @@ const ChartGrid = () => {
       )}
       {error && <p className="text-red-500 text-center py-4">Error: {error}</p>}
 
+      {/* Card for the single value metric (e.g., ID 1000000) */}
+      {!overallLoading && !error && singleValueMetric && (
+        <Card title={singleValueMetric.name} loading={false}>
+          <div className="text-4xl font-bold text-center py-8">
+            {singleValueMetric.value}
+          </div>
+          <p className="text-center text-gray-600">Total Households</p>
+        </Card>
+      )}
+
       {/* Card for the multi-item dashboard (e.g., ID 1000001) */}
       {!overallLoading && !error && multiItemMetric && (
-        <Card
-          title="परिवार तथा जनसंख्या विवरण"
-          loading={false}
-          disableExpand={false}
-        >
+        <Card title="परिवार तथा जनसंख्या विवरण" loading={false}>
           <div className="space-y-2 text-base">
             {multiItemMetric.data.map((item, idx) => (
               <div
@@ -239,11 +245,7 @@ const ChartGrid = () => {
 
       {/* Card for the Pie Chart dashboard (e.g., ID 1000002) */}
       {!overallLoading && !error && pieChartMetric && (
-        <Card
-          title={pieChartMetric.name || "चार्ट डेटा"}
-          loading={false}
-          disableExpand={false}
-        >
+        <Card title={pieChartMetric.name || "चार्ट डेटा"} loading={false}>
           <GenericChartPreview
             type={
               pieChartMetric.type?.toLowerCase() === "pie chart" ? "pie" : "bar"
@@ -259,11 +261,7 @@ const ChartGrid = () => {
 
       {/* Card for the Ring Chart dashboard (e.g., ID 1000003) */}
       {!overallLoading && !error && ringChartMetric && (
-        <Card
-          title={ringChartMetric.name || "चार्ट डेटा"}
-          loading={false}
-          disableExpand={false}
-        >
+        <Card title={ringChartMetric.name || "चार्ट डेटा"} loading={false}>
           <GenericChartPreview
             type={
               ringChartMetric.type?.toLowerCase() === "ring chart"
@@ -284,7 +282,6 @@ const ChartGrid = () => {
         <Card
           title={lineChartMetric.name || "चार्ट डेटा"}
           loading={false}
-          disableExpand={false}
           className="col-span-2" // Example: make line chart span 2 columns
         >
           <GenericChartPreview
@@ -307,7 +304,6 @@ const ChartGrid = () => {
         <Card
           title={stackBarChartMetric.name || "वडागत जनसंख्या"}
           loading={false}
-          disableExpand={false}
           className="col-span-full" // Example: make stack bar chart span full width
         >
           <GenericChartPreview
@@ -323,20 +319,6 @@ const ChartGrid = () => {
             data={stackBarChartMetric.data}
             wardData={stackBarChartMetric.wardData} // Pass the parsed ward data
           />
-        </Card>
-      )}
-
-      {/* Card for the single value metric (e.g., ID 1000000) */}
-      {!overallLoading && !error && singleValueMetric && (
-        <Card
-          title={singleValueMetric.name}
-          loading={false}
-          disableExpand={true}
-        >
-          <div className="text-4xl font-bold text-center py-8">
-            {singleValueMetric.value}
-          </div>
-          <p className="text-center text-gray-600">Total Households</p>
         </Card>
       )}
 
