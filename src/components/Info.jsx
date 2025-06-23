@@ -719,7 +719,7 @@ const ChartGrid = () => {
       )}
 
       {/* Card for the second multi-item dashboard (e.g., ID 1000007) */}
-      {!overallLoading && !error && multiItemMetric2 && (
+      {/* {!overallLoading && !error && multiItemMetric2 && (
         <Card title={multiItemMetric2.name} loading={false}>
           <div className="space-y-2 text-base">
             {multiItemMetric2.data.map((item, idx) => (
@@ -735,10 +735,10 @@ const ChartGrid = () => {
             ))}
           </div>
         </Card>
-      )}
+      )} */}
 
       {/* Card for the third multi-item dashboard (e.g., ID 1000008) */}
-      {!overallLoading && !error && multiItemMetric3 && (
+      {/* {!overallLoading && !error && multiItemMetric3 && (
         <Card title={multiItemMetric3.name} loading={false}>
           <div className="space-y-2 text-base">
             {multiItemMetric3.data.map((item, idx) => (
@@ -754,7 +754,7 @@ const ChartGrid = () => {
             ))}
           </div>
         </Card>
-      )}
+      )} */}
 
       {/* Card for the Pie Chart dashboard (e.g., ID 1000002) */}
       {!overallLoading && !error && pieChartMetric && (
