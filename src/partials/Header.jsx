@@ -58,7 +58,7 @@ function Header({
 
             {/* New Heading */}
             <h1 className="text-white text-xl font-bold tracking-wide font-sans">
-              Shankharapur Municipality Digital Profile
+              शंखरापुर नगरपालिका डिजिटल प्रोफाइल
             </h1>
           </div>
 
