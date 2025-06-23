@@ -440,12 +440,20 @@
 // export default ChartGrid;
 
 // DONT DELETE THE ABOVE CODE ITS NECESSARY
-
 import React, { useEffect, useState } from "react";
 import Card from "../charts/card.jsx";
 import GenericChartPreview from "../charts/GenericChartPreview.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+// Import Font Awesome components (assuming you chose the npm method for Font Awesome)
+import {
+  faHouse,
+  faMale,
+  faFemale,
+  faUsers,
+} from "@fortawesome/free-solid-svg-icons"; // Import male and female icons too
 
 // Define the dashboard IDs you want to fetch and display
 const SINGLE_VALUE_METRIC_ID = "1000000"; // For the single 'Total Households' value
@@ -468,7 +476,10 @@ const ChartGrid = () => {
 
   const [loadingDashboardData, setLoadingDashboardData] = useState(true);
   const [singleValueMetric, setSingleValueMetric] = useState(null);
-  const [multiItemMetric, setMultiItemMetric] = useState(null);
+  const [totalFamilyCount, setTotalFamilyCount] = useState(null); // New state for 'जम्मा परिवार संख्या'
+  const [malePopulationDetails, setMalePopulationDetails] = useState(null); // New state for male details
+  const [femalePopulationDetails, setFemalePopulationDetails] = useState(null); // New state for female details
+
   const [pieChartMetric, setPieChartMetric] = useState(null);
   const [ringChartMetric, setRingChartMetric] = useState(null);
   const [lineChartMetric, setLineChartMetric] = useState(null);
@@ -522,7 +533,6 @@ const ChartGrid = () => {
       }
 
       if (authErrorFromContext) {
-        // Use the new Nepali message for authentication errors too, for consistency
         setError("कृपया पृष्ठ रिफ्रेस गर्नुहोस् (Ctrl + Shift + R)");
         setLoadingDashboardData(false);
         return;
@@ -539,7 +549,7 @@ const ChartGrid = () => {
       try {
         setLoadingDashboardData(true);
         let fetchedSingleValueMetric = null;
-        let fetchedMultiItemMetric = null;
+        let fetchedMultiItemMetric = null; // Will temporarily hold raw multi-item data
         let fetchedPieChartMetric = null;
         let fetchedRingChartMetric = null;
         let fetchedLineChartMetric = null;
@@ -578,9 +588,13 @@ const ChartGrid = () => {
               }
 
               if (id === SINGLE_VALUE_METRIC_ID) {
-                fetchedSingleValueMetric = { id: id, ...parsed[0] };
+                fetchedSingleValueMetric = {
+                  id: id,
+                  name: rawData.Name,
+                  value: parsed[0].value,
+                };
               } else if (id === MULTI_ITEM_METRIC_ID) {
-                fetchedMultiItemMetric = { id: id, data: parsed };
+                fetchedMultiItemMetric = { id: id, data: parsed }; // Temporarily store the full data
               } else if (id === PIE_CHART_METRIC_ID) {
                 fetchedPieChartMetric = {
                   id: id,
@@ -645,7 +659,6 @@ const ChartGrid = () => {
           } catch (err) {
             console.error(`Error fetching dashboard data for ID ${id}:`, err);
             if (!axios.isCancel(err)) {
-              // Set the specific "Please Refresh the Page" error message
               setError("कृपया पृष्ठ रिफ्रेस गर्नुहोस् (Ctrl + Shift + R)");
             }
           }
@@ -653,7 +666,31 @@ const ChartGrid = () => {
 
         await Promise.all(fetchPromises);
         setSingleValueMetric(fetchedSingleValueMetric);
-        setMultiItemMetric(fetchedMultiItemMetric);
+
+        // Process the MULTI_ITEM_METRIC_ID data and distribute it
+        if (fetchedMultiItemMetric && fetchedMultiItemMetric.data) {
+          const allMultiItems = fetchedMultiItemMetric.data;
+          // Assuming the order is consistent:
+          // 0: "जम्मा परिवार संख्या"
+          // 1: "जम्मा पुरुष संख्या"
+          // 2: "प्रतिशत(पुरुष)"
+          // 3: "महिला संख्या"
+          // 4: "प्रतिशत(महिला)"
+
+          if (allMultiItems[0]) {
+            setTotalFamilyCount({
+              name: "जम्मा परिवार संख्या",
+              value: allMultiItems[0].value,
+            });
+          }
+          if (allMultiItems[1] && allMultiItems[2]) {
+            setMalePopulationDetails([allMultiItems[1], allMultiItems[2]]);
+          }
+          if (allMultiItems[3] && allMultiItems[4]) {
+            setFemalePopulationDetails([allMultiItems[3], allMultiItems[4]]);
+          }
+        }
+
         setPieChartMetric(fetchedPieChartMetric);
         setRingChartMetric(fetchedRingChartMetric);
         setLineChartMetric(fetchedLineChartMetric);
@@ -663,7 +700,6 @@ const ChartGrid = () => {
         setMultiItemMetric3(fetchedMultiItemMetric3);
       } catch (overallErr) {
         console.error("Overall error during dashboard data fetch:", overallErr);
-        // Set the specific "Please Refresh the Page" error message for overall errors too
         setError("कृपया पृष्ठ रिफ्रेस गर्नुहोस् (Ctrl + Shift + R)");
       } finally {
         setLoadingDashboardData(false);
@@ -679,45 +715,106 @@ const ChartGrid = () => {
     <div className="grid grid-cols-[repeat(auto-fill,minmax(360px,1fr))] gap-6 p-4">
       {overallLoading && (
         <p className="text-center py-4 text-gray-600">
-          ड्यासबोर्ड मेट्रिक्स लोड हुँदैछ... {/* Translated loading message */}
+          ड्यासबोर्ड मेट्रिक्स लोड हुँदैछ...
         </p>
       )}
       {error && (
-        <p className="text-red-500 text-center py-4">
-          त्रुटि: {error}{" "}
-          {/* Error will now contain the specific Nepali message */}
-        </p>
+        <p className="text-red-500 text-center py-4">त्रुटि: {error}</p>
       )}
-
-      {/* Card for the single value metric (e.g., ID 1000000) */}
-      {!overallLoading && !error && singleValueMetric && (
-        <Card title={singleValueMetric.name} loading={false}>
-          <div className="text-4xl font-bold text-center py-8">
-            {singleValueMetric.value}
-          </div>
-          <p className="text-center text-gray-600">Total Households</p>
-        </Card>
-      )}
-
-      {/* Card for the first multi-item dashboard (e.g., ID 1000001) */}
-      {!overallLoading && !error && multiItemMetric && (
-        <Card title="परिवार तथा जनसंख्या विवरण" loading={false}>
-          <div className="space-y-2 text-base">
-            {multiItemMetric.data.map((item, idx) => (
-              <div
-                key={item.name || idx}
-                className="flex justify-between items-center py-1 border-b border-gray-200 last:border-b-0"
-              >
-                <span className="font-semibold text-gray-700">
-                  {item.name}:
-                </span>
-                <span className="text-blue-700">{item.value}</span>
+      {/* Group the first four cards into a single row using a dedicated grid container */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 col-span-full">
+        {/* Card for the single value metric (e.g., ID 1000000) */}
+        {!overallLoading && !error && singleValueMetric && (
+          <Card title={singleValueMetric.name} loading={false}>
+            <div className="flex items-center justify-center space-x-4 py-8">
+              <div className="flex-shrink-0 w-16 h-16 bg-[#8c6eff] rounded-xl flex items-center justify-center text-white text-3xl">
+                {/* Font Awesome Home Icon using the React component */}
+                <FontAwesomeIcon icon={faHouse} />
               </div>
-            ))}
-          </div>
-        </Card>
-      )}
+              <div className="flex flex-col items-center">
+                <div className="text-4xl font-bold text-gray-800">
+                  {singleValueMetric.value}
+                </div>
+                <p className="text-center text-gray-600 text-lg font-bold">
+                  Total Households
+                </p>
+              </div>
+            </div>
+          </Card>
+        )}
 
+        {/* NEW CARD: जम्मा परिवार संख्या */}
+        {!overallLoading && !error && totalFamilyCount && (
+          <Card title="जम्मा परिवार संख्या" loading={false}>
+            <div className="flex items-center justify-center space-x-4 py-8">
+              <div className="flex-shrink-0 w-16 h-16 bg-blue-500 rounded-xl flex items-center justify-center text-white text-3xl">
+                <FontAwesomeIcon icon={faUsers} />{" "}
+              </div>
+              <div className="flex flex-col items-center">
+                <div className="text-4xl font-bold text-gray-800">
+                  {totalFamilyCount.value}
+                </div>
+                <p className="text-center text-gray-600 text-lg font-bold">
+                  {totalFamilyCount.name}
+                </p>
+              </div>
+            </div>
+          </Card>
+        )}
+
+        {/* NEW CARD: पुरुष जनसंख्या विवरण */}
+        {!overallLoading && !error && malePopulationDetails && (
+          <Card title="पुरुष जनसंख्या विवरण" loading={false}>
+            <div className="space-y-2 text-base">
+              <div className="flex items-center space-x-4 py-4">
+                <div className="flex-shrink-0 w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center text-white text-2xl">
+                  <FontAwesomeIcon icon={faMale} />
+                </div>
+                <div className="flex-grow flex flex-col">
+                  {malePopulationDetails.map((item, idx) => (
+                    <div
+                      key={item.name || idx}
+                      className="flex justify-between items-center py-1 border-b border-gray-200 last:border-b-0"
+                    >
+                      <span className="font-semibold text-gray-700">
+                        {item.name}:
+                      </span>
+                      <span className="text-blue-700">{item.value}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </Card>
+        )}
+
+        {/* NEW CARD: महिला जनसंख्या विवरण */}
+        {!overallLoading && !error && femalePopulationDetails && (
+          <Card title="महिला जनसंख्या विवरण" loading={false}>
+            <div className="space-y-2 text-base">
+              <div className="flex items-center space-x-4 py-4">
+                <div className="flex-shrink-0 w-12 h-12 bg-pink-500 rounded-xl flex items-center justify-center text-white text-2xl">
+                  <FontAwesomeIcon icon={faFemale} />
+                </div>
+                <div className="flex-grow flex flex-col">
+                  {femalePopulationDetails.map((item, idx) => (
+                    <div
+                      key={item.name || idx}
+                      className="flex justify-between items-center py-1 border-b border-gray-200 last:border-b-0"
+                    >
+                      <span className="font-semibold text-gray-700">
+                        {item.name}:
+                      </span>
+                      <span className="text-blue-700">{item.value}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </Card>
+        )}
+      </div>{" "}
+      {/* End of the dedicated grid for the first four cards */}
       {/* Card for the second multi-item dashboard (e.g., ID 1000007) */}
       {/* {!overallLoading && !error && multiItemMetric2 && (
         <Card title={multiItemMetric2.name} loading={false}>
@@ -736,7 +833,6 @@ const ChartGrid = () => {
           </div>
         </Card>
       )} */}
-
       {/* Card for the third multi-item dashboard (e.g., ID 1000008) */}
       {/* {!overallLoading && !error && multiItemMetric3 && (
         <Card title={multiItemMetric3.name} loading={false}>
@@ -755,7 +851,6 @@ const ChartGrid = () => {
           </div>
         </Card>
       )} */}
-
       {/* Card for the Pie Chart dashboard (e.g., ID 1000002) */}
       {!overallLoading && !error && pieChartMetric && (
         <Card title={pieChartMetric.name || "चार्ट डेटा"} loading={false}>
@@ -771,7 +866,6 @@ const ChartGrid = () => {
           />
         </Card>
       )}
-
       {/* Card for the Ring Chart dashboard (e.g., ID 1000003) */}
       {!overallLoading && !error && ringChartMetric && (
         <Card title={ringChartMetric.name || "चार्ट डेटा"} loading={false}>
@@ -789,13 +883,12 @@ const ChartGrid = () => {
           />
         </Card>
       )}
-
       {/* Card for the Line Chart dashboard (e.g., ID 1000004) */}
       {!overallLoading && !error && lineChartMetric && (
         <Card
           title={lineChartMetric.name || "चार्ट डेटा"}
           loading={false}
-          className="col-span-2" // Example: make line chart span 2 columns
+          className="col-span-2"
         >
           <GenericChartPreview
             type={
@@ -811,18 +904,17 @@ const ChartGrid = () => {
           />
         </Card>
       )}
-
       {/* Card for the Stack Bar Chart dashboard (e.g., ID 1000005) */}
       {!overallLoading && !error && stackBarChartMetric && (
         <Card
           title={stackBarChartMetric.name || "वडागत जनसंख्या"}
           loading={false}
-          className="col-span-full" // Example: make stack bar chart span full width
+          className="col-span-full"
         >
           <GenericChartPreview
             type={
               stackBarChartMetric.type?.toLowerCase() === "stack bar graph"
-                ? "stackbar" // New type for GenericChartPreview to handle
+                ? "stackbar"
                 : "bar"
             }
             labelKey="name"
@@ -830,11 +922,10 @@ const ChartGrid = () => {
             chartLabel={stackBarChartMetric.name || "जनसंख्या"}
             title={stackBarChartMetric.name || "जनसंख्या विवरण"}
             data={stackBarChartMetric.data}
-            wardData={stackBarChartMetric.wardData} // Pass the parsed ward data
+            wardData={stackBarChartMetric.wardData}
           />
         </Card>
       )}
-
       {/* Card for the Ward-wise Bar Chart (e.g., ID 1000006) */}
       {!overallLoading && !error && wardBarChartMetric && (
         <Card
@@ -855,12 +946,13 @@ const ChartGrid = () => {
           />
         </Card>
       )}
-
       {/* Fallback if no dashboard metrics can be displayed after loading */}
       {!overallLoading &&
         !error &&
         !singleValueMetric &&
-        !multiItemMetric &&
+        !totalFamilyCount && // Check new states
+        !malePopulationDetails &&
+        !femalePopulationDetails &&
         !multiItemMetric2 &&
         !multiItemMetric3 &&
         !pieChartMetric &&
@@ -868,9 +960,7 @@ const ChartGrid = () => {
         !lineChartMetric &&
         !stackBarChartMetric &&
         !wardBarChartMetric && (
-          <p className="text-center py-4 text-gray-500">
-            डाटा उपलब्ध छैन। {/* Translated fallback message */}
-          </p>
+          <p className="text-center py-4 text-gray-500">डाटा उपलब्ध छैन।</p>
         )}
     </div>
   );
