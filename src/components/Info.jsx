@@ -10,7 +10,10 @@ const MULTI_ITEM_METRIC_ID = "1000001"; // For the card with multiple key-value 
 const PIE_CHART_METRIC_ID = "1000002"; // For the chart data (Religion-wise Population - Pie Chart)
 const RING_CHART_METRIC_ID = "1000003"; // For the chart data (Mother Tongue Population - Ring/Doughnut Chart)
 const LINE_CHART_METRIC_ID = "1000004"; // For the chart data (Ethnicity-wise Population - Line Chart)
-const STACK_BAR_CHART_ID = "1000005"; // NEW: For the Stack Bar Graph (वडागत जनसंख्या)
+const STACK_BAR_CHART_ID = "1000005"; // For the Stack Bar Graph (वडागत जनसंख्या)
+const WARD_BAR_CHART_ID = "1000006"; // For the Ward-wise Bar Chart
+const MULTI_ITEM_METRIC_ID_2 = "1000007"; // For the 'घट्ट,मिल तथा संकलन तथा प्रसोधन केन्द्र सम्बन्धी विवरण'
+const MULTI_ITEM_METRIC_ID_3 = "1000008"; // For the 'व्यक्तिगत घटना विवरण'
 
 const ChartGrid = () => {
   const {
@@ -26,28 +29,33 @@ const ChartGrid = () => {
   const [pieChartMetric, setPieChartMetric] = useState(null);
   const [ringChartMetric, setRingChartMetric] = useState(null);
   const [lineChartMetric, setLineChartMetric] = useState(null);
-  const [stackBarChartMetric, setStackBarChartMetric] = useState(null); // NEW state for stack bar chart
+  const [stackBarChartMetric, setStackBarChartMetric] = useState(null);
+  const [wardBarChartMetric, setWardBarChartMetric] = useState(null);
+  const [multiItemMetric2, setMultiItemMetric2] = useState(null);
+  const [multiItemMetric3, setMultiItemMetric3] = useState(null);
   const [error, setError] = useState(null);
 
   // Function to safely parse the non-standard JSON string
   const parseNonStandardJson = (jsonString) => {
+    let cleanedString = jsonString;
     try {
-      // 1. Initial trim of whitespace, newlines, tabs from start/end
-      let cleanedString = jsonString.trim();
+      if (typeof jsonString !== "string") {
+        console.warn(
+          "Input to parseNonStandardJson is not a string:",
+          jsonString
+        );
+        return null;
+      }
 
-      // 2. Aggressively remove all newlines, tabs, and carriage returns.
+      cleanedString = jsonString.trim();
       cleanedString = cleanedString.replace(/[\n\t\r]+/g, "");
-
-      // 3. Replace single quotes with double quotes globally
       cleanedString = cleanedString.replace(/'/g, '"');
-
-      // 4. Ensure keys are double-quoted. This regex is generally robust for unquoted keys.
       cleanedString = cleanedString.replace(
         /([{,]\s*)([a-zA-Z_][a-zA-Z0-9_]*)\s*:/g,
         '$1"$2":'
       );
+      cleanedString = cleanedString.replace(/,\s*([}\]])/g, "$1"); // Remove trailing commas
 
-      // Final attempt to parse
       const parsed = JSON.parse(cleanedString);
       return parsed;
     } catch (e) {
@@ -57,7 +65,7 @@ const ChartGrid = () => {
         "Original:",
         jsonString,
         "Attempted Cleaned:",
-        cleanedString // Log the string after cleaning attempts
+        cleanedString
       );
       return null;
     }
@@ -93,7 +101,10 @@ const ChartGrid = () => {
         let fetchedPieChartMetric = null;
         let fetchedRingChartMetric = null;
         let fetchedLineChartMetric = null;
-        let fetchedStackBarChartMetric = null; // NEW variable
+        let fetchedStackBarChartMetric = null;
+        let fetchedWardBarChartMetric = null;
+        let fetchedMultiItemMetric2 = null;
+        let fetchedMultiItemMetric3 = null;
 
         const allIdsToFetch = [
           SINGLE_VALUE_METRIC_ID,
@@ -101,7 +112,10 @@ const ChartGrid = () => {
           PIE_CHART_METRIC_ID,
           RING_CHART_METRIC_ID,
           LINE_CHART_METRIC_ID,
-          STACK_BAR_CHART_ID, // NEW ID added here
+          STACK_BAR_CHART_ID,
+          WARD_BAR_CHART_ID,
+          MULTI_ITEM_METRIC_ID_2,
+          MULTI_ITEM_METRIC_ID_3,
         ];
 
         const fetchPromises = allIdsToFetch.map(async (id) => {
@@ -113,7 +127,6 @@ const ChartGrid = () => {
             if (rawData && typeof rawData.dashboard_json === "string") {
               const parsed = parseNonStandardJson(rawData.dashboard_json);
 
-              // Check if parsed data is valid (array and not empty)
               if (!Array.isArray(parsed) || parsed.length === 0) {
                 console.warn(
                   `Parsed data for ID ${id} is empty or invalid:`,
@@ -148,9 +161,8 @@ const ChartGrid = () => {
                   data: parsed,
                 };
               } else if (id === STACK_BAR_CHART_ID) {
-                // NEW condition for the stack bar chart
                 let parsedWardData = null;
-                if (typeof rawData.dashboard_json2 === "string") {
+                if (rawData && typeof rawData.dashboard_json2 === "string") {
                   parsedWardData = parseNonStandardJson(
                     rawData.dashboard_json2
                   );
@@ -159,23 +171,44 @@ const ChartGrid = () => {
                   id: id,
                   name: rawData.Name,
                   type: rawData.dashboard_type,
-                  data: parsed, // This is your [{"name": "पुरुष", "value": 744}, ...]
-                  wardData: parsedWardData, // This will be your [{"name": "वडा नं", "value": 2}]
+                  data: parsed,
+                  wardData: parsedWardData,
+                };
+              } else if (id === WARD_BAR_CHART_ID) {
+                fetchedWardBarChartMetric = {
+                  id: id,
+                  name: rawData.Name,
+                  type: rawData.dashboard_type,
+                  data: parsed,
+                };
+              } else if (id === MULTI_ITEM_METRIC_ID_2) {
+                fetchedMultiItemMetric2 = {
+                  id: id,
+                  name: rawData.Name,
+                  data: parsed,
+                };
+              } else if (id === MULTI_ITEM_METRIC_ID_3) {
+                fetchedMultiItemMetric3 = {
+                  id: id,
+                  name: rawData.Name,
+                  data: parsed,
                 };
               }
             } else {
               console.warn(
-                `dashboard_json not found or not a string for ID ${id}:`,
+                `dashboard_json not found or not a string for ID ${id}. Raw data:`,
                 rawData
               );
             }
           } catch (err) {
             console.error(`Error fetching dashboard data for ID ${id}:`, err);
+            // Only set a generic error if no specific error message is desired for the user
             if (!axios.isCancel(err)) {
-              setError((prev) =>
-                prev
-                  ? `${prev}\nFailed to load metric for ID ${id}.`
-                  : `Failed to load metric for ID ${id}.`
+              setError(
+                (prev) =>
+                  prev
+                    ? `${prev}\nआईडी ${id} को मेट्रिक लोड गर्न असफल भयो।` // Append if other errors exist
+                    : `आईडी ${id} को मेट्रिक लोड गर्न असफल भयो।` // Set if first error
               );
             }
           }
@@ -187,14 +220,13 @@ const ChartGrid = () => {
         setPieChartMetric(fetchedPieChartMetric);
         setRingChartMetric(fetchedRingChartMetric);
         setLineChartMetric(fetchedLineChartMetric);
-        setStackBarChartMetric(fetchedStackBarChartMetric); // NEW state set here
+        setStackBarChartMetric(fetchedStackBarChartMetric);
+        setWardBarChartMetric(fetchedWardBarChartMetric);
+        setMultiItemMetric2(fetchedMultiItemMetric2);
+        setMultiItemMetric3(fetchedMultiItemMetric3);
       } catch (overallErr) {
         console.error("Overall error during dashboard data fetch:", overallErr);
-        setError((prev) =>
-          prev
-            ? `${prev}\nAn unexpected error occurred while fetching dashboard data.`
-            : `An unexpected error occurred while fetching dashboard data.`
-        );
+        setError(`ड्यासबोर्ड डाटा ल्याउनमा अप्रत्याशित त्रुटि भयो।`); // More generic Nepali error for overall fetch
       } finally {
         setLoadingDashboardData(false);
       }
@@ -209,10 +241,14 @@ const ChartGrid = () => {
     <div className="grid grid-cols-[repeat(auto-fill,minmax(360px,1fr))] gap-6 p-4">
       {overallLoading && (
         <p className="text-center py-4 text-gray-600">
-          Loading dashboard metrics...
+          ड्यासबोर्ड मेट्रिक्स लोड हुँदैछ... {/* Translated loading message */}
         </p>
       )}
-      {error && <p className="text-red-500 text-center py-4">Error: {error}</p>}
+      {error && (
+        <p className="text-red-500 text-center py-4">
+          त्रुटि: {error || "डाटा उपलब्ध छैन"} {/* Improved error display */}
+        </p>
+      )}
 
       {/* Card for the single value metric (e.g., ID 1000000) */}
       {!overallLoading && !error && singleValueMetric && (
@@ -224,11 +260,49 @@ const ChartGrid = () => {
         </Card>
       )}
 
-      {/* Card for the multi-item dashboard (e.g., ID 1000001) */}
+      {/* Card for the first multi-item dashboard (e.g., ID 1000001) */}
       {!overallLoading && !error && multiItemMetric && (
         <Card title="परिवार तथा जनसंख्या विवरण" loading={false}>
           <div className="space-y-2 text-base">
             {multiItemMetric.data.map((item, idx) => (
+              <div
+                key={item.name || idx}
+                className="flex justify-between items-center py-1 border-b border-gray-200 last:border-b-0"
+              >
+                <span className="font-semibold text-gray-700">
+                  {item.name}:
+                </span>
+                <span className="text-blue-700">{item.value}</span>
+              </div>
+            ))}
+          </div>
+        </Card>
+      )}
+
+      {/* Card for the second multi-item dashboard (e.g., ID 1000007) */}
+      {!overallLoading && !error && multiItemMetric2 && (
+        <Card title={multiItemMetric2.name} loading={false}>
+          <div className="space-y-2 text-base">
+            {multiItemMetric2.data.map((item, idx) => (
+              <div
+                key={item.name || idx}
+                className="flex justify-between items-center py-1 border-b border-gray-200 last:border-b-0"
+              >
+                <span className="font-semibold text-gray-700">
+                  {item.name}:
+                </span>
+                <span className="text-blue-700">{item.value}</span>
+              </div>
+            ))}
+          </div>
+        </Card>
+      )}
+
+      {/* Card for the third multi-item dashboard (e.g., ID 1000008) */}
+      {!overallLoading && !error && multiItemMetric3 && (
+        <Card title={multiItemMetric3.name} loading={false}>
+          <div className="space-y-2 text-base">
+            {multiItemMetric3.data.map((item, idx) => (
               <div
                 key={item.name || idx}
                 className="flex justify-between items-center py-1 border-b border-gray-200 last:border-b-0"
@@ -322,17 +396,41 @@ const ChartGrid = () => {
         </Card>
       )}
 
+      {/* Card for the Ward-wise Bar Chart (e.g., ID 1000006) */}
+      {!overallLoading && !error && wardBarChartMetric && (
+        <Card
+          title={wardBarChartMetric.name || "वडा स्तरीय जनसंख्या"}
+          loading={false}
+        >
+          <GenericChartPreview
+            type={
+              wardBarChartMetric.type?.toLowerCase() === "bar chart"
+                ? "bar"
+                : "bar"
+            }
+            labelKey="name"
+            valueKey="value"
+            chartLabel={wardBarChartMetric.name || "जनसंख्या"}
+            title={wardBarChartMetric.name || "जनसंख्या विवरण"}
+            data={wardBarChartMetric.data}
+          />
+        </Card>
+      )}
+
       {/* Fallback if no dashboard metrics can be displayed after loading */}
       {!overallLoading &&
         !error &&
         !singleValueMetric &&
         !multiItemMetric &&
+        !multiItemMetric2 &&
+        !multiItemMetric3 &&
         !pieChartMetric &&
         !ringChartMetric &&
         !lineChartMetric &&
-        !stackBarChartMetric && ( // NEW: Include new metric in fallback check
+        !stackBarChartMetric &&
+        !wardBarChartMetric && (
           <p className="text-center py-4 text-gray-500">
-            No dashboard metrics available to display.
+            डाटा उपलब्ध छैन। {/* Translated fallback message */}
           </p>
         )}
     </div>
