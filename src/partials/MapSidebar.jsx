@@ -147,7 +147,7 @@ function Sidebar({
           </button>
           {/* Logo */}
           <NavLink end to="/" className="block">
-            <img src={logo} alt="Your Company Logo" className="w-18 h-16" />
+            <img src={logo} alt="नेपाल सरकार" className="w-15 h-13" />
           </NavLink>
         </div>
 
