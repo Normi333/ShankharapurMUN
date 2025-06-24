@@ -13,6 +13,7 @@ import MapPage from "./pages/MapPage";
 import ReportView from "./pages/HouseholdReport";
 import HouseholdReport from "./pages/HouseholdReport";
 import Institutionaldetailsstatistics from "./pages/Institutionaldetailsstatistics";
+import ReportViewInstitution from "./pages/Institutionaldetailsstatistics";
 import Info from "./components/Info";
 
 function App() {
@@ -66,6 +67,7 @@ function App() {
           }
         /> */}
         <Route path="/ReportView/:path" element={<ReportView />} />
+        <Route path="/Report/:path" element={<ReportViewInstitution />} />
         {/* <Route
           path="/ReportView/:path"
           element={

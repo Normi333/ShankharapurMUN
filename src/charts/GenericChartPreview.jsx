@@ -54,9 +54,14 @@ const generateVibrantColors = (count) => {
 
 // --- MODIFIED: Define specific colors for charts with DARKER tones ---
 const lineChartPrimaryColor = "hsl(210, 90%, 30%)"; // Darker blue, higher saturation
-const stackBarMaleColor = "hsl(0, 85%, 45%)"; // Darker red, higher saturation
-const stackBarFemaleColor = "hsl(120, 85%, 40%)"; // Darker green, higher saturation
-const stackBarOtherColor = "hsl(270, 60%, 50%)"; // Darker muted purple, higher saturation
+// const stackBarMaleColor = "hsl(252, 46.90%, 52.70%)"; // Darker red, higher saturation
+// const stackBarFemaleColor = "hsl(120, 85%, 40%)"; // Darker green, higher saturation
+// const stackBarOtherColor = "hsl(270, 60%, 50%)"; // Darker muted purple, higher saturation
+const stackBarMaleColor = "hsl(220, 80%, 40%)"; // Darker, vibrant Blue
+const stackBarFemaleColor = "hsl(200, 90%, 65%)"; // Lighter, vibrant Blue
+const stackBarOtherColor = "hsl(40, 95%, 55%)"; // Vibrant Orange/Yellow (can be changed to any bright hue)
+//Dark Blue for general Bar Charts
+const barChartPrimaryColor = "hsl(220, 80%, 40%)";
 
 // Define base font settings for Nepali text
 const nepaliFont = {
@@ -388,8 +393,9 @@ const GenericChartPreview = ({
         labels: [wardTitle],
         datasets: data.map((item) => {
           let bgColor;
+          // console.log("Current item label:", item[labelKey]);
           // Assign specific colors based on labelKey values for stackbar
-          if (item[labelKey] === "पुरूष") {
+          if (item[labelKey] === "पुरुष") {
             bgColor = stackBarMaleColor;
           } else if (item[labelKey] === "महिला") {
             bgColor = stackBarFemaleColor;
@@ -502,10 +508,8 @@ const GenericChartPreview = ({
           {
             label: chartLabel,
             data: data.map((item) => parseFloat(item[valueKey])),
-            backgroundColor: vibrantColors, // Uses widely distributed colors
-            borderColor: vibrantColors.map(
-              (color) => color.replace(")", ", 0.9)") // Adjust opacity for border
-            ),
+            backgroundColor: barChartPrimaryColor, // Uses widely distributed colors
+            borderColor: barChartPrimaryColor.replace(")", ", 0.9)"),
             borderWidth: 1,
             borderRadius: 4,
           },

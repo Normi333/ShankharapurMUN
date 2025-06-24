@@ -80,7 +80,7 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
     },
     {
       path: "/milldetails",
-      title: "घट्ट, मिल तथा संकलन तथा प्रसोधन केन्द्र सम्बन्धी विवरण",
+      title: "घट्ट,मिल तथा संकलन तथा प्रसोधन केन्द्र सम्बन्धी विवरण",
       endpoint: "mill_details",
     },
     {
@@ -93,14 +93,14 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
       title: "मुख्य चाड, पर्व तथा मेला जात्रा सम्बन्धी विवरण",
       endpoint: "festival_details",
     },
-    // { // No specific title provided for "mg_details"
-    //   path: "/mgdetails",
-    //   title: "Placeholder Title for mg_details",
-    //   endpoint: "mg_details",
-    // },
+    {
+      path: "/mamagroup",
+      title: "आमा महिला समूह तथा परम्परागत समूहको विवरण",
+      endpoint: "mg_details",
+    },
     {
       path: "/bankfinancial",
-      title: "बैंक, वित्तीय संस्था, लघुवित्त तथा सहकारी संस्था विवरण",
+      title: "वैक, वित्तीय संस्था, लघुवित्त तथा सहकारी संस्था विवरण",
       endpoint: "bank_details",
     },
     {
@@ -150,7 +150,7 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
     },
     {
       path: "/forestindicator",
-      title: "वन तथा वातावरण सम्बन्धी सूचक विवरण",
+      title: "वन तथा वातावरण सम्बन्धी सुचक विवरण",
       endpoint: "f_indicator_details",
     },
     {
@@ -185,24 +185,19 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
     },
     {
       path: "/disastermanagement",
-      title: "प्रकोप व्यवस्थापन सम्बन्धी विवरण",
-      endpoint: "disaster_details_management",
+      title: "प्रकोप ब्यवस्थापन सम्बन्धी विवरण",
+      endpoint: "disaster_details",
     },
-    // { // No specific title provided for "gs_details"
-    //   path: "/gsdetails",
-    //   title: "Placeholder Title for gs_details",
-    //   endpoint: "gs_details",
-    // },
     {
       path: "/governance",
-      title: "सुशासन विवरण",
+      title: "सुशासन (सेवा प्रवाहबाट सन्तुष्टी)",
       endpoint: "governance_details",
     },
-    // { // No specific title provided for "hn_details"
-    //   path: "/hndetails",
-    //   title: "Placeholder Title for hn_details",
-    //   endpoint: "hn_details",
-    // },
+    {
+      path: "/healthnutrition",
+      title: "स्वास्थ्य तथा पोषण सम्बन्धी",
+      endpoint: "hn_details",
+    },
     {
       path: "/disease",
       title: "प्रमुख रोग तथा उपचारसम्बन्धी विवरण",
@@ -217,6 +212,41 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
       path: "/mainroad",
       title: "सडक मार्ग विवरण",
       endpoint: "main_road_details",
+    },
+    {
+      path: "/governmentbuilding",
+      title: "सरकारी भवन",
+      endpoint: "building_details",
+    },
+    {
+      path: "/publiccommunitybuilding",
+      title: "सार्वजनिक तथा सामुदायिक भवन",
+      endpoint: "pb_details",
+    },
+    {
+      path: "/bridgedetails",
+      title: "पुल तथा पुलेसा विवरण",
+      endpoint: "bridge_details",
+    },
+    {
+      path: "/grazingarea",
+      title: "चरन क्षेत्र विवरण",
+      endpoint: "graze_details",
+    },
+    {
+      path: "/waterlandpollution",
+      title: "जल तथा जमीन प्रदुषण",
+      endpoint: "wlp_details",
+    },
+    {
+      path: "/humancasualltydisaster",
+      title: "विपदबाट मानवीय क्षती विवरण",
+      endpoint: "hdd_details",
+    },
+    {
+      path: "/disasterimpact",
+      title: "विपदको असर विवरण",
+      endpoint: "d_impact_details",
     },
   ];
 
@@ -456,7 +486,7 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                     className={`pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 border-b border-white/[0.2]`}
                   >
                     <NavLink
-                      to={`/ReportView${path}`}
+                      to={`/Report${path}`}
                       className={({ isActive }) =>
                         `block text-white transition duration-150 ${
                           isActive

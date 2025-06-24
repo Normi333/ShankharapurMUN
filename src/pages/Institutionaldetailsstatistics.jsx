@@ -216,10 +216,7 @@ import { useParams } from "react-router-dom";
 
 import ReportSidebar2 from "../partials/ReportSidebar2";
 import Header from "../partials/Header";
-// !! IMPORTANT CHANGE HERE !!
-// Make sure MyDataComponent is correctly imported and refers to the component
-// where you implemented the HTML parsing logic.
-import MyDataComponent from "../components/InstitutionalComponent"; // <--- Ensure this path and name is correct!
+import MyDataComponentInstitution from "../components/InstitutionalComponent";
 
 const reportConfig = {
   communityorg: {
@@ -256,7 +253,7 @@ const reportConfig = {
   },
   milldetails: {
     endpoint: "mill_details",
-    title: "घट्ट, मिल तथा संकलन तथा प्रसोधन केन्द्र सम्बन्धी विवरण",
+    title: "घट्ट,मिल तथा संकलन तथा प्रसोधन केन्द्र सम्बन्धी विवरण",
   },
   landuse: {
     endpoint: "landuser_details",
@@ -266,13 +263,13 @@ const reportConfig = {
     endpoint: "festival_details",
     title: "मुख्य चाड, पर्व तथा मेला जात्रा सम्बन्धी विवरण",
   },
-  // mg_details: { // No specific title provided for "mg_details"
-  //   endpoint: "mg_details",
-  //   title: "Placeholder Title for mg_details",
-  // },
+  mamagroup: {
+    endpoint: "mg_details",
+    title: "आमा महिला समूह तथा परम्परागत समूहको विवरण",
+  },
   bankfinancial: {
     endpoint: "bank_details",
-    title: "बैंक, वित्तीय संस्था, लघुवित्त तथा सहकारी संस्था विवरण",
+    title: "वैक, वित्तीय संस्था, लघुवित्त तथा सहकारी संस्था विवरण",
   },
   farmergroup: {
     endpoint: "fgroup_details",
@@ -312,7 +309,7 @@ const reportConfig = {
   },
   forestindicator: {
     endpoint: "f_indicator_details",
-    title: "वन तथा वातावरण सम्बन्banddhi सूचक विवरण",
+    title: "वन तथा वातावरण सम्बन्धी सुचक विवरण",
   },
   forestbiodiversity: {
     endpoint: "fbd_details",
@@ -339,21 +336,17 @@ const reportConfig = {
     title: "वायु प्रदुषणका श्रोतहरु",
   },
   disastermanagement: {
-    endpoint: "disaster_details_management",
-    title: "प्रकोप व्यवस्थापन सम्बन्धी विवरण",
+    endpoint: "disaster_details",
+    title: "प्रकोप ब्यवस्थापन सम्बन्धी विवरण",
   },
-  // gs_details: { // No specific title provided for "gs_details"
-  //   endpoint: "gs_details",
-  //   title: "Placeholder Title for gs_details",
-  // },
   governance: {
     endpoint: "governance_details",
     title: "सुशासन (सेवा प्रवाहबाट सन्तुष्टी)",
   },
-  // hn_details: { // No specific title provided for "hn_details"
-  //   endpoint: "hn_details",
-  //   title: "Placeholder Title for hn_details",
-  // },
+  healthnutrition: {
+    endpoint: "hn_details",
+    title: "स्वास्थ्य तथा पोषण सम्बन्धी",
+  },
   disease: {
     endpoint: "disease_details",
     title: "प्रमुख रोग तथा उपचारसम्बन्धी विवरण",
@@ -366,9 +359,37 @@ const reportConfig = {
     endpoint: "main_road_details",
     title: "सडक मार्ग विवरण",
   },
+  governmentbuilding: {
+    endpoint: "building_details",
+    title: "सरकारी भवन",
+  },
+  publiccommunitybuilding: {
+    endpoint: "pb_details",
+    title: "सार्वजनिक तथा सामुदायिक भवन",
+  },
+  bridgedetails: {
+    endpoint: "bridge_details",
+    title: "पुल तथा पुलेसा विवरण",
+  },
+  grazingarea: {
+    endpoint: "graze_details",
+    title: "चरन क्षेत्र विवरण",
+  },
+  waterlandpollution: {
+    endpoint: "wlp_details",
+    title: "जल तथा जमीन प्रदुषण",
+  },
+  humancasualltydisaster: {
+    endpoint: "hdd_details",
+    title: "विपदबाट मानवीय क्षती विवरण",
+  },
+  disasterimpact: {
+    endpoint: "d_impact_details",
+    title: "विपदको असर विवरण",
+  },
 };
 
-export default function ReportView() {
+export default function ReportViewInstitution() {
   const { path } = useParams();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -404,7 +425,7 @@ export default function ReportView() {
               <div className="bg-white p-6 rounded-lg shadow-md w-full h-full overflow-auto">
                 {" "}
                 {/* Added overflow-auto */}
-                <MyDataComponent
+                <MyDataComponentInstitution
                   urlPostfix={currentReport.endpoint}
                   title={currentReport.title}
                 />
