@@ -297,7 +297,7 @@ const reportConfig = {
   },
   irrigationstatus: {
     endpoint: "irr_type_details",
-    title: "सिंचाईको अवस्था सम्बन्धी विवरण",
+    title: "सिंचाईको अवस्था सम्बन्늄दी विवरण",
   },
   housingdevelopment: {
     endpoint: "housing_poor_details",
@@ -397,10 +397,9 @@ export default function ReportViewInstitution() {
   if (path) {
     currentReport = reportConfig[path];
   } else {
-    // If no path is provided, default to 'communityorg' or another suitable report
-    // It's safer to have a specific default rather than relying on Object.keys()[0]
+    // If no path is provided, default to 'individualevent'
     currentReport =
-      reportConfig["communityorg"] || Object.values(reportConfig)[0];
+      reportConfig["individualevent"] || Object.values(reportConfig)[0];
   }
 
   return (
