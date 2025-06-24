@@ -25,11 +25,11 @@ function Sidebar({
     naturalResourcesLayers: false,
   });
 
-  // Updated Layers structure - grouped by categories with sub-types (remains unchanged)
+  // Updated Layers structure - grouped by categories with sub-types
   const layerCategories = {
     baseLayers: {
       title: "Base",
-      layers: [{ id: "river", name: "River" }],
+      layers: [{ id: "border", name: "Border" }],
     },
     buildingLayers: {
       title: "Infrastructure",
@@ -38,7 +38,7 @@ function Sidebar({
         { id: "buildings-Residential", name: "Residential" },
         {
           id: "buildings-Government-Agro Office",
-          name: "Government-Agro Office",
+          name: "Government Agro Office",
         },
         { id: "buildings-Government", name: "Government Office" },
         { id: "buildings-Hotel", name: "Hotel" },
@@ -55,7 +55,10 @@ function Sidebar({
     },
     naturalResourcesLayers: {
       title: "Natural Resources",
-      layers: [{ id: "forest", name: "Forest" }],
+      layers: [
+        { id: "forest", name: "Forest" },
+        { id: "river", name: "River" },
+      ],
     },
   };
 
@@ -174,7 +177,7 @@ function Sidebar({
                   <div className="flex items-center">
                     <svg
                       className={`shrink-0 fill-current ${
-                        pathname === "/" ? "text-violet-200" : "text-gray-100" // Changed text-gray-300 to text-gray-100
+                        pathname === "/" ? "text-violet-200" : "text-gray-100"
                       }`}
                       xmlns="http://www.w3.org/2000/svg"
                       width="16"
@@ -218,7 +221,7 @@ function Sidebar({
                       className={`shrink-0 fill-current ${
                         pathname.includes("maps")
                           ? "text-violet-200"
-                          : "text-gray-100" // Changed text-gray-300 to text-gray-100
+                          : "text-gray-100"
                       }`}
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 512 512"
@@ -255,7 +258,7 @@ function Sidebar({
                       className={`shrink-0 fill-none stroke-current ${
                         pathname.includes("householdreport")
                           ? "text-violet-200"
-                          : "text-gray-100" // Changed text-gray-300 to text-gray-100
+                          : "text-gray-300"
                       }`}
                       xmlns="http://www.w3.org/2000/svg"
                       width="16"
@@ -266,12 +269,7 @@ function Sidebar({
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     >
-                      <path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" />
-                      <path d="M14 3v6h6" />
-                      <line x1="10" y1="14" x2="14" y2="14" />
-                      <line x1="10" y1="18" x2="14" y2="18" />
-                      <circle cx="17" cy="17" r="3" />
-                      <line x1="19.5" y1="19.5" x2="21" y2="21" />
+                      <path d="M12 3L2 12h3v7h6v-4h2v4h6v-7h3z" />
                     </svg>
                     <span className="text-sm font-bold ml-4 opacity-100">
                       घरधुरी रिपोर्ट
@@ -301,7 +299,7 @@ function Sidebar({
                       className={`shrink-0 fill-none stroke-current ${
                         pathname.includes("statisticsreport")
                           ? "text-violet-200"
-                          : "text-gray-100" // Changed text-gray-300 to text-gray-100
+                          : "text-gray-300"
                       }`}
                       xmlns="http://www.w3.org/2000/svg"
                       width="16"
@@ -312,12 +310,12 @@ function Sidebar({
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     >
-                      <path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" />
-                      <path d="M14 3v6h6" />
-                      <line x1="10" y1="14" x2="14" y2="14" />
-                      <line x1="10" y1="18" x2="14" y2="18" />
-                      <circle cx="17" cy="17" r="3" />
-                      <line x1="19.5" y1="19.5" x2="21" y2="21" />
+                      <polygon points="12 3 2 9 22 9 12 3" /> {/* Roof */}
+                      <line x1="4" y1="9" x2="4" y2="20" /> {/* Column 1 */}
+                      <line x1="10" y1="9" x2="10" y2="20" /> {/* Column 2 */}
+                      <line x1="14" y1="9" x2="14" y2="20" /> {/* Column 3 */}
+                      <line x1="20" y1="9" x2="20" y2="20" /> {/* Column 4 */}
+                      <line x1="2" y1="20" x2="22" y2="20" /> {/* Base */}
                     </svg>
                     <span className="text-sm font-bold ml-4 opacity-100">
                       संस्थागत विवरण

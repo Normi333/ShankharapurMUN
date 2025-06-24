@@ -201,12 +201,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     >
-                      <path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" />
-                      <path d="M14 3v6h6" />
-                      <line x1="10" y1="14" x2="14" y2="14" />
-                      <line x1="10" y1="18" x2="14" y2="18" />
-                      <circle cx="17" cy="17" r="3" />
-                      <line x1="19.5" y1="19.5" x2="21" y2="21" />
+                      <path d="M12 3L2 12h3v7h6v-4h2v4h6v-7h3z" />
                     </svg>
                     <span className="text-sm font-bold ml-4 opacity-100">
                       घरधुरी रिपोर्ट
@@ -248,12 +243,12 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     >
-                      <path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" />
-                      <path d="M14 3v6h6" />
-                      <line x1="10" y1="14" x2="14" y2="14" />
-                      <line x1="10" y1="18" x2="14" y2="18" />
-                      <circle cx="17" cy="17" r="3" />
-                      <line x1="19.5" y1="19.5" x2="21" y2="21" />
+                      <polygon points="12 3 2 9 22 9 12 3" /> {/* Roof */}
+                      <line x1="4" y1="9" x2="4" y2="20" /> {/* Column 1 */}
+                      <line x1="10" y1="9" x2="10" y2="20" /> {/* Column 2 */}
+                      <line x1="14" y1="9" x2="14" y2="20" /> {/* Column 3 */}
+                      <line x1="20" y1="9" x2="20" y2="20" /> {/* Column 4 */}
+                      <line x1="2" y1="20" x2="22" y2="20" /> {/* Base */}
                     </svg>
                     <span className="text-sm font-bold ml-4 opacity-100">
                       संस्थागत विवरण

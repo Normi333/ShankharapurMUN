@@ -1,175 +1,180 @@
 // import React, { useState } from "react";
 // import { useParams } from "react-router-dom";
 
-// import ReportSidebar from "../partials/ReportSidebar";
+// import ReportSidebar2 from "../partials/ReportSidebar2";
 // import Header from "../partials/Header";
-// import MyDataComponent from "../components/MyDataComponent";
+// import MyDataComponent from "../components/InstitutionalComponent";
 
 // const reportConfig = {
-//   mothertongue: {
-//     endpoint: "hsurvey_mothertongue",
-//     title: "मातृभाषाको आधारमा वर्गिकरण",
+//   communityorg: {
+//     endpoint: "co_org_details",
+//     title: "सामुदायिक संस्था विवरण",
 //   },
-//   religion: {
-//     endpoint: "hsurvey_religion",
-//     title: "धर्मको आधारमा वर्गिकरण",
+//   individualevent: {
+//     endpoint: "lg_osurvey",
+//     title: "व्यक्तिगत घटना विवरण",
 //   },
-//   caste: {
-//     endpoint: "hsurvey_caste",
-//     title: "जातिको आधारमा वर्गिकरण",
+//   socialsecurity: {
+//     endpoint: "sst_details",
+//     title: "सामाजिक सुरक्षा कार्यक्रम विवरण",
 //   },
-//   workdivision: {
-//     endpoint: "hsurvey_workdivision",
-//     title: "कामको विभाजनको आधारमा वर्गिकरण",
+//   publicpond: {
+//     endpoint: "pond_details",
+//     title: "सार्वजनिक पोखरी तथा माछापालन",
 //   },
-//   cookingfuel: {
-//     endpoint: "hsurvey_cookingfuel",
-//     title: "खाना पकाउने इन्धनको आधारमा वर्गिकरण",
+//   irrigationsystem: {
+//     endpoint: "irrigation_details",
+//     title: "सिंचाई सुविधाको उपलब्धता विवरण",
 //   },
-//   noncurable: {
-//     endpoint: "hsurvey_noncurable",
-//     title: "निको नहुने रोगको आधारमा वर्गिकरण",
+//   modernanimalhusbandry: {
+//     endpoint: "ahs_firms",
+//     title: "आधुनिक पशुपालन (फार्म) सम्बन्धी विवरण",
 //   },
-//   "inv-source": {
-//     endpoint: "inv_source_report",
-//     title: "लगानीको स्रोतको रिपोर्ट",
+//   agriculturehumanres: {
+//     endpoint: "ag_details",
+//     title: "कृषि तथा पशु सेवासंग सम्बन्धित मानव संसाधन (संख्या) विवरण",
 //   },
-//   housestatus: {
-//     endpoint: "hsurvey_housestatus",
-//     title: "घरको स्थितिको आधारमा वर्गिकरण",
+//   agriculturecommunityorg: {
+//     endpoint: "ag_org_details",
+//     title: "कृषि तथा पशु सेवासंग सम्बन्धित सामुदायिक संस्था तथा समूह",
 //   },
-//   "rent-details": {
-//     endpoint: "rentDetailsReport",
-//     title: "बहाल विवरण रिपोर्ट",
+//   milldetails: {
+//     endpoint: "mill_details",
+//     title: "घट्ट, मिल तथा संकलन तथा प्रसोधन केन्द्र सम्बन्धी विवरण",
 //   },
-//   "loan-source": {
-//     endpoint: "loan_source_report",
-//     title: "ऋणको स्रोत रिपोर्ट",
+//   landuse: {
+//     endpoint: "landuser_details",
+//     title: "भू-उपयोगको अवस्था विवरण",
 //   },
-//   "saving-source": {
-//     endpoint: "Saving_source_report",
-//     title: "बचतको स्रोत रिपोर्ट",
+//   festival: {
+//     endpoint: "festival_details",
+//     title: "मुख्य चाड, पर्व तथा मेला जात्रा सम्बन्धी विवरण",
 //   },
-//   incomeexpense: {
-//     endpoint: "hsurvey_incomeexpense",
-//     title: "आम्दानी र खर्चको आधारमा वर्गिकरण",
+//   // mg_details: { // No specific title provided for "mg_details"
+//   //   endpoint: "mg_details",
+//   //   title: "Placeholder Title for mg_details",
+//   // },
+//   bankfinancial: {
+//     endpoint: "bank_details",
+//     title: "बैंक, वित्तीय संस्था, लघुवित्त तथा सहकारी संस्था विवरण",
 //   },
-//   foreign: {
-//     endpoint: "hsurvey_foreign",
-//     title: "विदेशीको आधारमा वर्गिकरण",
+//   farmergroup: {
+//     endpoint: "fgroup_details",
+//     title: "कृषक तथा उद्यमी तथा बचत समूहको विवरण",
 //   },
-//   "service-details": {
-//     endpoint: "Service_details_report",
-//     title: "सेवाको विवरण रिपोर्ट",
+//   citizenawareness: {
+//     endpoint: "ac_td_details",
+//     title: "नागरिक सचेतना केन्द्र र टोल विकास संस्थाको विवरण",
 //   },
-//   "death-count": {
-//     endpoint: "lg_hsurvey_death_count",
-//     title: "मृत्युको संख्याको आधारमा वर्गिकरण",
+//   hoteldetails: {
+//     endpoint: "hotel_details",
+//     title: "होटेल, लज, रेष्टुरेण्ट, होमस्टेको विवरण",
 //   },
-//   "land-details": {
-//     endpoint: "Land_details_report",
-//     title: "जग्गाको विवरण रिपोर्ट",
+//   naturalresourcemap: {
+//     endpoint: "nr_map_details",
+//     title: "प्राकृतिक स्रोत साधनको नक्शांकन",
 //   },
-//   "building-details": {
-//     endpoint: "BuildingDetailsReport",
-//     title: "भवनको विवरण रिपोर्ट",
+//   investment: {
+//     endpoint: "invest_details",
+//     title: "लगानी विवरण",
 //   },
-//   "disaster-details": {
-//     endpoint: "lg_hsurvey_disaster_details",
-//     title: "प्रकोपको विवरण रिपोर्ट",
+//   energyaccess: {
+//     endpoint: "energy_details",
+//     title: "उर्जाको किसिम तथा नागरिकको पहुँच",
 //   },
-//   lsdetails: {
-//     endpoint: "hsurvey_lsdetails",
-//     title: "लघु उद्योगको विवरण",
+//   irrigationstatus: {
+//     endpoint: "irr_type_details",
+//     title: "सिंचाईको अवस्था सम्बन्धी विवरण",
 //   },
-//   electricitysource: {
-//     endpoint: "hsurvey_electricitysource",
-//     title: "बिजुलीको स्रोतको आधारमा वर्गिकरण",
+//   housingdevelopment: {
+//     endpoint: "housing_poor_details",
+//     title: "भवन, वस्ती विकास तथा विपन्न वर्गका लागि आवास सम्बन्धी विवरण",
 //   },
-//   toiletstatus: {
-//     endpoint: "hsurvey_toiletstatus",
-//     title: "शौचालयको स्थितिको आधारमा वर्गिकरण",
+//   forestenvironment: {
+//     endpoint: "fe_details",
+//     title: "वन तथा वातावरण सम्बन्धी विवरण",
 //   },
-//   watersource: {
-//     endpoint: "hsurvey_watersource",
-//     title: "पानीको स्रोतको आधारमा वर्गिकरण",
+//   forestindicator: {
+//     endpoint: "f_indicator_details",
+//     title: "वन तथा वातावरण सम्बन्banddhi सूचक विवरण",
 //   },
-//   agegroup: {
-//     endpoint: "hsurvey_agegroup",
-//     title: "उमेर समूहको आधारमा वर्गिकरण",
+//   forestbiodiversity: {
+//     endpoint: "fbd_details",
+//     title: "वन तथा जैविक विविधता सूचक",
+//   },
+//   communityforest: {
+//     endpoint: "cf_details",
+//     title: "सामुदायिक वनहरुको विवरण",
+//   },
+//   forest: {
+//     endpoint: "forest_details",
+//     title: "वनको विवरण",
+//   },
+//   landwatershed: {
+//     endpoint: "landwatershed_details",
+//     title: "भूमि तथा जलाधार व्यवस्थापन विवरण",
+//   },
+//   environmenthygiene: {
+//     endpoint: "eh_details",
+//     title: "वातावरण तथा स्वच्छता विवरण",
+//   },
+//   airpollution: {
+//     endpoint: "air_pollution_details",
+//     title: "वायु प्रदुषणका श्रोतहरु",
+//   },
+//   disastermanagement: {
+//     endpoint: "disaster_details_management",
+//     title: "प्रकोप व्यवस्थापन सम्बन्धी विवरण",
+//   },
+//   // gs_details: { // No specific title provided for "gs_details"
+//   //   endpoint: "gs_details",
+//   //   title: "Placeholder Title for gs_details",
+//   // },
+//   governance: {
+//     endpoint: "governance_details",
+//     title: "सुशासन (सेवा प्रवाहबाट सन्तुष्टी)",
+//   },
+//   // hn_details: { // No specific title provided for "hn_details"
+//   //   endpoint: "hn_details",
+//   //   title: "Placeholder Title for hn_details",
+//   // },
+//   disease: {
+//     endpoint: "disease_details",
+//     title: "प्रमुख रोग तथा उपचारसम्बन्धी विवरण",
+//   },
+//   majorprojects: {
+//     endpoint: "project_details",
+//     title: "गौरवका आयोजनाहरु विवरण",
+//   },
+//   mainroad: {
+//     endpoint: "main_road_details",
+//     title: "सडक मार्ग विवरण",
 //   },
 // };
 
-// // WelcomePage Component (no changes needed here, as it's designed to fit its container)
-// function WelcomePage() {
-//   const [isOpen, setIsOpen] = useState(true); // Changed initial state to true to show content by default
-
-//   const toggleAccordion = () => {
-//     setIsOpen(!isOpen);
-//   };
-
-//   return (
-//     <div className="flex flex-col justify-center items-center w-full text-center">
-//       {/* Accordion Header (clickable area) */}
-//       <button
-//         onClick={toggleAccordion}
-//         className="w-full text-left px-4 py-3 rounded-lg focus:outline-none flex justify-between items-center"
-//         style={{
-//           background:
-//             "linear-gradient(to right, rgba(0, 56, 147, 0.9), rgba(220, 20, 60, 0.9))",
-//           transition: "background 0.3s ease",
-//         }}
-//       >
-//         {/* Text color for button is set here to ensure it's white over the gradient */}
-//         <h1 className="text-4xl sm:text-5xl font-bold text-white">
-//           सर्वेक्षण ड्यासबोर्ड
-//         </h1>
-//         {/* Simple arrow indicator for accordion state, also white */}
-//         <span
-//           className={`text-3xl text-white transform transition-transform duration-300 ${
-//             isOpen ? "rotate-180" : "rotate-0"
-//           }`}
-//         >
-//           &#9660; {/* Down arrow character */}
-//         </span>
-//       </button>
-
-//       {/* Accordion Content (conditionally rendered) */}
-//       {isOpen && (
-//         <div className="w-full bg-[#f5f6f8] text-gray-800 rounded-b-lg p-6 shadow-md transition-all duration-500 ease-in-out">
-//           {/* Changed bg-white to bg-[#f5f6f8] */}
-//           <p className="text-base sm:text-lg text-gray-700 max-w-2xl leading-relaxed mb-6">
-//             बायाँतर्फको साइडबारबाट कुनै पनि सर्वेक्षण रिपोर्ट छान्नुहोस् र
-//             तपाईंको डाटा सजिलै हेर्नुहोस्।
-//           </p>
-//           <ol
-//             className="list-decimal list-inside mx-auto text-left"
-//             style={{
-//               listStylePosition: "inside",
-//               maxWidth: "500px",
-//             }}
-//           >
-//             {Object.values(reportConfig).map((reportItem, index) => (
-//               <li key={index}>{reportItem.title}</li>
-//             ))}
-//           </ol>
-//         </div>
-//       )}
-//     </div>
-//   );
-// }
+// // Removed WelcomePage component since it will no longer be used directly.
+// // If you still need WelcomePage for other purposes, keep it, but it won't be rendered here.
+// // You might remove it if its only purpose was this default view.
 
 // // ReportView Component - MODIFIED
 // export default function ReportView() {
 //   const { path } = useParams();
 //   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-//   const report = path ? reportConfig[path] : null;
+//   // Determine the report to display
+//   let currentReport = null;
+//   if (path) {
+//     currentReport = reportConfig[path];
+//   } else {
+//     // If no path is provided, show the first report from reportConfig
+//     const firstReportKey = Object.keys(reportConfig)[0];
+//     currentReport = reportConfig[firstReportKey];
+//   }
 
 //   return (
 //     <div className="flex h-screen overflow-hidden">
 //       {/* Sidebar */}
-//       <ReportSidebar
+//       <ReportSidebar2
 //         sidebarOpen={sidebarOpen}
 //         setSidebarOpen={setSidebarOpen}
 //       />
@@ -179,28 +184,24 @@
 //         {/* Header */}
 //         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
-//         {/* Main content - now explicitly filling available space */}
+//         {/* Main content */}
 //         <main className="grow flex flex-col">
-//           {/* This div now acts as the full-height, full-width content pane below the header */}
 //           <div
-//             className={`flex-grow flex items-stretch justify-center px-4 sm:px-6 lg:px-8 py-4 ${
-//               !report ? "bg-[#f5f6f8]" : "" // Apply bg-[#f5f6f8] only when no report is selected
-//             }`}
-//             // Removed inline style for background and border-radius completely
+//             className={`flex-grow flex items-stretch justify-center px-4 sm:px-6 lg:px-8 py-4 bg-[#f5f6f8]`}
+//             // Removed conditional background as it will always be a report now
 //           >
-//             {report ? (
+//             {/* Render MyDataComponent with the determined report */}
+//             {currentReport ? (
 //               <div className="bg-white p-6 rounded-lg shadow-md w-full h-full">
 //                 <MyDataComponent
-//                   urlPostfix={report.endpoint}
-//                   title={report.title}
+//                   urlPostfix={currentReport.endpoint}
+//                   title={currentReport.title}
 //                 />
 //               </div>
 //             ) : (
-//               // This wrapper now explicitly takes full width of its parent and a max-width
-//               // and the accordion itself will stretch vertically within it if its content is enough
-//               <div className="w-full max-w-lg mx-auto self-center">
-//                 {/* self-center ensures it stays horizontally centered in its flex parent */}
-//                 <WelcomePage />
+//               // Fallback if reportConfig is empty or something goes wrong
+//               <div className="text-center text-gray-600">
+//                 No report data available.
 //               </div>
 //             )}
 //           </div>
@@ -213,128 +214,178 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 
-import ReportSidebar from "../partials/ReportSidebar";
+import ReportSidebar2 from "../partials/ReportSidebar2";
 import Header from "../partials/Header";
-import MyDataComponent from "../components/MyDataComponent";
+// !! IMPORTANT CHANGE HERE !!
+// Make sure MyDataComponent is correctly imported and refers to the component
+// where you implemented the HTML parsing logic.
+import MyDataComponent from "../components/InstitutionalComponent"; // <--- Ensure this path and name is correct!
 
 const reportConfig = {
-  mothertongue: {
-    endpoint: "hsurvey_mothertongue",
-    title: "मातृभाषाको आधारमा वर्गिकरण",
+  communityorg: {
+    endpoint: "co_org_details",
+    title: "सामुदायिक संस्था विवरण",
   },
-  religion: {
-    endpoint: "hsurvey_religion",
-    title: "धर्मको आधारमा वर्गिकरण",
+  individualevent: {
+    endpoint: "lg_osurvey",
+    title: "व्यक्तिगत घटना विवरण",
   },
-  caste: {
-    endpoint: "hsurvey_caste",
-    title: "जातिको आधारमा वर्गिकरण",
+  socialsecurity: {
+    endpoint: "sst_details",
+    title: "सामाजिक सुरक्षा कार्यक्रम विवरण",
   },
-  workdivision: {
-    endpoint: "hsurvey_workdivision",
-    title: "कामको विभाजनको आधारमा वर्गिकरण",
+  publicpond: {
+    endpoint: "pond_details",
+    title: "सार्वजनिक पोखरी तथा माछापालन",
   },
-  cookingfuel: {
-    endpoint: "hsurvey_cookingfuel",
-    title: "खाना पकाउने इन्धनको आधारमा वर्गिकरण",
+  irrigationsystem: {
+    endpoint: "irrigation_details",
+    title: "सिंचाई सुविधाको उपलब्धता विवरण",
   },
-  noncurable: {
-    endpoint: "hsurvey_noncurable",
-    title: "निको नहुने रोगको आधारमा वर्गिकरण",
+  modernanimalhusbandry: {
+    endpoint: "ahs_firms",
+    title: "आधुनिक पशुपालन (फार्म) सम्बन्धी विवरण",
   },
-  "inv-source": {
-    endpoint: "inv_source_report",
-    title: "लगानीको स्रोतको रिपोर्ट",
+  agriculturehumanres: {
+    endpoint: "ag_details",
+    title: "कृषि तथा पशु सेवासंग सम्बन्धित मानव संसाधन (संख्या) विवरण",
   },
-  housestatus: {
-    endpoint: "hsurvey_housestatus",
-    title: "घरको स्थितिको आधारमा वर्गिकरण",
+  agriculturecommunityorg: {
+    endpoint: "ag_org_details",
+    title: "कृषि तथा पशु सेवासंग सम्बन्धित सामुदायिक संस्था तथा समूह",
   },
-  "rent-details": {
-    endpoint: "rentDetailsReport",
-    title: "बहाल विवरण रिपोर्ट",
+  milldetails: {
+    endpoint: "mill_details",
+    title: "घट्ट, मिल तथा संकलन तथा प्रसोधन केन्द्र सम्बन्धी विवरण",
   },
-  "loan-source": {
-    endpoint: "loan_source_report",
-    title: "ऋणको स्रोत रिपोर्ट",
+  landuse: {
+    endpoint: "landuser_details",
+    title: "भू-उपयोगको अवस्था विवरण",
   },
-  "saving-source": {
-    endpoint: "Saving_source_report",
-    title: "बचतको स्रोत रिपोर्ट",
+  festival: {
+    endpoint: "festival_details",
+    title: "मुख्य चाड, पर्व तथा मेला जात्रा सम्बन्धी विवरण",
   },
-  incomeexpense: {
-    endpoint: "hsurvey_incomeexpense",
-    title: "आम्दानी र खर्चको आधारमा वर्गिकरण",
+  // mg_details: { // No specific title provided for "mg_details"
+  //   endpoint: "mg_details",
+  //   title: "Placeholder Title for mg_details",
+  // },
+  bankfinancial: {
+    endpoint: "bank_details",
+    title: "बैंक, वित्तीय संस्था, लघुवित्त तथा सहकारी संस्था विवरण",
   },
-  foreign: {
-    endpoint: "hsurvey_foreign",
-    title: "विदेशीको आधारमा वर्गिकरण",
+  farmergroup: {
+    endpoint: "fgroup_details",
+    title: "कृषक तथा उद्यमी तथा बचत समूहको विवरण",
   },
-  "service-details": {
-    endpoint: "service_details_report",
-    title: "सेवाको विवरण रिपोर्ट",
+  citizenawareness: {
+    endpoint: "ac_td_details",
+    title: "नागरिक सचेतना केन्द्र र टोल विकास संस्थाको विवरण",
   },
-  "death-count": {
-    endpoint: "lg_hsurvey_death_count",
-    title: "मृत्युको संख्याको आधारमा वर्गिकरण",
+  hoteldetails: {
+    endpoint: "hotel_details",
+    title: "होटेल, लज, रेष्टुरेण्ट, होमस्टेको विवरण",
   },
-  "land-details": {
-    endpoint: "land_details_report",
-    title: "जग्गाको विवरण रिपोर्ट",
+  naturalresourcemap: {
+    endpoint: "nr_map_details",
+    title: "प्राकृतिक स्रोत साधनको नक्शांकन",
   },
-  "building-details": {
-    endpoint: "building_details_report",
-    title: "भवनको विवरण रिपोर्ट",
+  investment: {
+    endpoint: "invest_details",
+    title: "लगानी विवरण",
   },
-  "disaster-details": {
-    endpoint: "lg_hsurvey_disaster_details",
-    title: "प्रकोपको विवरण रिपोर्ट",
+  energyaccess: {
+    endpoint: "energy_details",
+    title: "उर्जाको किसिम तथा नागरिकको पहुँच",
   },
-  lsdetails: {
-    endpoint: "hsurvey_lsdetails",
-    title: "लघु उद्योगको विवरण",
+  irrigationstatus: {
+    endpoint: "irr_type_details",
+    title: "सिंचाईको अवस्था सम्बन्धी विवरण",
   },
-  electricitysource: {
-    endpoint: "hsurvey_electricitysource",
-    title: "बिजुलीको स्रोतको आधारमा वर्गिकरण",
+  housingdevelopment: {
+    endpoint: "housing_poor_details",
+    title: "भवन, वस्ती विकास तथा विपन्न वर्गका लागि आवास सम्बन्धी विवरण",
   },
-  toiletstatus: {
-    endpoint: "hsurvey_toiletstatus",
-    title: "शौचालयको स्थितिको आधारमा वर्गिकरण",
+  forestenvironment: {
+    endpoint: "fe_details",
+    title: "वन तथा वातावरण सम्बन्धी विवरण",
   },
-  watersource: {
-    endpoint: "hsurvey_watersource",
-    title: "पानीको स्रोतको आधारमा वर्गिकरण",
+  forestindicator: {
+    endpoint: "f_indicator_details",
+    title: "वन तथा वातावरण सम्बन्banddhi सूचक विवरण",
   },
-  agegroup: {
-    endpoint: "hsurvey_agegroup",
-    title: "उमेर समूहको आधारमा वर्गिकरण",
+  forestbiodiversity: {
+    endpoint: "fbd_details",
+    title: "वन तथा जैविक विविधता सूचक",
+  },
+  communityforest: {
+    endpoint: "cf_details",
+    title: "सामुदायिक वनहरुको विवरण",
+  },
+  forest: {
+    endpoint: "forest_details",
+    title: "वनको विवरण",
+  },
+  landwatershed: {
+    endpoint: "landwatershed_details",
+    title: "भूमि तथा जलाधार व्यवस्थापन विवरण",
+  },
+  environmenthygiene: {
+    endpoint: "eh_details",
+    title: "वातावरण तथा स्वच्छता विवरण",
+  },
+  airpollution: {
+    endpoint: "air_pollution_details",
+    title: "वायु प्रदुषणका श्रोतहरु",
+  },
+  disastermanagement: {
+    endpoint: "disaster_details_management",
+    title: "प्रकोप व्यवस्थापन सम्बन्धी विवरण",
+  },
+  // gs_details: { // No specific title provided for "gs_details"
+  //   endpoint: "gs_details",
+  //   title: "Placeholder Title for gs_details",
+  // },
+  governance: {
+    endpoint: "governance_details",
+    title: "सुशासन (सेवा प्रवाहबाट सन्तुष्टी)",
+  },
+  // hn_details: { // No specific title provided for "hn_details"
+  //   endpoint: "hn_details",
+  //   title: "Placeholder Title for hn_details",
+  // },
+  disease: {
+    endpoint: "disease_details",
+    title: "प्रमुख रोग तथा उपचारसम्बन्धी विवरण",
+  },
+  majorprojects: {
+    endpoint: "project_details",
+    title: "गौरवका आयोजनाहरु विवरण",
+  },
+  mainroad: {
+    endpoint: "main_road_details",
+    title: "सडक मार्ग विवरण",
   },
 };
 
-// Removed WelcomePage component since it will no longer be used directly.
-// If you still need WelcomePage for other purposes, keep it, but it won't be rendered here.
-// You might remove it if its only purpose was this default view.
-
-// ReportView Component - MODIFIED
 export default function ReportView() {
   const { path } = useParams();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // Determine the report to display
   let currentReport = null;
   if (path) {
     currentReport = reportConfig[path];
   } else {
-    // If no path is provided, show the first report from reportConfig
-    const firstReportKey = Object.keys(reportConfig)[0];
-    currentReport = reportConfig[firstReportKey];
+    // If no path is provided, default to 'communityorg' or another suitable report
+    // It's safer to have a specific default rather than relying on Object.keys()[0]
+    currentReport =
+      reportConfig["communityorg"] || Object.values(reportConfig)[0];
   }
 
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
-      <ReportSidebar
+      <ReportSidebar2
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
       />
@@ -348,20 +399,20 @@ export default function ReportView() {
         <main className="grow flex flex-col">
           <div
             className={`flex-grow flex items-stretch justify-center px-4 sm:px-6 lg:px-8 py-4 bg-[#f5f6f8]`}
-            // Removed conditional background as it will always be a report now
           >
-            {/* Render MyDataComponent with the determined report */}
             {currentReport ? (
-              <div className="bg-white p-6 rounded-lg shadow-md w-full h-full">
+              <div className="bg-white p-6 rounded-lg shadow-md w-full h-full overflow-auto">
+                {" "}
+                {/* Added overflow-auto */}
                 <MyDataComponent
                   urlPostfix={currentReport.endpoint}
                   title={currentReport.title}
                 />
               </div>
             ) : (
-              // Fallback if reportConfig is empty or something goes wrong
               <div className="text-center text-gray-600">
-                No report data available.
+                रिपोर्ट उपलब्ध छैन। कृपया URL जाँच गर्नुहोस्।{" "}
+                {/* More specific message */}
               </div>
             )}
           </div>

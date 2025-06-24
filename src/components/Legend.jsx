@@ -2,6 +2,7 @@ import { ro } from "date-fns/locale/ro";
 import "../css/Legend.css";
 
 const legendItems = {
+  border: { label: "Border", className: "border" },
   forest: { label: "Forest", className: "forest" },
   buildings: { label: "Buildings", className: "buildings" },
   river: { label: "River", className: "river" },

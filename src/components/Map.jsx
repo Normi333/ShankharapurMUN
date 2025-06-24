@@ -2,13 +2,14 @@ import { MapContainer, TileLayer, GeoJSON, LayersControl } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "../css/map.css";
 
-import roadData from "../data/Roads_map.json";
-import ForestData from "../data/Forest2_map.json";
-import BuildingData from "../data/Buildings_map.json";
-import RiverData from "../data/River_map.json";
+import roadData from "../data/Roads_Shankarapur.json";
+import ForestData from "../data/Forest_shankarapur.json";
+import BuildingData from "../data/Buildings_shankarapur.json";
+import RiverData from "../data/River_Shankarapur.json";
+import BorderData from "../data/Border_Shankarapur.json";
 
 function Map({ selectedLayers }) {
-  const position = [27.774502, 85.515318];
+  const position = [27.77558, 85.518073];
 
   const roadStyle = (feature) => {
     const roadType = feature.properties.Type;
@@ -50,7 +51,7 @@ function Map({ selectedLayers }) {
       };
     } else if (
       selectedLayers.includes("buildings-Government-Agro Office") &&
-      BuildingType === "Government-Agro Office"
+      BuildingType === "Government Agro Office"
     ) {
       return {
         weight: 8,
@@ -58,7 +59,7 @@ function Map({ selectedLayers }) {
       };
     } else if (
       selectedLayers.includes("buildings-Government") &&
-      BuildingType === "Government office"
+      BuildingType === "Government Office"
     ) {
       return {
         weight: 8,
@@ -101,6 +102,11 @@ function Map({ selectedLayers }) {
     color: "blue",
   };
 
+  const BorderStyle = {
+    weight: 3,
+    color: "red",
+  };
+
   const onEachRoad = (feature, layer) => {
     const { FID, Id, Type, Name, Details } = feature.properties;
     layer.bindPopup(`
@@ -113,27 +119,29 @@ function Map({ selectedLayers }) {
   };
 
   const onEachForest = (feature, layer) => {
-    const { FID, Id } = feature.properties;
+    const { FID, Forest_Nam } = feature.properties;
     layer.bindPopup(`
       <b>FID:</b> ${FID}<br/>
-      <b>Id:</b> ${Id}<br/>
+      <b>Forest Name:</b> ${Forest_Nam || "N/A"}<br/>
     `);
   };
 
   const onEachBuilding = (feature, layer) => {
-    const { FID, Id, Type } = feature.properties; // Use 'Type' as defined in your style function
+    const { FID, Id, Type, House_No } = feature.properties; // Use 'Type' as defined in your style function
     layer.bindPopup(`
       <b>FID:</b> ${FID}<br/>
       <b>Id:</b> ${Id}<br/>
       <b>Type:</b> ${Type || "N/A"}<br/>
+      <b>House No:</b> ${House_No || "N/A"}<br/>
     `);
   };
 
   const onEachRiver = (feature, layer) => {
-    const { FID, Id } = feature.properties;
+    const { FID, Id, Name_River } = feature.properties;
     layer.bindPopup(`
       <b>FID:</b> ${FID}<br/>
       <b>Id:</b> ${Id}<br/>
+      <b>Id:</b> ${Name_River || "N/A"}<br/>
     `);
   };
 
@@ -154,9 +162,9 @@ function Map({ selectedLayers }) {
       (selectedLayers.includes("buildings-Residential") &&
         buildingType === "Residential") ||
       (selectedLayers.includes("buildings-Government-Agro Office") &&
-        buildingType === "Government-Agro Office") ||
+        buildingType === "Government Agro Office") ||
       (selectedLayers.includes("buildings-Government") &&
-        buildingType === "Government office") ||
+        buildingType === "Government Office") ||
       (selectedLayers.includes("buildings-Finance") &&
         buildingType === "Finance Company") ||
       (selectedLayers.includes("buildings-Hotel") && buildingType === "Hotels")
@@ -167,7 +175,7 @@ function Map({ selectedLayers }) {
     <div className="map-area">
       <MapContainer
         center={position}
-        zoom={14.5}
+        zoom={14}
         zoomControl={false}
         className="map"
       >
@@ -230,6 +238,9 @@ function Map({ selectedLayers }) {
             style={RiverStyle}
             onEachFeature={onEachRiver}
           />
+        )}
+        {selectedLayers.includes("border") && (
+          <GeoJSON data={BorderData} style={BorderStyle} />
         )}
       </MapContainer>
     </div>

@@ -735,9 +735,9 @@ const ChartGrid = () => {
                 <div className="text-4xl font-bold text-gray-800">
                   {singleValueMetric.value}
                 </div>
-                <p className="text-center text-gray-600 text-lg font-bold">
+                {/* <p className="text-center text-gray-600 text-lg font-bold">
                   Total Households
-                </p>
+                </p> */}
               </div>
             </div>
           </Card>
@@ -754,9 +754,9 @@ const ChartGrid = () => {
                 <div className="text-4xl font-bold text-gray-800">
                   {totalFamilyCount.value}
                 </div>
-                <p className="text-center text-gray-600 text-lg font-bold">
+                {/* <p className="text-center text-gray-600 text-lg font-bold">
                   {totalFamilyCount.name}
-                </p>
+                </p> */}
               </div>
             </div>
           </Card>

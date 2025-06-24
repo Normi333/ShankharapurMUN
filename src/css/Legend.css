@@ -59,6 +59,10 @@
   background-color: gray;
 }
 
+.legend-color.border {
+  background-color: red;
+}
+
 .legend-color.buildings-Residential {
   background-color: #c44f0c;
 }

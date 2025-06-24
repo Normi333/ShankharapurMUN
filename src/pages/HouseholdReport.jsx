@@ -145,7 +145,7 @@ export default function ReportView() {
             ) : (
               // Fallback if reportConfig is empty or something goes wrong
               <div className="text-center text-gray-600">
-                No report data available.
+                रिपोर्ट उपलब्ध छैन। कृपया URL जाँच गर्नुहोस्।{" "}
               </div>
             )}
           </div>
