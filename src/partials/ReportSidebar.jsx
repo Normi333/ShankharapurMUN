@@ -119,7 +119,7 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
       endpoint: "land_details_report",
     },
     {
-      path: "/building-details",
+      path: "/buildingdetails_summary",
       title: "भवनको विवरण रिपोर्ट",
       endpoint: "building_details_report",
     },

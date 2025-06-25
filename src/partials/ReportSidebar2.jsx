@@ -48,11 +48,11 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
       title: "व्यक्तिगत घटना विवरण",
       endpoint: "lg_osurvey",
     },
-    // {
-    //   path: "/socialsecurity",
-    //   title: "सामाजिक सुरक्षा कार्यक्रम विवरण",
-    //   endpoint: "sst_details",
-    // },
+    {
+      path: "/socialsecurity",
+      title: "सामाजिक सुरक्षा कार्यक्रम विवरण",
+      endpoint: "sst_details",
+    },
     {
       path: "/publicpond",
       title: "सार्वजनिक पोखरी तथा माछापालन",
@@ -70,7 +70,7 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
     },
     // {
     //   path: "/agriculturehumanres",
-    //   title: "कृषि तथा पशु सेवासंग सम्बन्धित मानव संसाधन (संख्या) विवरण",
+    //   title: "कृषि तथा पशु सेवासँग सम्बन्धित मानव संसाधन (संख्या)",
     //   endpoint: "ag_details",
     // },
     {
@@ -88,11 +88,11 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
       title: "भू-उपयोगको अवस्था विवरण",
       endpoint: "landuser_details",
     },
-    // {
-    //   path: "/festival",
-    //   title: "मुख्य चाड, पर्व तथा मेला जात्रा सम्बन्धी विवरण",
-    //   endpoint: "festival_details",
-    // },
+    {
+      path: "/festival",
+      title: "मुख्य चाड, पर्व तथा मेला जात्रा सम्बन्धी विवरण",
+      endpoint: "festival_details",
+    },
     {
       path: "/mamagroup",
       title: "आमा महिला समूह तथा परम्परागत समूहको विवरण",
@@ -108,11 +108,11 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
       title: "कृषक तथा उद्यमी तथा बचत समूहको विवरण",
       endpoint: "fgroup_details",
     },
-    // {
-    //   path: "/citizenawareness",
-    //   title: "नागरिक सचेतना केन्द्र र टोल विकास संस्थाको विवरण",
-    //   endpoint: "ac_td_details",
-    // },
+    {
+      path: "/citizenawareness",
+      title: "नागरिक सचेतना केन्द्र र टोल विकास संस्थाको विवरण",
+      endpoint: "ac_td_details",
+    },
     {
       path: "/hoteldetails",
       title: "होटेल, लज, रेष्टुरेण्ट, होमस्टेको विवरण",

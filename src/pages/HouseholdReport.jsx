@@ -71,7 +71,7 @@ const reportConfig = {
     title: "जग्गाको विवरण रिपोर्ट",
   },
   "building-details": {
-    endpoint: "building_details_report",
+    endpoint: "buildingdetails_summary",
     title: "भवनको विवरण रिपोर्ट",
   },
   "disaster-details": {
