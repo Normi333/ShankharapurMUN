@@ -467,6 +467,16 @@ const MULTI_ITEM_METRIC_ID_2 = "1000007"; // For the 'घट्ट,मिल त
 const MULTI_ITEM_METRIC_ID_3 = "1000008"; // For the 'व्यक्तिगत घटना विवरण'
 
 const ChartGrid = () => {
+  const handleDownloadSVG = () => {
+    /* ... SVG download logic ... */
+  };
+  const handleDownloadCSV = () => {
+    /* ... CSV download logic ... */
+  };
+  const handleDownloadPNG = () => {
+    /* ... PNG download logic ... */
+  };
+
   const {
     token: authToken,
     axiosInstance,
@@ -853,7 +863,14 @@ const ChartGrid = () => {
       )} */}
       {/* Card for the Pie Chart dashboard (e.g., ID 1000002) */}
       {!overallLoading && !error && pieChartMetric && (
-        <Card title={pieChartMetric.name || "चार्ट डेटा"} loading={false}>
+        <Card
+          title={pieChartMetric.name || "चार्ट डेटा"}
+          loading={false}
+          enableDownloads={true}
+          onDownloadSVG={handleDownloadSVG}
+          onDownloadCSV={handleDownloadCSV}
+          onDownloadPNG={handleDownloadPNG}
+        >
           <GenericChartPreview
             type={
               pieChartMetric.type?.toLowerCase() === "pie chart" ? "pie" : "bar"
@@ -868,7 +885,14 @@ const ChartGrid = () => {
       )}
       {/* Card for the Ring Chart dashboard (e.g., ID 1000003) */}
       {!overallLoading && !error && ringChartMetric && (
-        <Card title={ringChartMetric.name || "चार्ट डेटा"} loading={false}>
+        <Card
+          title={ringChartMetric.name || "चार्ट डेटा"}
+          loading={false}
+          enableDownloads={true}
+          onDownloadSVG={handleDownloadSVG}
+          onDownloadCSV={handleDownloadCSV}
+          onDownloadPNG={handleDownloadPNG}
+        >
           <GenericChartPreview
             type={
               ringChartMetric.type?.toLowerCase() === "ring chart"
@@ -889,6 +913,10 @@ const ChartGrid = () => {
           title={lineChartMetric.name || "चार्ट डेटा"}
           loading={false}
           className="col-span-2"
+          enableDownloads={true}
+          onDownloadSVG={handleDownloadSVG}
+          onDownloadCSV={handleDownloadCSV}
+          onDownloadPNG={handleDownloadPNG}
         >
           <GenericChartPreview
             type={
@@ -910,6 +938,10 @@ const ChartGrid = () => {
           title={stackBarChartMetric.name || "वडागत जनसंख्या"}
           loading={false}
           className="col-span-full"
+          enableDownloads={true}
+          onDownloadSVG={handleDownloadSVG}
+          onDownloadCSV={handleDownloadCSV}
+          onDownloadPNG={handleDownloadPNG}
         >
           <GenericChartPreview
             type={
@@ -931,6 +963,10 @@ const ChartGrid = () => {
         <Card
           title={wardBarChartMetric.name || "वडा स्तरीय जनसंख्या"}
           loading={false}
+          enableDownloads={true}
+          onDownloadSVG={handleDownloadSVG}
+          onDownloadCSV={handleDownloadCSV}
+          onDownloadPNG={handleDownloadPNG}
         >
           <GenericChartPreview
             type={
