@@ -420,10 +420,8 @@ function MyDataComponent({
 export default MyDataComponent;
 
 // // src/components/MyDataComponent.jsx
-// // src/components/MyDataComponent.jsx
-// import React, { useState, useEffect, useRef } from "react";
+// import React, { useState, useEffect } from "react";
 // import { useAuth } from "../context/AuthContext.jsx";
-// import { FaPrint } from "react-icons/fa"; // Import the print icon
 
 // // Add CSS for spinning animation
 // const spinAnimation = `
@@ -436,14 +434,14 @@ export default MyDataComponent;
 // function MyDataComponent({
 //   urlPostfix = "hsurvey_mothertongue",
 //   title = "मातृभाषाको आधारमा वर्गिकरण",
+//   keepOriginalStyle = false,
 // }) {
 //   const { axiosInstance, authLoading, authError, token } = useAuth();
-//   const [rawHtml, setRawHtml] = useState("");
+//   const [tableData, setTableData] = useState([]);
+//   const [tableHeaders, setTableHeaders] = useState([]);
 //   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null);
-
-//   // Ref for the content to be printed (the div containing rawHtml)
-//   const printableContentRef = useRef(null);
+//   const [error, setError] = useState(null); // error will be a string message or null
+//   const [htmlString, setHtmlString] = useState(null);
 
 //   // Inject CSS animation
 //   useEffect(() => {
@@ -459,18 +457,20 @@ export default MyDataComponent;
 //   useEffect(() => {
 //     const fetchHtml = async () => {
 //       if (authLoading || authError || !token) {
+//         // Only proceed if auth is loaded and successful
 //         if (authError) {
 //           setError(`API Initialization Error: ${authError}`);
 //         }
-//         setLoading(false);
-//         return;
+//         setLoading(false); // Stop loading if auth is not ready
+//         return; // Exit early
 //       }
+
 //       setLoading(true);
-//       setError(null);
-//       setRawHtml("");
+//       setError(null); // Reset error state at the start of every new fetch attempt
+//       setTableData([]); // Clear previous data
+//       setTableHeaders([]); // Clear previous headers
+
 //       try {
-//         console.log("Fetching data for:", urlPostfix);
-//         console.log("title:", title);
 //         // Make the POST request to the process endpoint for HTML
 //         const response = await axiosInstance.post(
 //           `/processes/${urlPostfix}`,
@@ -501,10 +501,60 @@ export default MyDataComponent;
 //           }
 //           htmlString = new TextDecoder("utf-8").decode(bytes);
 //         } else {
+//           // If response.data is null, undefined, or empty object, consider it an error
 //           throw new Error("No HTML content found in response.");
 //         }
 
-//         setRawHtml(htmlString);
+//         const parser = new DOMParser();
+//         const doc = parser.parseFromString(htmlString, "text/html");
+
+//         // Check for the old format first
+//         if (doc.querySelector(".jrxtdatacell")) {
+//           const { headers, data } = parseCrossTabFormat(doc);
+//           setTableHeaders(headers);
+//           setTableData(data);
+//           if (data.length === 0) {
+//             setError("No data available for this report.");
+//           }
+//         } else if (doc.querySelector("table.jrPage")) {
+//           // Handle the new format
+//           const table = doc.querySelector("table.jrPage");
+//           const rows = Array.from(table.querySelectorAll("tr"));
+//           const borderedRows = rows.filter((row) =>
+//             row.querySelector('td[style*="border"]')
+//           );
+
+//           if (borderedRows.length > 0) {
+//             const headerRow = borderedRows[0];
+//             const newHeaders = Array.from(
+//               headerRow.querySelectorAll('td[style*="border"]')
+//             ).map((td) => td.textContent.trim());
+//             setTableHeaders(newHeaders);
+
+//             const newTableData = borderedRows.slice(1).map((dataRow) => {
+//               const cells = Array.from(
+//                 dataRow.querySelectorAll('td[style*="border"]')
+//               );
+//               const rowData = {};
+//               newHeaders.forEach((header, index) => {
+//                 rowData[header] = cells[index]
+//                   ? cells[index].textContent.trim()
+//                   : "";
+//               });
+//               return rowData;
+//             });
+//             if (newTableData.length === 0) {
+//               setError("No data available for this report.");
+//             }
+//             setTableData(newTableData);
+//           } else {
+//             setError("No data table found in the report.");
+//           }
+//         } else {
+//           setError("Unsupported HTML format or no data found.");
+//         }
+
+//         setHtmlString(htmlString);
 //       } catch (e) {
 //         setError(
 //           e.response?.data?.error ||
@@ -515,102 +565,86 @@ export default MyDataComponent;
 //         setLoading(false);
 //       }
 //     };
+
 //     fetchHtml();
 //   }, [axiosInstance, authLoading, authError, token, urlPostfix]);
 
-//   // Function to handle printing
-//   const handlePrint = () => {
-//     const content = printableContentRef.current;
-//     if (content) {
-//       const printWindow = window.open("", "_blank");
-//       if (!printWindow) {
-//         // Fallback for pop-up blockers or if window.open fails
-//         console.error("Could not open print window. Please allow pop-ups.");
-//         return;
-//       }
-
-//       // Styles specifically for the print version of the table
-//       const printStyles = `
-//         <style>
-//           body { font-family: Arial, sans-serif; margin: 20px; }
-//           h1, h2, h3, h4, h5, h6 {
-//             text-align: center;
-//             color: #000000;
-//             margin-bottom: 20px;
-//             font-family: "Arial", sans-serif;
-//             margin-top: 20px;
-//             text-decoration: underline;
-//           }
-//           table {
-//             width: 100%;
-//             border-collapse: collapse;
-//             border: 1px solid #444;
-//             font-family: "Arial", sans-serif;
-//             background-color: #f2f2f2;
-//             table-layout: auto; /* Use auto for print to allow content to dictate width */
-//             margin-bottom: 1rem;
-//           }
-//           th, td {
-//             border: 1px solid #444;
-//             padding: 8px;
-//             text-align: center;
-//             color: black;
-//             font-size: 0.9em;
-//           }
-//           th {
-//             background-color: #DC143C !important; /* Force red header background */
-//             font-weight: bold;
-//             color: white;
-//           }
-//           tr:nth-child(even) td {
-//             background-color: #f2f2f2 !important; /* Force light grey for even rows */
-//           }
-//           tr:nth-child(odd) td {
-//             background-color: #ffffff !important; /* Force white for odd rows */
-//           }
-//           /* This class assumes a total row would have 'isTotal' if it were parsed,
-//              but since we're using raw HTML, we'll try to bold the last row/specific cell if possible.
-//              For a direct HTML print, relying on the source HTML's classes/styles is best.
-//              If not, general rules or manual content modification before printing might be needed.
-//           */
-//           .isTotal td {
-//             font-weight: bold;
-//           }
-//         </style>
-//       `;
-//       // The original HTML might already contain the h2 title inside it.
-//       // We should avoid duplicating it. Let's just print the raw HTML as is,
-//       // and ensure the styles apply to its internal structure.
-//       printWindow.document.write(`
-//         <html>
-//           <head>
-//             <title>${title}</title>
-//             ${printStyles}
-//           </head>
-//           <body>
-//             ${content.innerHTML}
-//           </body>
-//         </html>
-//       `);
-//       printWindow.document.close();
-//       printWindow.focus();
-//       printWindow.print();
-//     }
-//   };
-
 //   // --- Render Logic ---
 //   if (authLoading) return null;
-//   if (authError) {
+//   if (authError) return null;
+
+//   // Always show original HTML if error is set and htmlString is available
+//   if (error && htmlString) {
 //     return (
-//       <div className="w-full h-full flex justify-center items-center bg-white text-red-600 text-[1.2rem]">
-//         <div className="flex flex-col items-center justify-center text-center py-10">
-//           <p className="text-red-600 text-sm sm:text-base">
-//             API Initialization Error: {authError}
-//           </p>
-//         </div>
+//       <div
+//         style={{
+//           width: "100%",
+//           height: "100%",
+//           margin: 0,
+//           padding: "20px",
+//           overflow: "auto",
+//           backgroundColor: "white",
+//         }}
+//       >
+//         <h2
+//           style={{
+//             textAlign: "center",
+//             color: "#000000",
+//             marginBottom: "20px",
+//             fontFamily: "Arial, sans-serif",
+//             fontSize: "1.5em",
+//             textDecoration: "underline",
+//           }}
+//         >
+//           {title}
+//         </h2>
+//         <div
+//           dangerouslySetInnerHTML={{ __html: htmlString }}
+//           style={{
+//             width: "100%",
+//             minHeight: "100%",
+//           }}
+//         />
 //       </div>
 //     );
 //   }
+
+//   // Show original HTML if keepOriginalStyle is true
+//   if (keepOriginalStyle && htmlString) {
+//     return (
+//       <div
+//         style={{
+//           width: "100%",
+//           height: "100%",
+//           margin: 0,
+//           padding: "20px",
+//           overflow: "auto",
+//           backgroundColor: "white",
+//         }}
+//       >
+//         <h2
+//           style={{
+//             textAlign: "center",
+//             color: "#000000",
+//             marginBottom: "20px",
+//             fontFamily: "Arial, sans-serif",
+//             fontSize: "1.5em",
+//             textDecoration: "underline",
+//           }}
+//         >
+//           {title}
+//         </h2>
+//         <div
+//           dangerouslySetInnerHTML={{ __html: htmlString }}
+//           style={{
+//             width: "100%",
+//             minHeight: "100%",
+//           }}
+//         />
+//       </div>
+//     );
+//   }
+
 //   if (loading) {
 //     return (
 //       <div className="w-full h-full flex justify-center items-center bg-white text-gray-800 text-[1.2rem]">
@@ -623,21 +657,29 @@ export default MyDataComponent;
 //       </div>
 //     );
 //   }
+//   // Check for error AFTER loading is complete
 //   if (error) {
 //     return (
 //       <div className="w-full h-full flex justify-center items-center bg-white text-red-600 text-[1.2rem]">
 //         <div className="flex flex-col items-center justify-center text-center py-10">
-//           <p className="text-red-600 text-sm sm:text-base">डाटा उपलब्ध छैन।</p>
+//           <p className="text-red-600 text-sm sm:text-base">
+//             डाटा उपलब्ध छैन। {/* Nepali for "Data is not available." */}
+//           </p>
 //           {/* Optionally display the specific error message for debugging if needed: {error} */}
 //         </div>
 //       </div>
 //     );
 //   }
-//   if (!rawHtml) {
+
+//   // Finally, render the table only if there is data
+//   if (tableData.length === 0) {
+//     // This catch-all handles cases where error was not set, but data is truly empty
 //     return (
 //       <div className="w-full h-full flex justify-center items-center bg-white text-red-600 text-[1.2rem]">
 //         <div className="flex flex-col items-center justify-center text-center py-10">
-//           <p className="text-red-600 text-sm sm:text-base">डाटा उपलब्ध छैन।</p>
+//           <p className="text-red-600 text-sm sm:text-base">
+//             डाटा उपलब्ध छैन। {/* Nepali for "Data is not available." */}
+//           </p>
 //         </div>
 //       </div>
 //     );
@@ -650,28 +692,132 @@ export default MyDataComponent;
 //         height: "100%",
 //         margin: 0,
 //         padding: 0,
-//         display: "flex",
-//         flexDirection: "column",
 //       }}
 //     >
-//       <div className="flex justify-end mb-4 pr-4 pt-4">
-//         {" "}
-//         {/* Added padding for button */}
-//         <button
-//           onClick={handlePrint}
-//           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center space-x-2 shadow-md"
-//         >
-//           <FaPrint />
-//           <span>प्रिन्ट</span>
-//         </button>
-//       </div>
-//       <div
-//         ref={printableContentRef} // Assign the ref here
-//         style={{ width: "100%", overflowX: "auto", padding: "16px" }} // Added padding for better visual spacing
-//         dangerouslySetInnerHTML={{ __html: rawHtml }}
-//       />
+//       <h2
+//         style={{
+//           textAlign: "center",
+//           color: "#000000", // Changed font color to black
+//           marginBottom: "20px",
+//           fontFamily: "Arial, sans-serif",
+//           marginTop: "20px",
+//           fontSize: "1.5em",
+//           textDecoration: "underline",
+//         }}
+//       >
+//         {title}
+//       </h2>
+//       <table
+//         style={{
+//           width: "100%",
+//           borderCollapse: "collapse",
+//           border: "1px solid #444",
+//           fontFamily: "Arial, sans-serif",
+//           backgroundColor: "#f2f2f2",
+//           tableLayout: "fixed",
+//         }}
+//       >
+//         <thead>
+//           <tr>
+//             {tableHeaders.map((header, index) => (
+//               <th
+//                 key={index}
+//                 style={{
+//                   border: "1px solid #444",
+//                   padding: "8px",
+//                   backgroundColor: "#DC143C",
+//                   textAlign: "center",
+//                   fontWeight: "bold",
+//                   color: "white",
+//                 }}
+//               >
+//                 {header}
+//               </th>
+//             ))}
+//           </tr>
+//         </thead>
+//         <tbody>
+//           {tableData.map((row, index) => (
+//             <tr key={index}>
+//               {tableHeaders.map((header, cellIndex) => (
+//                 <td
+//                   key={cellIndex}
+//                   style={{
+//                     border: "1px solid #444",
+//                     padding: "8px",
+//                     textAlign: "center",
+//                     backgroundColor: index % 2 === 0 ? "#ffffff" : "#f2f2f2",
+//                     fontWeight: row.isTotal ? "bold" : "normal",
+//                     color: "black",
+//                   }}
+//                 >
+//                   {row[header]}
+//                 </td>
+//               ))}
+//             </tr>
+//           ))}
+//         </tbody>
+//       </table>
 //     </div>
 //   );
+// }
+
+// function parseCrossTabFormat(doc) {
+//   const data = [];
+//   let headers = [];
+
+//   // Find the heading row: the <tr> that contains both jrxtcrossfloating and jrxtcolfloating
+//   const headingRow = Array.from(doc.querySelectorAll("tr")).find(
+//     (tr) =>
+//       tr.querySelector(".jrxtcrossfloating") &&
+//       tr.querySelector(".jrxtcolfloating")
+//   );
+
+//   if (headingRow) {
+//     headers = Array.from(
+//       headingRow.querySelectorAll("td.jrxtcrossfloating, td.jrxtcolfloating")
+//     ).map((td) => td.textContent.trim());
+//   }
+
+//   // Fallback if not found
+//   if (headers.length === 0) {
+//     headers = ["घरको अवस्था/ वडा नं", "२", "जम्मा"];
+//   }
+
+//   const dataCells = doc.querySelectorAll(".jrxtdatacell");
+//   const rowHeaders = doc.querySelectorAll(".jrxtrowfloating");
+
+//   rowHeaders.forEach((header, index) => {
+//     const rowLabel = header.textContent.trim();
+//     if (rowLabel && rowLabel !== "जम्मा") {
+//       const ward2Cell = dataCells[index * 2];
+//       const totalCell = dataCells[index * 2 + 1];
+
+//       if (ward2Cell && totalCell) {
+//         const rowData = {};
+//         rowData[headers[0]] = rowLabel;
+//         if (headers[1]) rowData[headers[1]] = ward2Cell.textContent.trim();
+//         if (headers[2]) rowData[headers[2]] = totalCell.textContent.trim();
+//         data.push(rowData);
+//       }
+//     }
+//   });
+
+//   // Add total row
+//   const totalRow = doc.querySelector(".jrxtrowfloating:last-child");
+//   const totalCellsLast = doc.querySelectorAll(".jrxtdatacell");
+//   if (totalRow && totalCellsLast.length >= 2) {
+//     const lastWard2Cell = totalCellsLast[totalCellsLast.length - 2];
+//     const lastTotalCell = totalCellsLast[totalCellsLast.length - 1];
+//     const totalRowData = {};
+//     totalRowData[headers[0]] = "जम्मा";
+//     if (headers[1]) totalRowData[headers[1]] = lastWard2Cell.textContent.trim();
+//     if (headers[2]) totalRowData[headers[2]] = lastTotalCell.textContent.trim();
+//     totalRowData.isTotal = true;
+//     data.push(totalRowData);
+//   }
+
+//   return { headers, data };
 // }
 
 // export default MyDataComponent;

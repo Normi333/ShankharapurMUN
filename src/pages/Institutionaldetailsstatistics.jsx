@@ -216,7 +216,8 @@ import { useParams } from "react-router-dom";
 
 import ReportSidebar2 from "../partials/ReportSidebar2";
 import Header from "../partials/Header";
-import MyDataComponentInstitution from "../components/InstitutionalComponent";
+// import MyDataComponentInstitution from "../components/InstitutionalComponent";
+import MyDataComponent from "../components/MyDataComponent";
 
 const reportConfig = {
   communityorg: {
@@ -230,14 +231,17 @@ const reportConfig = {
   socialsecurity: {
     endpoint: "sst_details",
     title: "सामाजिक सुरक्षा कार्यक्रम विवरण",
+    keepOriginalStyle: true,
   },
   publicpond: {
     endpoint: "pond_details",
     title: "सार्वजनिक पोखरी तथा माछापालन",
+    keepOriginalStyle: true,
   },
   irrigationsystem: {
     endpoint: "irrigation_details",
     title: "सिंचाई सुविधाको उपलब्धता विवरण",
+    keepOriginalStyle: true,
   },
   modernanimalhusbandry: {
     endpoint: "ahs_firms",
@@ -266,6 +270,7 @@ const reportConfig = {
   mamagroup: {
     endpoint: "mg_details",
     title: "आमा महिला समूह तथा परम्परागत समूहको विवरण",
+    keepOriginalStyle: true,
   },
   bankfinancial: {
     endpoint: "bank_details",
@@ -274,10 +279,12 @@ const reportConfig = {
   farmergroup: {
     endpoint: "fgroup_details",
     title: "कृषक तथा उद्यमी तथा बचत समूहको विवरण",
+    keepOriginalStyle: true,
   },
   citizenawareness: {
     endpoint: "ac_td_details",
     title: "नागरिक सचेतना केन्द्र र टोल विकास संस्थाको विवरण",
+    keepOriginalStyle: true,
   },
   hoteldetails: {
     endpoint: "hotel_details",
@@ -370,6 +377,7 @@ const reportConfig = {
   bridgedetails: {
     endpoint: "bridge_details",
     title: "पुल तथा पुलेसा विवरण",
+    // keepOriginalStyle: true,
   },
   grazingarea: {
     endpoint: "graze_details",
@@ -424,9 +432,14 @@ export default function ReportViewInstitution() {
               <div className="bg-white p-6 rounded-lg shadow-md w-full h-full overflow-auto">
                 {" "}
                 {/* Added overflow-auto */}
-                <MyDataComponentInstitution
+                <MyDataComponent
                   urlPostfix={currentReport.endpoint}
                   title={currentReport.title}
+                  keepOriginalStyle={
+                    currentReport.keepOriginalStyle
+                      ? currentReport.keepOriginalStyle
+                      : false
+                  }
                 />
               </div>
             ) : (

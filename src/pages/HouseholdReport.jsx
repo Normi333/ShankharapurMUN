@@ -21,22 +21,27 @@ const reportConfig = {
   workdivision: {
     endpoint: "hsurvey_workdivision",
     title: "कामको विभाजनको आधारमा वर्गिकरण",
+    keepOriginalStyle: true,
   },
   cookingfuel: {
     endpoint: "hsurvey_cookingfuel",
     title: "खाना पकाउने इन्धनको आधारमा वर्गिकरण",
+    keepOriginalStyle: true,
   },
   noncurable: {
     endpoint: "hsurvey_noncurable",
     title: "निको नहुने रोगको आधारमा वर्गिकरण",
+    keepOriginalStyle: true,
   },
   "inv-source": {
     endpoint: "inv_source_report",
     title: "लगानीको स्रोतको रिपोर्ट",
+    keepOriginalStyle: true,
   },
   housestatus: {
     endpoint: "hsurvey_housestatus",
     title: "घरको स्थितिको आधारमा वर्गिकरण",
+    keepOriginalStyle: true,
   },
   "rent-details": {
     endpoint: "rent_details_report",
@@ -45,6 +50,7 @@ const reportConfig = {
   "loan-source": {
     endpoint: "loan_source_report",
     title: "ऋणको स्रोत रिपोर्ट",
+    keepOriginalStyle: true,
   },
   "saving-source": {
     endpoint: "saving_source_report",
@@ -53,6 +59,7 @@ const reportConfig = {
   incomeexpense: {
     endpoint: "hsurvey_incomeexpense",
     title: "आम्दानी र खर्चको आधारमा वर्गिकरण",
+    keepOriginalStyle: true,
   },
   foreign: {
     endpoint: "hsurvey_foreign",
@@ -69,6 +76,7 @@ const reportConfig = {
   "land-details": {
     endpoint: "land_details_report",
     title: "जग्गाको विवरण रिपोर्ट",
+    keepOriginalStyle: true,
   },
   "building-details": {
     endpoint: "buildingdetails_summary",
@@ -140,6 +148,11 @@ export default function ReportView() {
                 <MyDataComponent
                   urlPostfix={currentReport.endpoint}
                   title={currentReport.title}
+                  keepOriginalStyle={
+                    currentReport.keepOriginalStyle
+                      ? currentReport.keepOriginalStyle
+                      : false
+                  }
                 />
               </div>
             ) : (

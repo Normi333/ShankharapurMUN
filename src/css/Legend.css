@@ -44,7 +44,7 @@
 }
 
 .legend-color.roads-all {
-  background-color: yellow;
+  background-color: black;
 }
 
 .legend-color.roads-Internal {
@@ -52,7 +52,7 @@
 }
 
 .legend-color.roads-External {
-  background-color: purple;
+  background-color: yellow;
 }
 
 .legend-color.buildings-all {

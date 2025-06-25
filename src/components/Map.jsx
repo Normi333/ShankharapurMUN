@@ -2,7 +2,7 @@ import { MapContainer, TileLayer, GeoJSON, LayersControl } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "../css/map.css";
 
-import roadData from "../data/Roads_Shankarapur.json";
+import roadData from "../data/2nd_roads_shakarapur.json";
 import ForestData from "../data/Forest_shankarapur.json";
 import BuildingData from "../data/Buildings_shankarapur.json";
 import RiverData from "../data/River_Shankarapur.json";
@@ -16,7 +16,7 @@ function Map({ selectedLayers }) {
     if (selectedLayers.includes("roads-Internal") && roadType === "Internal") {
       return {
         weight: 3,
-        color: "purple",
+        color: "yellow",
       };
     } else if (
       selectedLayers.includes("roads-External") &&
@@ -32,7 +32,7 @@ function Map({ selectedLayers }) {
     if (selectedLayers.includes("roads-all")) {
       return {
         weight: 2,
-        color: "yellow",
+        color: "black",
       };
     }
     // If neither specific types nor "roads-all" is selected, don't display

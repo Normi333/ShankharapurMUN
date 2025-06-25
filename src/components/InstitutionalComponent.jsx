@@ -1,409 +1,5 @@
-// import React, { useState, useEffect } from "react";
-// import { useAuth } from "../context/AuthContext.jsx";
-
-// // Add CSS for spinning animation
-// const spinAnimation = `
-//   @keyframes spin {
-//     0% { transform: rotate(0deg); }
-//     100% { transform: rotate(360deg); }
-//   }
-// `;
-
-// function MyDataComponentInstitution({
-//   urlPostfix = "co_org_details",
-//   title = "सामुदायिक संस्था विवरण",
-// }) {
-//   const { axiosInstance, authLoading, authError, token } = useAuth();
-//   const [rawHtml, setRawHtml] = useState("");
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null);
-
-//   // Inject CSS animation
-//   useEffect(() => {
-//     const style = document.createElement("style");
-//     style.textContent = spinAnimation;
-//     document.head.appendChild(style);
-
-//     return () => {
-//       document.head.removeChild(style);
-//     };
-//   }, []);
-
-//   useEffect(() => {
-//     const fetchHtml = async () => {
-//       if (authLoading || authError || !token) {
-//         if (authError) {
-//           setError(`API Initialization Error: ${authError}`);
-//         }
-//         setLoading(false);
-//         return;
-//       }
-//       setLoading(true);
-//       setError(null);
-//       setRawHtml("");
-//       try {
-//         console.log("Fetching data for:", urlPostfix);
-//         console.log("title:", title);
-//         // Make the POST request to the process endpoint for HTML
-//         const response = await axiosInstance.post(
-//           `/processes/${urlPostfix}`,
-//           {
-//             ward_no: "2",
-//             "report-type": "HTML",
-//           },
-//           {
-//             headers: {
-//               id: 0,
-//               Authorization: `Bearer ${token}`,
-//               "Content-Type": "application/json",
-//             },
-//           }
-//         );
-
-//         console.log("API Response:", response.data); // Debug the response
-
-//         let htmlString = "";
-//         if (response.data && typeof response.data === "string") {
-//           htmlString = response.data;
-//         } else if (response.data && response.data.exportFile) {
-//           const base64Html = response.data.exportFile;
-//           const binaryString = atob(base64Html);
-//           const bytes = new Uint8Array(binaryString.length);
-//           for (let i = 0; i < binaryString.length; i++) {
-//             bytes[i] = binaryString.charCodeAt(i) & 0xff;
-//           }
-//           htmlString = new TextDecoder("utf-8").decode(bytes);
-//         } else {
-//           throw new Error("No HTML content found in response.");
-//         }
-
-//         setRawHtml(htmlString);
-//       } catch (e) {
-//         setError(
-//           e.response?.data?.error ||
-//             e.message ||
-//             "Failed to fetch or parse report data."
-//         );
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-//     fetchHtml();
-//   }, [axiosInstance, authLoading, authError, token, urlPostfix]);
-
-//   // --- Render Logic ---
-//   if (authLoading) return null;
-//   if (authError) return null;
-//   if (loading) {
-//     return (
-//       <div className="w-full h-full flex justify-center items-center bg-white text-gray-800 text-[1.2rem]">
-//         <div className="flex flex-col items-center justify-center text-center py-10">
-//           <div className="w-10 h-10 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin mb-4"></div>
-//           <p className="text-gray-800 text-sm sm:text-base">
-//             डाटा लोड हुँदैछ...
-//           </p>
-//         </div>
-//       </div>
-//     );
-//   }
-//   if (error) {
-//     return (
-//       <div className="w-full h-full flex justify-center items-center bg-white text-red-600 text-[1.2rem]">
-//         <div className="flex flex-col items-center justify-center text-center py-10">
-//           <p className="text-red-600 text-sm sm:text-base">डाटा उपलब्ध छैन।</p>
-//         </div>
-//       </div>
-//     );
-//   }
-//   if (!rawHtml) {
-//     return (
-//       <div className="w-full h-full flex justify-center items-center bg-white text-red-600 text-[1.2rem]">
-//         <div className="flex flex-col items-center justify-center text-center py-10">
-//           <p className="text-red-600 text-sm sm:text-base">डाटा उपलब्ध छैन।</p>
-//         </div>
-//       </div>
-//     );
-//   }
-//   return (
-//     <div style={{ width: "100%", height: "100%", margin: 0, padding: 0 }}>
-//       <div
-//         style={{ width: "100%", overflowX: "auto" }}
-//         dangerouslySetInnerHTML={{ __html: rawHtml }}
-//       />
-//     </div>
-//   );
-// }
-
-// export default MyDataComponentInstitution;
-
-// import React, { useState, useEffect, useRef } from "react";
-// import { useAuth } from "../context/AuthContext.jsx";
-// import { FaPrint } from "react-icons/fa"; // Import the print icon
-
-// // Add CSS for spinning animation
-// const spinAnimation = `
-//   @keyframes spin {
-//     0% { transform: rotate(0deg); }
-//     100% { transform: rotate(360deg); }
-//   }
-// `;
-
-// function MyDataComponentInstitution({
-//   urlPostfix = "co_org_details",
-//   title = "सामुदायिक संस्था विवरण",
-// }) {
-//   const { axiosInstance, authLoading, authError, token } = useAuth();
-//   const [rawHtml, setRawHtml] = useState("");
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null);
-
-//   // Ref for the content to be printed (the div containing rawHtml)
-//   const printableContentRef = useRef(null);
-
-//   // Inject CSS animation
-//   useEffect(() => {
-//     const style = document.createElement("style");
-//     style.textContent = spinAnimation;
-//     document.head.appendChild(style);
-
-//     return () => {
-//       document.head.removeChild(style);
-//     };
-//   }, []);
-
-//   useEffect(() => {
-//     const fetchHtml = async () => {
-//       if (authLoading || authError || !token) {
-//         if (authError) {
-//           setError(`API Initialization Error: ${authError}`);
-//         }
-//         setLoading(false);
-//         return;
-//       }
-//       setLoading(true);
-//       setError(null);
-//       setRawHtml("");
-//       try {
-//         console.log("Fetching data for:", urlPostfix);
-//         console.log("title:", title);
-//         // Make the POST request to the process endpoint for HTML
-//         const response = await axiosInstance.post(
-//           `/processes/${urlPostfix}`,
-//           {
-//             ward_no: "2",
-//             "report-type": "HTML",
-//           },
-//           {
-//             headers: {
-//               id: 0,
-//               Authorization: `Bearer ${token}`,
-//               "Content-Type": "application/json",
-//             },
-//           }
-//         );
-
-//         console.log("API Response:", response.data); // Debug the response
-
-//         let htmlString = "";
-//         if (response.data && typeof response.data === "string") {
-//           htmlString = response.data;
-//         } else if (response.data && response.data.exportFile) {
-//           const base64Html = response.data.exportFile;
-//           const binaryString = atob(base64Html);
-//           const bytes = new Uint8Array(binaryString.length);
-//           for (let i = 0; i < binaryString.length; i++) {
-//             bytes[i] = binaryString.charCodeAt(i) & 0xff;
-//           }
-//           htmlString = new TextDecoder("utf-8").decode(bytes);
-//         } else {
-//           throw new Error("No HTML content found in response.");
-//         }
-
-//         setRawHtml(htmlString);
-//       } catch (e) {
-//         setError(
-//           e.response?.data?.error ||
-//             e.message ||
-//             "Failed to fetch or parse report data."
-//         );
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-//     fetchHtml();
-//   }, [axiosInstance, authLoading, authError, token, urlPostfix]);
-
-//   // Function to handle printing
-//   const handlePrint = () => {
-//     const content = printableContentRef.current;
-//     if (content) {
-//       const printWindow = window.open("", "_blank");
-//       if (!printWindow) {
-//         // Fallback for pop-up blockers or if window.open fails
-//         console.error("Could not open print window. Please allow pop-ups.");
-//         return;
-//       }
-
-//       // Styles specifically for the print version of the table
-//       // These styles try to mimic common table styles and should make the printed output readable.
-//       // Use !important to override any inline styles that might be present in rawHtml.
-//       const printStyles = `
-//         <style>
-//           body { font-family: Arial, sans-serif; margin: 20px; }
-//           h1, h2, h3, h4, h5, h6 {
-//             text-align: center;
-//             color: #000000;
-//             margin-bottom: 20px;
-//             font-family: "Arial", sans-serif;
-//             margin-top: 20px;
-//             text-decoration: underline;
-//           }
-//           table {
-//             width: 100%;
-//             border-collapse: collapse;
-//             border: 1px solid #444;
-//             font-family: "Arial", sans-serif;
-//             background-color: #f2f2f2;
-//             table-layout: auto; /* Use auto for print to allow content to dictate width */
-//             margin-bottom: 1rem;
-//           }
-//           th, td {
-//             border: 1px solid #444;
-//             padding: 8px;
-//             text-align: center;
-//             color: black;
-//             font-size: 0.9em;
-//           }
-//           /* Apply header styles if the first row contains <th> or if first-row <td>s are headers */
-//           table thead th, table thead td {
-//             background-color: #DC143C !important; /* Force red header background */
-//             font-weight: bold;
-//             color: white;
-//             padding: 12px 8px; /* More padding for headers */
-//           }
-//           /* This targets <td> elements in the first row, if they are used as headers */
-//           table tbody tr:first-child td {
-//             background-color: #DC143C !important;
-//             font-weight: bold;
-//             color: white;
-//           }
-//           /* Alternating row colors for data rows */
-//           table tbody tr:nth-child(odd) td {
-//             background-color: #ffffff !important; /* Force white for odd rows */
-//           }
-//           table tbody tr:nth-child(even) td {
-//             background-color: #f2f2f2 !important; /* Force light grey for even rows */
-//           }
-//           /* Attempt to bold the "जम्मा" row or similar total rows */
-//           table tbody tr.isTotal td, /* If rawHtml includes a class like isTotal */
-//           table tbody tr:last-child td { /* Often the last row is the total */
-//             font-weight: bold;
-//           }
-//         </style>
-//       `;
-
-//       // The rawHtml likely already contains the title as an <h2> or similar.
-//       // We pass the rawHtml directly to printWindow.document.write
-//       // and let the printStyles handle its appearance.
-//       printWindow.document.write(`
-//         <html>
-//           <head>
-//             <title>${title}</title>
-//             ${printStyles}
-//           </head>
-//           <body>
-//             ${content.innerHTML}
-//           </body>
-//         </html>
-//       `);
-//       printWindow.document.close();
-//       printWindow.focus();
-//       printWindow.print();
-//     }
-//   };
-
-//   // --- Render Logic ---
-//   if (authLoading) return null;
-//   if (authError) {
-//     return (
-//       <div className="w-full h-full flex justify-center items-center bg-white text-red-600 text-[1.2rem]">
-//         <div className="flex flex-col items-center justify-center text-center py-10">
-//           <p className="text-red-600 text-sm sm:text-base">
-//             API Initialization Error: {authError}
-//           </p>
-//         </div>
-//       </div>
-//     );
-//   }
-//   if (loading) {
-//     return (
-//       <div className="w-full h-full flex justify-center items-center bg-white text-gray-800 text-[1.2rem]">
-//         <div className="flex flex-col items-center justify-center text-center py-10">
-//           <div className="w-10 h-10 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin mb-4"></div>
-//           <p className="text-gray-800 text-sm sm:text-base">
-//             डाटा लोड हुँदैछ...
-//           </p>
-//         </div>
-//       </div>
-//     );
-//   }
-//   if (error) {
-//     return (
-//       <div className="w-full h-full flex justify-center items-center bg-white text-red-600 text-[1.2rem]">
-//         <div className="flex flex-col items-center justify-center text-center py-10">
-//           <p className="text-red-600 text-sm sm:text-base">डाटा उपलब्ध छैन।</p>
-//           {/* Optionally display the specific error message for debugging if needed: {error} */}
-//         </div>
-//       </div>
-//     );
-//   }
-//   if (!rawHtml) {
-//     return (
-//       <div className="w-full h-full flex justify-center items-center bg-white text-red-600 text-[1.2rem]">
-//         <div className="flex flex-col items-center justify-center text-center py-10">
-//           <p className="text-red-600 text-sm sm:text-base">डाटा उपलब्ध छैन।</p>
-//         </div>
-//       </div>
-//     );
-//   }
-
-//   return (
-//     <div
-//       style={{
-//         width: "100%",
-//         height: "100%",
-//         margin: 0,
-//         padding: 0,
-//         display: "flex",
-//         flexDirection: "column",
-//       }}
-//     >
-//       <div className="flex justify-end mb-4 pr-4 pt-4">
-//         {" "}
-//         {/* Added padding for button */}
-//         <button
-//           onClick={handlePrint}
-//           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center space-x-2 shadow-md"
-//         >
-//           <FaPrint />
-//           <span>प्रिन्ट</span>
-//         </button>
-//       </div>
-//       <div
-//         ref={printableContentRef} // Assign the ref here
-//         style={{ width: "100%", overflowX: "auto", padding: "16px" }} // Added padding for better visual spacing
-//         dangerouslySetInnerHTML={{ __html: rawHtml }}
-//       />
-//     </div>
-//   );
-// }
-
-// export default MyDataComponentInstitution;
-
-// src/components/MyDataComponent.jsx
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext.jsx";
-import { FaPrint } from "react-icons/fa"; // Import the print icon
 
 // Add CSS for spinning animation
 const spinAnimation = `
@@ -413,54 +9,17 @@ const spinAnimation = `
   }
 `;
 
-// Helper function to derive the first header from the report title
-// const deriveFirstHeader = (reportTitle) => {
-//   if (!reportTitle) return "";
-//   if (reportTitle.includes("मातृभाषा")) return "मातृभाषा";
-//   if (reportTitle.includes("धर्म")) return "धर्म";
-//   if (reportTitle.includes("जाति")) return "जाति";
-//   if (reportTitle.includes("कामको विभाजन")) return "कामको विभाजन";
-//   if (reportTitle.includes("खाना पकाउने इन्धन")) return "खाना पकाउने इन्धन";
-//   if (reportTitle.includes("निको नहुने रोग")) return "निको नहुने रोग";
-//   if (reportTitle.includes("लगानीको स्रोत")) return "लगानीको स्रोत";
-//   if (reportTitle.includes("घरको स्थिति")) return "घरको स्थिति";
-//   if (reportTitle.includes("बहाल विवरण")) return "बहाल विवरण";
-//   if (reportTitle.includes("ऋणको स्रोत")) return "ऋणको स्रोत";
-//   if (reportTitle.includes("बचतको स्रोत")) return "बचतको स्रोत";
-//   if (reportTitle.includes("आम्दानी र खर्च")) return "आम्दानी र खर्च";
-//   if (reportTitle.includes("विदेशी")) return "विदेशी";
-//   if (reportTitle.includes("सेवाको विवरण")) return "सेवाको विवरण";
-//   if (reportTitle.includes("मृत्युको संख्या")) return "मृत्युको संख्या";
-//   if (reportTitle.includes("जग्गाको विवरण")) return "जग्गाको विवरण";
-//   if (reportTitle.includes("भवनको विवरण")) return "भवनको विवरण";
-//   if (reportTitle.includes("प्रकोपको विवरण")) return "प्रकोपको विवरण";
-//   if (reportTitle.includes("बिजुलीको स्रोत")) return "बिजुलीको स्रोत";
-//   if (reportTitle.includes("शौचालयको स्थिति")) return "शौचालयको स्थिति";
-//   if (reportTitle.includes("पानीको स्रोत")) return "पानीको स्रोत";
-//   if (reportTitle.includes("उमेर समूह")) return "उमेर समूह";
-
-//   // Fallback for cases not explicitly listed: try to extract based on common patterns
-//   let extracted = reportTitle.split("को आधारमा वर्गिकरण")[0]?.trim();
-//   if (extracted && extracted !== reportTitle) return extracted;
-
-//   extracted = reportTitle.split("को रिपोर्ट")[0]?.trim();
-//   if (extracted && extracted !== reportTitle) return extracted;
-
-//   return reportTitle; // Return original title if no specific pattern matched
-// };
-
 function MyDataComponentInstitution({
-  urlPostfix = "co_org_details",
-  title = "सामुदायिक संस्था विवरण",
+  urlPostfix = "hsurvey_mothertongue",
+  title = "मातृभाषाको आधारमा वर्गिकरण",
+  keepOriginalStyle = false,
 }) {
   const { axiosInstance, authLoading, authError, token } = useAuth();
   const [tableData, setTableData] = useState([]);
   const [tableHeaders, setTableHeaders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null); // error will be a string message or null
-
-  // Ref for the content to be printed
-  const printableContentRef = useRef(null);
+  const [htmlString, setHtmlString] = useState(null);
 
   // Inject CSS animation
   useEffect(() => {
@@ -476,19 +35,21 @@ function MyDataComponentInstitution({
   useEffect(() => {
     const fetchHtml = async () => {
       if (authLoading || authError || !token) {
+        // Only proceed if auth is loaded and successful
         if (authError) {
           setError(`API Initialization Error: ${authError}`);
         }
-        setLoading(false);
-        return;
+        setLoading(false); // Stop loading if auth is not ready
+        return; // Exit early
       }
 
       setLoading(true);
-      setError(null);
-      setTableData([]);
-      setTableHeaders([]);
+      setError(null); // Reset error state at the start of every new fetch attempt
+      setTableData([]); // Clear previous data
+      setTableHeaders([]); // Clear previous headers
 
       try {
+        // Make the POST request to the process endpoint for HTML
         const response = await axiosInstance.post(
           `/processes/${urlPostfix}`,
           {
@@ -504,7 +65,7 @@ function MyDataComponentInstitution({
           }
         );
 
-        console.log("API Response:", response.data);
+        console.log("API Response:", response.data); // Debug the response
 
         let htmlString = "";
         if (response.data && typeof response.data === "string") {
@@ -518,19 +79,25 @@ function MyDataComponentInstitution({
           }
           htmlString = new TextDecoder("utf-8").decode(bytes);
         } else {
+          // If response.data is null, undefined, or empty object, consider it an error
           throw new Error("No HTML content found in response.");
         }
 
         const parser = new DOMParser();
         const doc = parser.parseFromString(htmlString, "text/html");
 
-        // Prioritize parsing the new format (table.jrPage)
-        const newFormatTable = doc.querySelector("table.jrPage");
-        const oldFormatDataCells = doc.querySelector(".jrxtdatacell");
-
-        if (newFormatTable) {
+        // Check for the old format first
+        if (doc.querySelector(".jrxtdatacell")) {
+          const { headers, data } = parseCrossTabFormat(doc);
+          setTableHeaders(headers);
+          setTableData(data);
+          if (data.length === 0) {
+            setError("No data available for this report.");
+          }
+        } else if (doc.querySelector("table.jrPage")) {
           // Handle the new format
-          const rows = Array.from(newFormatTable.querySelectorAll("tr"));
+          const table = doc.querySelector("table.jrPage");
+          const rows = Array.from(table.querySelectorAll("tr"));
           const borderedRows = rows.filter((row) =>
             row.querySelector('td[style*="border"]')
           );
@@ -561,51 +128,11 @@ function MyDataComponentInstitution({
           } else {
             setError("No data table found in the report.");
           }
-        } else if (oldFormatDataCells) {
-          // Handle the old format as a fallback
-          // Dynamically derive the first header based on the title prop
-          // const firstHeader = deriveFirstHeader(title);
-          const headers = ["वडा नं २", "जम्मा"];
-          setTableHeaders(headers);
-
-          const dataRows = [];
-          const rowHeaders = doc.querySelectorAll(".jrxtrowfloating");
-          const totalCellsLast = doc.querySelectorAll(".jrxtdatacell"); // Re-query total cells for consistency
-
-          rowHeaders.forEach((header, index) => {
-            const firstColumnData = header.textContent.trim();
-            if (firstColumnData && firstColumnData !== "जम्मा") {
-              const ward2Cell = totalCellsLast[index * 2];
-              const totalCell = totalCellsLast[index * 2 + 1];
-
-              if (ward2Cell && totalCell) {
-                dataRows.push({
-                  [headers[0]]: firstColumnData,
-                  [headers[1]]: ward2Cell.textContent.trim(),
-                  [headers[2]]: totalCell.textContent.trim(),
-                });
-              }
-            }
-          });
-
-          const totalRow = doc.querySelector(".jrxtrowfloating:last-child");
-          if (totalRow && totalCellsLast.length >= 2) {
-            const lastWard2Cell = totalCellsLast[totalCellsLast.length - 2];
-            const lastTotalCell = totalCellsLast[totalCellsLast.length - 1];
-            dataRows.push({
-              [headers[0]]: "जम्मा",
-              [headers[1]]: lastWard2Cell.textContent.trim(),
-              [headers[2]]: lastTotalCell.textContent.trim(),
-              isTotal: true,
-            });
-          }
-          if (dataRows.length === 0) {
-            setError("No data available for this report.");
-          }
-          setTableData(dataRows);
         } else {
           setError("Unsupported HTML format or no data found.");
         }
+
+        setHtmlString(htmlString);
       } catch (e) {
         setError(
           e.response?.data?.error ||
@@ -618,79 +145,84 @@ function MyDataComponentInstitution({
     };
 
     fetchHtml();
-  }, [axiosInstance, authLoading, authError, token, urlPostfix, title]); // Add 'title' to dependencies
-
-  // Function to handle printing
-  const handlePrint = () => {
-    const content = printableContentRef.current;
-    if (content) {
-      const printWindow = window.open("", "_blank");
-      if (!printWindow) {
-        console.error("Could not open print window. Please allow pop-ups.");
-        return;
-      }
-
-      const originalStyles = `
-        <style>
-          body { font-family: Arial, sans-serif; margin: 20px; }
-          h2 {
-            text-align: center;
-            color: #000000;
-            margin-bottom: 20px;
-            font-size: 1.5em;
-            text-decoration: underline;
-          }
-          table {
-            width: 100%;
-            border-collapse: collapse;
-            border: 1px solid #444;
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-            table-layout: fixed;
-          }
-          th, td {
-            border: 1px solid #444;
-            padding: 8px;
-            text-align: center;
-            color: black;
-          }
-          th {
-            background-color: #DC143C;
-            font-weight: bold;
-            color: white;
-          }
-          tr:nth-child(even) td {
-            background-color: #f2f2f2;
-          }
-          tr:nth-child(odd) td {
-            background-color: #ffffff;
-          }
-          tr.isTotal td {
-            font-weight: bold;
-          }
-        </style>
-      `;
-
-      printWindow.document.write(`
-        <html>
-          <head>
-            <title>${title}</title>
-            ${originalStyles}
-          </head>
-          <body>
-            ${content.innerHTML}
-          </body>
-        </html>
-      `);
-      printWindow.document.close();
-      printWindow.focus();
-      printWindow.print();
-    }
-  };
+  }, [axiosInstance, authLoading, authError, token, urlPostfix]);
 
   // --- Render Logic ---
   if (authLoading) return null;
   if (authError) return null;
+
+  // Always show original HTML if error is set and htmlString is available
+  if (error && htmlString) {
+    return (
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          margin: 0,
+          padding: "20px",
+          overflow: "auto",
+          backgroundColor: "white",
+        }}
+      >
+        <h2
+          style={{
+            textAlign: "center",
+            color: "#000000",
+            marginBottom: "20px",
+            fontFamily: "Arial, sans-serif",
+            fontSize: "1.5em",
+            textDecoration: "underline",
+          }}
+        >
+          {title}
+        </h2>
+        <div
+          dangerouslySetInnerHTML={{ __html: htmlString }}
+          style={{
+            width: "100%",
+            minHeight: "100%",
+          }}
+        />
+      </div>
+    );
+  }
+
+  // Show original HTML if keepOriginalStyle is true
+  if (keepOriginalStyle && htmlString) {
+    return (
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          margin: 0,
+          padding: "20px",
+          overflow: "auto",
+          backgroundColor: "white",
+        }}
+      >
+        <h2
+          style={{
+            textAlign: "center",
+            color: "#000000",
+            marginBottom: "20px",
+            fontFamily: "Arial, sans-serif",
+            fontSize: "1.5em",
+            textDecoration: "underline",
+          }}
+        >
+          {title}
+        </h2>
+        <div
+          dangerouslySetInnerHTML={{ __html: htmlString }}
+          style={{
+            width: "100%",
+            minHeight: "100%",
+          }}
+        />
+      </div>
+    );
+  }
+
   if (loading) {
     return (
       <div className="w-full h-full flex justify-center items-center bg-white text-gray-800 text-[1.2rem]">
@@ -740,83 +272,130 @@ function MyDataComponentInstitution({
         padding: 0,
       }}
     >
-      <div className="flex justify-end mb-4">
-        <button
-          onClick={handlePrint}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center space-x-2"
-        >
-          <FaPrint />
-          <span>प्रिन्ट</span>
-        </button>
-      </div>
-      <div ref={printableContentRef}>
-        <h2
-          style={{
-            textAlign: "center",
-            color: "#000000",
-            marginBottom: "20px",
-            fontFamily: "Arial, sans-serif",
-            marginTop: "20px",
-            fontSize: "1.5em",
-            textDecoration: "underline",
-          }}
-        >
-          {title}
-        </h2>
-        <table
-          style={{
-            width: "100%",
-            borderCollapse: "collapse",
-            border: "1px solid #444",
-            fontFamily: "Arial, sans-serif",
-            backgroundColor: "#f2f2f2",
-            tableLayout: "fixed",
-          }}
-        >
-          <thead>
-            <tr>
-              {tableHeaders.map((header, index) => (
-                <th
-                  key={index}
+      <h2
+        style={{
+          textAlign: "center",
+          color: "#000000", // Changed font color to black
+          marginBottom: "20px",
+          fontFamily: "Arial, sans-serif",
+          marginTop: "20px",
+          fontSize: "1.5em",
+          textDecoration: "underline",
+        }}
+      >
+        {title}
+      </h2>
+      <table
+        style={{
+          width: "100%",
+          borderCollapse: "collapse",
+          border: "1px solid #444",
+          fontFamily: "Arial, sans-serif",
+          backgroundColor: "#f2f2f2",
+          tableLayout: "fixed",
+        }}
+      >
+        <thead>
+          <tr>
+            {tableHeaders.map((header, index) => (
+              <th
+                key={index}
+                style={{
+                  border: "1px solid #444",
+                  padding: "8px",
+                  backgroundColor: "#DC143C",
+                  textAlign: "center",
+                  fontWeight: "bold",
+                  color: "white",
+                }}
+              >
+                {header}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {tableData.map((row, index) => (
+            <tr key={index}>
+              {tableHeaders.map((header, cellIndex) => (
+                <td
+                  key={cellIndex}
                   style={{
                     border: "1px solid #444",
                     padding: "8px",
-                    backgroundColor: "#DC143C",
                     textAlign: "center",
-                    fontWeight: "bold",
-                    color: "white",
+                    backgroundColor: index % 2 === 0 ? "#ffffff" : "#f2f2f2",
+                    fontWeight: row.isTotal ? "bold" : "normal",
+                    color: "black",
                   }}
                 >
-                  {header}
-                </th>
+                  {row[header]}
+                </td>
               ))}
             </tr>
-          </thead>
-          <tbody>
-            {tableData.map((row, index) => (
-              <tr key={index} className={row.isTotal ? "isTotal" : ""}>
-                {tableHeaders.map((header, cellIndex) => (
-                  <td
-                    key={cellIndex}
-                    style={{
-                      border: "1px solid #444",
-                      padding: "8px",
-                      textAlign: "center",
-                      backgroundColor: index % 2 === 0 ? "#ffffff" : "#f2f2f2",
-                      fontWeight: row.isTotal ? "bold" : "normal",
-                      color: "black",
-                    }}
-                  >
-                    {row[header]}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
+}
+
+function parseCrossTabFormat(doc) {
+  const data = [];
+  let headers = [];
+
+  // Find the heading row: the <tr> that contains both jrxtcrossfloating and jrxtcolfloating
+  const headingRow = Array.from(doc.querySelectorAll("tr")).find(
+    (tr) =>
+      tr.querySelector(".jrxtcrossfloating") &&
+      tr.querySelector(".jrxtcolfloating")
+  );
+
+  if (headingRow) {
+    headers = Array.from(
+      headingRow.querySelectorAll("td.jrxtcrossfloating, td.jrxtcolfloating")
+    ).map((td) => td.textContent.trim());
+  }
+
+  // Fallback if not found
+  if (headers.length === 0) {
+    headers = ["घरको अवस्था/ वडा नं", "२", "जम्मा"];
+  }
+
+  const dataCells = doc.querySelectorAll(".jrxtdatacell");
+  const rowHeaders = doc.querySelectorAll(".jrxtrowfloating");
+
+  rowHeaders.forEach((header, index) => {
+    const rowLabel = header.textContent.trim();
+    if (rowLabel && rowLabel !== "जम्मा") {
+      const ward2Cell = dataCells[index * 2];
+      const totalCell = dataCells[index * 2 + 1];
+
+      if (ward2Cell && totalCell) {
+        const rowData = {};
+        rowData[headers[0]] = rowLabel;
+        if (headers[1]) rowData[headers[1]] = ward2Cell.textContent.trim();
+        if (headers[2]) rowData[headers[2]] = totalCell.textContent.trim();
+        data.push(rowData);
+      }
+    }
+  });
+
+  // Add total row
+  const totalRow = doc.querySelector(".jrxtrowfloating:last-child");
+  const totalCellsLast = doc.querySelectorAll(".jrxtdatacell");
+  if (totalRow && totalCellsLast.length >= 2) {
+    const lastWard2Cell = totalCellsLast[totalCellsLast.length - 2];
+    const lastTotalCell = totalCellsLast[totalCellsLast.length - 1];
+    const totalRowData = {};
+    totalRowData[headers[0]] = "जम्मा";
+    if (headers[1]) totalRowData[headers[1]] = lastWard2Cell.textContent.trim();
+    if (headers[2]) totalRowData[headers[2]] = lastTotalCell.textContent.trim();
+    totalRowData.isTotal = true;
+    data.push(totalRowData);
+  }
+
+  return { headers, data };
 }
 
 export default MyDataComponentInstitution;
