@@ -731,257 +731,251 @@ const ChartGrid = () => {
       {error && (
         <p className="text-red-500 text-center py-4">त्रुटि: {error}</p>
       )}
-      {/* Group the first four cards into a single row using a dedicated grid container */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 col-span-full">
-        {/* Card for the single value metric (e.g., ID 1000000) */}
-        {!overallLoading && !error && singleValueMetric && (
-          <Card title={singleValueMetric.name} loading={false}>
-            <div className="flex items-center justify-center space-x-4 py-8">
-              <div className="flex-shrink-0 w-16 h-16 bg-[#8c6eff] rounded-xl flex items-center justify-center text-white text-3xl">
-                {/* Font Awesome Home Icon using the React component */}
-                <FontAwesomeIcon icon={faHouse} />
-              </div>
-              <div className="flex flex-col items-center">
-                <div className="text-4xl font-bold text-gray-800">
-                  {singleValueMetric.value}
-                </div>
-                {/* <p className="text-center text-gray-600 text-lg font-bold">
-                  Total Households
-                </p> */}
-              </div>
-            </div>
-          </Card>
-        )}
 
-        {/* NEW CARD: जम्मा परिवार संख्या */}
-        {!overallLoading && !error && totalFamilyCount && (
-          <Card title="जम्मा परिवार संख्या" loading={false}>
-            <div className="flex items-center justify-center space-x-4 py-8">
-              <div className="flex-shrink-0 w-16 h-16 bg-blue-500 rounded-xl flex items-center justify-center text-white text-3xl">
-                <FontAwesomeIcon icon={faUsers} />{" "}
-              </div>
-              <div className="flex flex-col items-center">
-                <div className="text-4xl font-bold text-gray-800">
-                  {totalFamilyCount.value}
-                </div>
-                {/* <p className="text-center text-gray-600 text-lg font-bold">
-                  {totalFamilyCount.name}
-                </p> */}
-              </div>
+      {/* Household Highlights Section */}
+      {!overallLoading &&
+        !error &&
+        (singleValueMetric ||
+          totalFamilyCount ||
+          malePopulationDetails ||
+          femalePopulationDetails) && (
+          <>
+            <div className="col-span-full">
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                घरधुरीका मुख्य विशेषताहरू
+              </h2>
+              <hr className="my-4 border-gray-300" />
             </div>
-          </Card>
-        )}
-
-        {/* NEW CARD: पुरुष जनसंख्या विवरण */}
-        {!overallLoading && !error && malePopulationDetails && (
-          <Card title="पुरुष जनसंख्या विवरण" loading={false}>
-            <div className="space-y-2 text-base">
-              <div className="flex items-center space-x-4 py-4">
-                <div className="flex-shrink-0 w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center text-white text-2xl">
-                  <FontAwesomeIcon icon={faMale} />
-                </div>
-                <div className="flex-grow flex flex-col">
-                  {malePopulationDetails.map((item, idx) => (
-                    <div
-                      key={item.name || idx}
-                      className="flex justify-between items-center py-1 border-b border-gray-200 last:border-b-0"
-                    >
-                      <span className="font-semibold text-gray-700">
-                        {item.name}:
-                      </span>
-                      <span className="text-blue-700">{item.value}</span>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 col-span-full">
+              {/* Card for the single value metric (e.g., ID 1000000) */}
+              {singleValueMetric && (
+                <Card title={singleValueMetric.name} loading={false}>
+                  <div className="flex items-center justify-center space-x-4 py-8">
+                    <div className="flex-shrink-0 w-16 h-16 bg-[#8c6eff] rounded-xl flex items-center justify-center text-white text-3xl">
+                      <FontAwesomeIcon icon={faHouse} />
                     </div>
-                  ))}
-                </div>
-              </div>
+                    <div className="flex flex-col items-center">
+                      <div className="text-4xl font-bold text-gray-800">
+                        {singleValueMetric.value}
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+              )}
+
+              {/* NEW CARD: जम्मा परिवार संख्या */}
+              {totalFamilyCount && (
+                <Card title="जम्मा परिवार संख्या" loading={false}>
+                  <div className="flex items-center justify-center space-x-4 py-8">
+                    <div className="flex-shrink-0 w-16 h-16 bg-blue-500 rounded-xl flex items-center justify-center text-white text-3xl">
+                      <FontAwesomeIcon icon={faUsers} />{" "}
+                    </div>
+                    <div className="flex flex-col items-center">
+                      <div className="text-4xl font-bold text-gray-800">
+                        {totalFamilyCount.value}
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+              )}
+
+              {/* NEW CARD: पुरुष जनसंख्या विवरण */}
+              {malePopulationDetails && (
+                <Card title="पुरुष जनसंख्या विवरण" loading={false}>
+                  <div className="space-y-2 text-base">
+                    <div className="flex items-center space-x-4 py-4">
+                      <div className="flex-shrink-0 w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center text-white text-2xl">
+                        <FontAwesomeIcon icon={faMale} />
+                      </div>
+                      <div className="flex-grow flex flex-col">
+                        {malePopulationDetails.map((item, idx) => (
+                          <div
+                            key={item.name || idx}
+                            className="flex justify-between items-center py-1 border-b border-gray-200 last:border-b-0"
+                          >
+                            <span className="font-semibold text-gray-700">
+                              {item.name}:
+                            </span>
+                            <span className="text-blue-700">{item.value}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+              )}
+
+              {/* NEW CARD: महिला जनसंख्या विवरण */}
+              {femalePopulationDetails && (
+                <Card title="महिला जनसंख्या विवरण" loading={false}>
+                  <div className="space-y-2 text-base">
+                    <div className="flex items-center space-x-4 py-4">
+                      <div className="flex-shrink-0 w-12 h-12 bg-pink-500 rounded-xl flex items-center justify-center text-white text-2xl">
+                        <FontAwesomeIcon icon={faFemale} />
+                      </div>
+                      <div className="flex-grow flex flex-col">
+                        {femalePopulationDetails.map((item, idx) => (
+                          <div
+                            key={item.name || idx}
+                            className="flex justify-between items-center py-1 border-b border-gray-200 last:border-b-0"
+                          >
+                            <span className="font-semibold text-gray-700">
+                              {item.name}:
+                            </span>
+                            <span className="text-blue-700">{item.value}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+              )}
             </div>
-          </Card>
+          </>
         )}
 
-        {/* NEW CARD: महिला जनसंख्या विवरण */}
-        {!overallLoading && !error && femalePopulationDetails && (
-          <Card title="महिला जनसंख्या विवरण" loading={false}>
-            <div className="space-y-2 text-base">
-              <div className="flex items-center space-x-4 py-4">
-                <div className="flex-shrink-0 w-12 h-12 bg-pink-500 rounded-xl flex items-center justify-center text-white text-2xl">
-                  <FontAwesomeIcon icon={faFemale} />
-                </div>
-                <div className="flex-grow flex flex-col">
-                  {femalePopulationDetails.map((item, idx) => (
-                    <div
-                      key={item.name || idx}
-                      className="flex justify-between items-center py-1 border-b border-gray-200 last:border-b-0"
-                    >
-                      <span className="font-semibold text-gray-700">
-                        {item.name}:
-                      </span>
-                      <span className="text-blue-700">{item.value}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+      {/* Graphical Highlights Section */}
+      {!overallLoading &&
+        !error &&
+        (pieChartMetric ||
+          ringChartMetric ||
+          lineChartMetric ||
+          stackBarChartMetric ||
+          wardBarChartMetric) && (
+          <>
+            <div className="col-span-full mt-8">
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                ग्राफिकल हाइलाइटहरू
+              </h2>
+              <hr className="my-4 border-gray-300" />
             </div>
-          </Card>
+            {/* Card for the Pie Chart dashboard (e.g., ID 1000002) */}
+            {pieChartMetric && (
+              <Card
+                title={pieChartMetric.name || "चार्ट डेटा"}
+                loading={false}
+                enableDownloads={true}
+                onDownloadSVG={handleDownloadSVG}
+                onDownloadCSV={handleDownloadCSV}
+                onDownloadPNG={handleDownloadPNG}
+              >
+                <GenericChartPreview
+                  type={
+                    pieChartMetric.type?.toLowerCase() === "pie chart"
+                      ? "pie"
+                      : "bar"
+                  }
+                  labelKey="name"
+                  valueKey="value"
+                  chartLabel={pieChartMetric.name || "जनसंख्या"}
+                  title={pieChartMetric.name || "जनसंख्या विवरण"}
+                  data={pieChartMetric.data}
+                />
+              </Card>
+            )}
+            {/* Card for the Ring Chart dashboard (e.g., ID 1000003) */}
+            {ringChartMetric && (
+              <Card
+                title={ringChartMetric.name || "चार्ट डेटा"}
+                loading={false}
+                enableDownloads={true}
+                onDownloadSVG={handleDownloadSVG}
+                onDownloadCSV={handleDownloadCSV}
+                onDownloadPNG={handleDownloadPNG}
+              >
+                <GenericChartPreview
+                  type={
+                    ringChartMetric.type?.toLowerCase() === "ring chart"
+                      ? "doughnut"
+                      : "bar"
+                  }
+                  labelKey="name"
+                  valueKey="value"
+                  chartLabel={ringChartMetric.name || "जनसंख्या"}
+                  title={ringChartMetric.name || "जनसंख्या विवरण"}
+                  data={ringChartMetric.data}
+                />
+              </Card>
+            )}
+            {/* Card for the Line Chart dashboard (e.g., ID 1000004) */}
+            {lineChartMetric && (
+              <Card
+                title={lineChartMetric.name || "चार्ट डेटा"}
+                loading={false}
+                className="col-span-2"
+                enableDownloads={true}
+                onDownloadSVG={handleDownloadSVG}
+                onDownloadCSV={handleDownloadCSV}
+                onDownloadPNG={handleDownloadPNG}
+              >
+                <GenericChartPreview
+                  type={
+                    lineChartMetric.type?.toLowerCase() === "line chart"
+                      ? "line"
+                      : "bar"
+                  }
+                  labelKey="name"
+                  valueKey="value"
+                  chartLabel={lineChartMetric.name || "जनसंख्या"}
+                  title={lineChartMetric.name || "जनसंख्या विवरण"}
+                  data={lineChartMetric.data}
+                />
+              </Card>
+            )}
+            {/* Card for the Stack Bar Chart dashboard (e.g., ID 1000005) */}
+            {stackBarChartMetric && (
+              <Card
+                title={stackBarChartMetric.name || "वडागत जनसंख्या"}
+                loading={false}
+                className="col-span-full"
+                enableDownloads={true}
+                onDownloadSVG={handleDownloadSVG}
+                onDownloadCSV={handleDownloadCSV}
+                onDownloadPNG={handleDownloadPNG}
+              >
+                <GenericChartPreview
+                  type={
+                    stackBarChartMetric.type?.toLowerCase() ===
+                    "stack bar graph"
+                      ? "stackbar"
+                      : "bar"
+                  }
+                  labelKey="name"
+                  valueKey="value"
+                  chartLabel={stackBarChartMetric.name || "जनसंख्या"}
+                  title={stackBarChartMetric.name || "जनसंख्या विवरण"}
+                  data={stackBarChartMetric.data}
+                  wardData={stackBarChartMetric.wardData}
+                />
+              </Card>
+            )}
+            {/* Card for the Ward-wise Bar Chart (e.g., ID 1000006) */}
+            {wardBarChartMetric && (
+              <Card
+                title={wardBarChartMetric.name || "वडा स्तरीय जनसंख्या"}
+                loading={false}
+                enableDownloads={true}
+                onDownloadSVG={handleDownloadSVG}
+                onDownloadCSV={handleDownloadCSV}
+                onDownloadPNG={handleDownloadPNG}
+              >
+                <GenericChartPreview
+                  type={
+                    wardBarChartMetric.type?.toLowerCase() === "bar chart"
+                      ? "bar"
+                      : "bar"
+                  }
+                  labelKey="name"
+                  valueKey="value"
+                  chartLabel={wardBarChartMetric.name || "जनसंख्या"}
+                  title={wardBarChartMetric.name || "जनसंख्या विवरण"}
+                  data={wardBarChartMetric.data}
+                />
+              </Card>
+            )}
+          </>
         )}
-      </div>{" "}
-      {/* End of the dedicated grid for the first four cards */}
-      {/* Card for the second multi-item dashboard (e.g., ID 1000007) */}
-      {/* {!overallLoading && !error && multiItemMetric2 && (
-        <Card title={multiItemMetric2.name} loading={false}>
-          <div className="space-y-2 text-base">
-            {multiItemMetric2.data.map((item, idx) => (
-              <div
-                key={item.name || idx}
-                className="flex justify-between items-center py-1 border-b border-gray-200 last:border-b-0"
-              >
-                <span className="font-semibold text-gray-700">
-                  {item.name}:
-                </span>
-                <span className="text-blue-700">{item.value}</span>
-              </div>
-            ))}
-          </div>
-        </Card>
-      )} */}
-      {/* Card for the third multi-item dashboard (e.g., ID 1000008) */}
-      {/* {!overallLoading && !error && multiItemMetric3 && (
-        <Card title={multiItemMetric3.name} loading={false}>
-          <div className="space-y-2 text-base">
-            {multiItemMetric3.data.map((item, idx) => (
-              <div
-                key={item.name || idx}
-                className="flex justify-between items-center py-1 border-b border-gray-200 last:border-b-0"
-              >
-                <span className="font-semibold text-gray-700">
-                  {item.name}:
-                </span>
-                <span className="text-blue-700">{item.value}</span>
-              </div>
-            ))}
-          </div>
-        </Card>
-      )} */}
-      {/* Card for the Pie Chart dashboard (e.g., ID 1000002) */}
-      {!overallLoading && !error && pieChartMetric && (
-        <Card
-          title={pieChartMetric.name || "चार्ट डेटा"}
-          loading={false}
-          enableDownloads={true}
-          onDownloadSVG={handleDownloadSVG}
-          onDownloadCSV={handleDownloadCSV}
-          onDownloadPNG={handleDownloadPNG}
-        >
-          <GenericChartPreview
-            type={
-              pieChartMetric.type?.toLowerCase() === "pie chart" ? "pie" : "bar"
-            }
-            labelKey="name"
-            valueKey="value"
-            chartLabel={pieChartMetric.name || "जनसंख्या"}
-            title={pieChartMetric.name || "जनसंख्या विवरण"}
-            data={pieChartMetric.data}
-          />
-        </Card>
-      )}
-      {/* Card for the Ring Chart dashboard (e.g., ID 1000003) */}
-      {!overallLoading && !error && ringChartMetric && (
-        <Card
-          title={ringChartMetric.name || "चार्ट डेटा"}
-          loading={false}
-          enableDownloads={true}
-          onDownloadSVG={handleDownloadSVG}
-          onDownloadCSV={handleDownloadCSV}
-          onDownloadPNG={handleDownloadPNG}
-        >
-          <GenericChartPreview
-            type={
-              ringChartMetric.type?.toLowerCase() === "ring chart"
-                ? "doughnut"
-                : "bar"
-            }
-            labelKey="name"
-            valueKey="value"
-            chartLabel={ringChartMetric.name || "जनसंख्या"}
-            title={ringChartMetric.name || "जनसंख्या विवरण"}
-            data={ringChartMetric.data}
-          />
-        </Card>
-      )}
-      {/* Card for the Line Chart dashboard (e.g., ID 1000004) */}
-      {!overallLoading && !error && lineChartMetric && (
-        <Card
-          title={lineChartMetric.name || "चार्ट डेटा"}
-          loading={false}
-          className="col-span-2"
-          enableDownloads={true}
-          onDownloadSVG={handleDownloadSVG}
-          onDownloadCSV={handleDownloadCSV}
-          onDownloadPNG={handleDownloadPNG}
-        >
-          <GenericChartPreview
-            type={
-              lineChartMetric.type?.toLowerCase() === "line chart"
-                ? "line"
-                : "bar"
-            }
-            labelKey="name"
-            valueKey="value"
-            chartLabel={lineChartMetric.name || "जनसंख्या"}
-            title={lineChartMetric.name || "जनसंख्या विवरण"}
-            data={lineChartMetric.data}
-          />
-        </Card>
-      )}
-      {/* Card for the Stack Bar Chart dashboard (e.g., ID 1000005) */}
-      {!overallLoading && !error && stackBarChartMetric && (
-        <Card
-          title={stackBarChartMetric.name || "वडागत जनसंख्या"}
-          loading={false}
-          className="col-span-full"
-          enableDownloads={true}
-          onDownloadSVG={handleDownloadSVG}
-          onDownloadCSV={handleDownloadCSV}
-          onDownloadPNG={handleDownloadPNG}
-        >
-          <GenericChartPreview
-            type={
-              stackBarChartMetric.type?.toLowerCase() === "stack bar graph"
-                ? "stackbar"
-                : "bar"
-            }
-            labelKey="name"
-            valueKey="value"
-            chartLabel={stackBarChartMetric.name || "जनसंख्या"}
-            title={stackBarChartMetric.name || "जनसंख्या विवरण"}
-            data={stackBarChartMetric.data}
-            wardData={stackBarChartMetric.wardData}
-          />
-        </Card>
-      )}
-      {/* Card for the Ward-wise Bar Chart (e.g., ID 1000006) */}
-      {!overallLoading && !error && wardBarChartMetric && (
-        <Card
-          title={wardBarChartMetric.name || "वडा स्तरीय जनसंख्या"}
-          loading={false}
-          enableDownloads={true}
-          onDownloadSVG={handleDownloadSVG}
-          onDownloadCSV={handleDownloadCSV}
-          onDownloadPNG={handleDownloadPNG}
-        >
-          <GenericChartPreview
-            type={
-              wardBarChartMetric.type?.toLowerCase() === "bar chart"
-                ? "bar"
-                : "bar"
-            }
-            labelKey="name"
-            valueKey="value"
-            chartLabel={wardBarChartMetric.name || "जनसंख्या"}
-            title={wardBarChartMetric.name || "जनसंख्या विवरण"}
-            data={wardBarChartMetric.data}
-          />
-        </Card>
-      )}
+
       {/* Fallback if no dashboard metrics can be displayed after loading */}
       {!overallLoading &&
         !error &&
