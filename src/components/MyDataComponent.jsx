@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useAuth } from "../context/AuthContext.jsx";
 import { FaPrint } from "react-icons/fa"; // Import the print icon
 
-// Add CSS for spinning animation
+// Add CSS for spinning animation (re-added as requested)
 const spinAnimation = `
   @keyframes spin {
     0% { transform: rotate(0deg); }
@@ -60,7 +60,7 @@ function MyDataComponent({
   // Ref for the content to be printed
   const printableContentRef = useRef(null);
 
-  // Inject CSS animation
+  // Inject CSS animation (re-added as requested)
   useEffect(() => {
     const style = document.createElement("style");
     style.textContent = spinAnimation;
@@ -69,7 +69,7 @@ function MyDataComponent({
     return () => {
       document.head.removeChild(style);
     };
-  }, []);
+  }, []); // Empty dependency array means it runs once on mount and cleans up on unmount
 
   useEffect(() => {
     const fetchHtml = async () => {
@@ -161,14 +161,13 @@ function MyDataComponent({
           }
         } else if (oldFormatDataCells) {
           // Handle the old format as a fallback
-          // Dynamically derive the first header based on the title prop
           const firstHeader = deriveFirstHeader(title);
           const headers = [firstHeader, "वडा नं २", "जम्मा"];
           setTableHeaders(headers);
 
           const dataRows = [];
           const rowHeaders = doc.querySelectorAll(".jrxtrowfloating");
-          const totalCellsLast = doc.querySelectorAll(".jrxtdatacell"); // Re-query total cells for consistency
+          const totalCellsLast = doc.querySelectorAll(".jrxtdatacell");
 
           rowHeaders.forEach((header, index) => {
             const firstColumnData = header.textContent.trim();
@@ -216,7 +215,7 @@ function MyDataComponent({
     };
 
     fetchHtml();
-  }, [axiosInstance, authLoading, authError, token, urlPostfix, title]); // Add 'title' to dependencies
+  }, [axiosInstance, authLoading, authError, token, urlPostfix, title]);
 
   // Function to handle printing
   const handlePrint = () => {
@@ -244,7 +243,7 @@ function MyDataComponent({
             border: 1px solid #444;
             font-family: Arial, sans-serif;
             background-color: #f2f2f2;
-            table-layout: fixed;
+            table-layout: auto; /* Changed to auto for dynamic column width */
           }
           th, td {
             border: 1px solid #444;
@@ -293,6 +292,7 @@ function MyDataComponent({
     return (
       <div className="w-full h-full flex justify-center items-center bg-white text-gray-800 text-[1.2rem]">
         <div className="flex flex-col items-center justify-center text-center py-10">
+          {/* Apply animate-spin class here */}
           <div className="w-10 h-10 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin mb-4"></div>
           <p className="text-gray-800 text-sm sm:text-base">
             डाटा लोड हुँदैछ...
@@ -309,7 +309,6 @@ function MyDataComponent({
           <p className="text-red-600 text-sm sm:text-base">
             डाटा उपलब्ध छैन। {/* Nepali for "Data is not available." */}
           </p>
-          {/* Optionally display the specific error message for debugging if needed: {error} */}
         </div>
       </div>
     );
@@ -317,7 +316,6 @@ function MyDataComponent({
 
   // Finally, render the table only if there is data
   if (tableData.length === 0) {
-    // This catch-all handles cases where error was not set, but data is truly empty
     return (
       <div className="w-full h-full flex justify-center items-center bg-white text-red-600 text-[1.2rem]">
         <div className="flex flex-col items-center justify-center text-center py-10">
@@ -368,7 +366,7 @@ function MyDataComponent({
             border: "1px solid #444",
             fontFamily: "Arial, sans-serif",
             backgroundColor: "#f2f2f2",
-            tableLayout: "fixed",
+            tableLayout: "auto" /* Changed to auto for dynamic column width */,
           }}
         >
           <thead>

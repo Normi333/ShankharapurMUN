@@ -88,11 +88,11 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
       title: "बहाल विवरण रिपोर्ट",
       endpoint: "rent_details_report",
     },
-    {
-      path: "/loan-source",
-      title: "ऋणको स्रोत रिपोर्ट",
-      endpoint: "loan_source_report",
-    },
+    // {
+    //   path: "/loan-source",
+    //   title: "ऋणको स्रोत रिपोर्ट",
+    //   endpoint: "loan_source_report",
+    // },
     {
       path: "/saving-source",
       title: "बचतको स्रोत रिपोर्ट",
@@ -130,8 +130,13 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
     },
     {
       path: "/building-details",
-      title: "भवनको विवरण रिपोर्ट",
+      title: "भवनको सारांश विवरण रिपोर्ट",
       endpoint: "buildingdetails_summary",
+    },
+    {
+      path: "/building-report",
+      title: "घरको बनावटको विवरण",
+      endpoint: "building_details_report",
     },
     {
       path: "/disaster-details",

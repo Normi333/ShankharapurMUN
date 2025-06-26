@@ -304,7 +304,7 @@ const reportConfig = {
   },
   irrigationstatus: {
     endpoint: "irr_type_details",
-    title: "सिंचाईको अवस्था सम्बन्늄दी विवरण",
+    title: "सिंचाईको अवस्था सम्बन्धी विवरण",
   },
   housingdevelopment: {
     endpoint: "housing_poor_details",
@@ -327,7 +327,7 @@ const reportConfig = {
     title: "सामुदायिक वनहरुको विवरण",
   },
   forest: {
-    endpoint: "forest_details",
+    endpoint: "forest_detail",
     title: "वनको विवरण",
   },
   landwatershed: {
@@ -394,6 +394,14 @@ const reportConfig = {
   disasterimpact: {
     endpoint: "d_impact_details",
     title: "विपदको असर विवरण",
+  },
+  incomedetails: {
+    endpoint: "income_details",
+    title: "पालिकाको आय विवरण",
+  },
+  monumentdetails: {
+    endpoint: "pa_details",
+    title: "पानीमुहान, जमीन र भौतिक संरचना क्षेत्र विवरण",
   },
 };
 

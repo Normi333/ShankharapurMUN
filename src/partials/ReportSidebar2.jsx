@@ -38,15 +38,15 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
 
   // Your surveys array (remains unchanged)
   const surveys = [
-    // {
-    //   path: "/communityorg",
-    //   title: "सामुदायिक संस्था विवरण",
-    //   endpoint: "co_org_details",
-    // },
     {
       path: "/individualevent",
       title: "व्यक्तिगत घटना विवरण",
       endpoint: "lg_osurvey",
+    },
+    {
+      path: "/communityorg",
+      title: "सामुदायिक संस्था विवरण",
+      endpoint: "co_org_details",
     },
     {
       path: "/socialsecurity",
@@ -118,21 +118,21 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
       title: "होटेल, लज, रेष्टुरेण्ट, होमस्टेको विवरण",
       endpoint: "hotel_details",
     },
-    // {
-    //   path: "/naturalresourcemap",
-    //   title: "प्राकृतिक स्रोत साधनको नक्शांकन",
-    //   endpoint: "nr_map_details",
-    // },
-    // {
-    //   path: "/investment",
-    //   title: "लगानी विवरण",
-    //   endpoint: "invest_details",
-    // },
-    // {
-    //   path: "/energyaccess",
-    //   title: "उर्जाको किसिम तथा नागरिकको पहुँच",
-    //   endpoint: "energy_details",
-    // },
+    {
+      path: "/naturalresourcemap",
+      title: "प्राकृतिक स्रोत साधनको नक्शांकन",
+      endpoint: "nr_map_details",
+    },
+    {
+      path: "/investment",
+      title: "लगानी विवरण",
+      endpoint: "invest_details",
+    },
+    {
+      path: "/energyaccess",
+      title: "उर्जाको किसिम तथा नागरिकको पहुँच",
+      endpoint: "energy_details",
+    },
     {
       path: "/irrigationstatus",
       title: "सिंचाईको अवस्था सम्बन्धी विवरण",
@@ -153,11 +153,11 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
       title: "वन तथा वातावरण सम्बन्धी सुचक विवरण",
       endpoint: "f_indicator_details",
     },
-    // {
-    //   path: "/forestbiodiversity",
-    //   title: "वन तथा जैविक विविधता सूचक",
-    //   endpoint: "fbd_details",
-    // },
+    {
+      path: "/forestbiodiversity",
+      title: "वन तथा जैविक विविधता सूचक",
+      endpoint: "fbd_details",
+    },
     {
       path: "/communityforest",
       title: "सामुदायिक वनहरुको विवरण",
@@ -166,7 +166,7 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
     {
       path: "/forest",
       title: "वनको विवरण",
-      endpoint: "forest_details",
+      endpoint: "forest_detail",
     },
     // {
     //   path: "/landwatershed",
@@ -183,71 +183,81 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
       title: "वायु प्रदुषणका श्रोतहरु",
       endpoint: "air_pollution_details",
     },
-    // {
-    //   path: "/disastermanagement",
-    //   title: "प्रकोप ब्यवस्थापन सम्बन्धी विवरण",
-    //   endpoint: "disaster_details",
-    // },
+    {
+      path: "/disastermanagement",
+      title: "प्रकोप ब्यवस्थापन सम्बन्धी विवरण",
+      endpoint: "disaster_details",
+    },
     {
       path: "/governance",
       title: "सुशासन (सेवा प्रवाहबाट सन्तुष्टी)",
       endpoint: "governance_details",
     },
-    // {
-    //   path: "/healthnutrition",
-    //   title: "स्वास्थ्य तथा पोषण सम्बन्धी",
-    //   endpoint: "hn_details",
-    // },
+    {
+      path: "/healthnutrition",
+      title: "स्वास्थ्य तथा पोषण सम्बन्धी",
+      endpoint: "hn_details",
+    },
     {
       path: "/disease",
       title: "प्रमुख रोग तथा उपचारसम्बन्धी विवरण",
       endpoint: "disease_details",
     },
-    // {
-    //   path: "/majorprojects",
-    //   title: "गौरवका आयोजनाहरु विवरण",
-    //   endpoint: "project_details",
-    // },
+    {
+      path: "/majorprojects",
+      title: "गौरवका आयोजनाहरु विवरण",
+      endpoint: "project_details",
+    },
     {
       path: "/mainroad",
       title: "सडक मार्ग विवरण",
       endpoint: "main_road_details",
     },
-    // {
-    //   path: "/governmentbuilding",
-    //   title: "सरकारी भवन",
-    //   endpoint: "building_details",
-    // },
-    // {
-    //   path: "/publiccommunitybuilding",
-    //   title: "सार्वजनिक तथा सामुदायिक भवन",
-    //   endpoint: "pb_details",
-    // },
+    {
+      path: "/governmentbuilding",
+      title: "सरकारी भवन",
+      endpoint: "building_details",
+    },
+    {
+      path: "/publiccommunitybuilding",
+      title: "सार्वजनिक तथा सामुदायिक भवन",
+      endpoint: "pb_details",
+    },
     {
       path: "/bridgedetails",
       title: "पुल तथा पुलेसा विवरण",
       endpoint: "bridge_details",
     },
-    // {
-    //   path: "/grazingarea",
-    //   title: "चरन क्षेत्र विवरण",
-    //   endpoint: "graze_details",
-    // },
+    {
+      path: "/grazingarea",
+      title: "चरन क्षेत्र विवरण",
+      endpoint: "graze_details",
+    },
     {
       path: "/waterlandpollution",
       title: "जल तथा जमीन प्रदुषण",
       endpoint: "wlp_details",
     },
-    // {
-    //   path: "/humancasualltydisaster",
-    //   title: "विपदबाट मानवीय क्षती विवरण",
-    //   endpoint: "hdd_details",
-    // },
-    // {
-    //   path: "/disasterimpact",
-    //   title: "विपदको असर विवरण",
-    //   endpoint: "d_impact_details",
-    // },
+    {
+      path: "/humancasualltydisaster",
+      title: "विपदबाट मानवीय क्षती विवरण",
+      endpoint: "hdd_details",
+    },
+    {
+      path: "/disasterimpact",
+      title: "विपदको असर विवरण",
+      endpoint: "d_impact_details",
+    },
+    {
+      path: "/incomedetails",
+      title: "पालिकाको आय विवरण ",
+      endpoint: "income_details",
+    },
+    {
+      path: "/monumentdetails",
+      title: "पानीमुहान, जमीन र भौतिक संरचना क्षेत्र विवरण",
+      endpoint: "pa_details",
+    },
   ];
 
   // SVG icon reused in list

@@ -1353,7 +1353,7 @@ const ChartGrid = () => {
 
               {/* NEW CARD: जम्मा परिवार संख्या */}
               {totalFamilyCount && (
-                <Card title="जम्मा परिवार संख्या" loading={false}>
+                <Card title="जम्मा जनसंख्या" loading={false}>
                   {/* Added flex-grow to ensure this div takes available space */}
                   <div className="flex-grow flex items-center justify-center space-x-4 py-8">
                     <div className="flex-shrink-0 w-16 h-16 bg-blue-500 rounded-xl flex items-center justify-center text-white text-3xl">

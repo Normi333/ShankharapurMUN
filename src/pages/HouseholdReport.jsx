@@ -90,7 +90,11 @@ const reportConfig = {
   },
   "building-details": {
     endpoint: "buildingdetails_summary",
-    title: "भवनको विवरण रिपोर्ट",
+    title: "भवनको सारांश विवरण रिपोर्ट",
+  },
+  "building-report": {
+    endpoint: "building_details_report",
+    title: "घरको बनावटको विवरण",
   },
   "disaster-details": {
     endpoint: "lg_hsurvey_disaster_details",
