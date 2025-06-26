@@ -13,7 +13,7 @@ export default {
         },
     },
     plugins: [
-        require('tailwind-scrollbar'),
+        require('tailwind-scrollbar-hide'),
     ],
     safelist: [
         // --- Essential Layout Classes from ChartGrid.jsx and general structure ---

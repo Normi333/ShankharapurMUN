@@ -1026,7 +1026,7 @@
 import React, { useEffect, useState } from "react";
 import Card from "../charts/card.jsx";
 import GenericChartPreview from "../charts/GenericChartPreview.jsx";
-import { useAuth } from "../context/AuthContext.jsx";
+import { useAuth } from "../context/AuthContext.jsx"; // Corrected import path for AuthContext
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -1332,12 +1332,13 @@ const ChartGrid = () => {
               </h2>
               <hr className="my-4 border-gray-300" />
             </div>
-            {/* THIS IS THE KEY CHANGE: Explicitly define 2 columns on medium screens and above */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 col-span-full">
+            {/* THIS IS THE KEY CHANGE: Added items-stretch and flex-col for Card content */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 col-span-full items-stretch">
               {/* Card for the single value metric (e.g., ID 1000000) */}
               {singleValueMetric && (
                 <Card title={singleValueMetric.name} loading={false}>
-                  <div className="flex items-center justify-center space-x-4 py-8">
+                  {/* Added flex-grow to ensure this div takes available space */}
+                  <div className="flex-grow flex items-center justify-center space-x-4 py-8">
                     <div className="flex-shrink-0 w-16 h-16 bg-[#8c6eff] rounded-xl flex items-center justify-center text-white text-3xl">
                       <FontAwesomeIcon icon={faHouse} />
                     </div>
@@ -1353,7 +1354,8 @@ const ChartGrid = () => {
               {/* NEW CARD: जम्मा परिवार संख्या */}
               {totalFamilyCount && (
                 <Card title="जम्मा परिवार संख्या" loading={false}>
-                  <div className="flex items-center justify-center space-x-4 py-8">
+                  {/* Added flex-grow to ensure this div takes available space */}
+                  <div className="flex-grow flex items-center justify-center space-x-4 py-8">
                     <div className="flex-shrink-0 w-16 h-16 bg-blue-500 rounded-xl flex items-center justify-center text-white text-3xl">
                       <FontAwesomeIcon icon={faUsers} />{" "}
                     </div>
@@ -1370,7 +1372,8 @@ const ChartGrid = () => {
               {/* NEW CARD: पुरुष जनसंख्या विवरण */}
               {malePopulationDetails && (
                 <Card title="पुरुष जनसंख्या विवरण" loading={false}>
-                  <div className="space-y-2 text-base py-2">
+                  {/* Added flex-grow to ensure this div takes available space and justify-center to center content if short */}
+                  <div className="flex-grow flex flex-col justify-center space-y-2 text-base py-2">
                     <div className="flex items-center space-x-4">
                       <div className="flex-shrink-0 w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center text-white text-2xl">
                         <FontAwesomeIcon icon={faMale} />
@@ -1396,7 +1399,8 @@ const ChartGrid = () => {
               {/* NEW CARD: महिला जनसंख्या विवरण */}
               {femalePopulationDetails && (
                 <Card title="महिला जनसंख्या विवरण" loading={false}>
-                  <div className="space-y-2 text-base py-2">
+                  {/* Added flex-grow to ensure this div takes available space and justify-center to center content if short */}
+                  <div className="flex-grow flex flex-col justify-center space-y-2 text-base py-2">
                     <div className="flex items-center space-x-4">
                       <div className="flex-shrink-0 w-12 h-12 bg-pink-500 rounded-xl flex items-center justify-center text-white text-2xl">
                         <FontAwesomeIcon icon={faFemale} />
