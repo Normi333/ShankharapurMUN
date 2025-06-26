@@ -282,11 +282,13 @@ import "leaflet/dist/leaflet.css";
 import "../css/map.css";
 import { FaHome } from "react-icons/fa"; // Import the Home icon
 
-import roadData from "../data/2nd_roads_shakarapur.json";
-import ForestData from "../data/Forest_shankarapur.json";
-import BuildingData from "../data/Buildings_shankarapur.json";
-import RiverData from "../data/River_Shankarapur.json";
-import BorderData from "../data/Border_Shankarapur.json";
+import roadData from "../data/Roads_Clip.json";
+import ForestData from "../data/Forest_Clip.json";
+import BuildingData from "../data/Buildings_Clip.json";
+import RiverData from "../data/River_Clip.json";
+import BorderData from "../data/Current_Border.json";
+import PublicData from "../data/Public_Place_Clip.json";
+import NapiData from "../data/Napi_Border_Clip.json";
 
 // SetViewOnClick is used for click-to-pan functionality
 function SetViewOnClick() {
@@ -427,6 +429,24 @@ function Map({ selectedLayers }) {
   const BorderStyle = {
     weight: 3,
     color: "red",
+  };
+
+  const PublicStyle = {
+    weight: 3,
+    color: "purple",
+  };
+
+  const NapiStyle = {
+    weight: 3,
+    color: "orange",
+  };
+
+  const onEachPublic = (feature, layer) => {
+    const { TYPE, Name } = feature.properties;
+    layer.bindPopup(`
+      <b>Type:</b> ${TYPE}<br/>
+      <b>Name:</b> ${Name || "N/A"}<br/>
+    `);
   };
 
   const onEachRoad = (feature, layer) => {
@@ -574,6 +594,16 @@ function Map({ selectedLayers }) {
         )}
         {selectedLayers.includes("border") && (
           <GeoJSON data={BorderData} style={BorderStyle} />
+        )}
+        {selectedLayers.includes("public") && (
+          <GeoJSON
+            data={PublicData}
+            style={PublicStyle}
+            onEachFeature={onEachPublic}
+          />
+        )}
+        {selectedLayers.includes("napi") && (
+          <GeoJSON data={NapiData} style={NapiStyle} />
         )}
       </MapContainer>
     ),

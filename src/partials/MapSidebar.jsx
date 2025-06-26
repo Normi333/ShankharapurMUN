@@ -23,13 +23,17 @@ function Sidebar({
     buildingLayers: false,
     transportationLayers: false,
     naturalResourcesLayers: false,
+    publicLayers: false,
   });
 
   // Updated Layers structure - grouped by categories with sub-types
   const layerCategories = {
     baseLayers: {
       title: "Base",
-      layers: [{ id: "border", name: "Border" }],
+      layers: [
+        { id: "border", name: "Border" },
+        { id: "napi", name: "Napi Border" },
+      ],
     },
     buildingLayers: {
       title: "Infrastructure",
@@ -52,6 +56,10 @@ function Sidebar({
         { id: "roads-Internal", name: "Internal Roads" },
         { id: "roads-External", name: "External Roads" },
       ],
+    },
+    publicLayers: {
+      title: "Public Place",
+      layers: [{ id: "public", name: "Public Place" }],
     },
     naturalResourcesLayers: {
       title: "Natural Resources",

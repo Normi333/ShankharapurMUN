@@ -12,7 +12,8 @@ const MapPage = () => {
       layers: [
         // THIS IS THE CRUCIAL LINE THAT WAS ADDED/CORRECTED
         { id: "border", name: "Border" }, // <--- This ensures 'border' is known
-        { id: "river", name: "River" },
+        // { id: "river", name: "River" },
+        { id: "napi", name: "Napi Border" },
       ],
     },
     buildingLayers: {
@@ -39,7 +40,14 @@ const MapPage = () => {
     },
     naturalResourcesLayers: {
       title: "Natural Resources",
-      layers: [{ id: "forest", name: "Forest" }],
+      layers: [
+        { id: "forest", name: "Forest" },
+        { id: "river", name: "River" },
+      ],
+    },
+    publicPlaceLayers: {
+      title: "Public Place",
+      layers: [{ id: "public", name: "Public Place" }],
     },
   };
 
