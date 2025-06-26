@@ -148,11 +148,11 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
       title: "वन तथा वातावरण सम्बन्धी विवरण",
       endpoint: "fe_details",
     },
-    // {
-    //   path: "/forestindicator",
-    //   title: "वन तथा वातावरण सम्बन्धी सुचक विवरण",
-    //   endpoint: "f_indicator_details",
-    // },
+    {
+      path: "/forestindicator",
+      title: "वन तथा वातावरण सम्बन्धी सुचक विवरण",
+      endpoint: "f_indicator_details",
+    },
     // {
     //   path: "/forestbiodiversity",
     //   title: "वन तथा जैविक विविधता सूचक",
@@ -163,11 +163,11 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
       title: "सामुदायिक वनहरुको विवरण",
       endpoint: "cf_details",
     },
-    // {
-    //   path: "/forest",
-    //   title: "वनको विवरण",
-    //   endpoint: "forest_details",
-    // },
+    {
+      path: "/forest",
+      title: "वनको विवरण",
+      endpoint: "forest_details",
+    },
     // {
     //   path: "/landwatershed",
     //   title: "भूमि तथा जलाधार व्यवस्थापन विवरण",

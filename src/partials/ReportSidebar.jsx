@@ -64,6 +64,11 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
       endpoint: "hsurvey_cookingfuel",
     },
     {
+      path: "/fueltype",
+      title: "चुल्होको प्रकारको आधारमा वर्गिकरण",
+      endpoint: "hsurvey_cookingfueltype",
+    },
+    {
       path: "/noncurable",
       title: "निको नहुने रोगको आधारमा वर्गिकरण",
       endpoint: "hsurvey_noncurable",
@@ -95,8 +100,13 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
     },
     {
       path: "/incomeexpense",
-      title: "आम्दानी र खर्चको आधारमा वर्गिकरण",
+      title: "आम्दानीको आधारमा वर्गिकरण",
       endpoint: "hsurvey_incomeexpense",
+    },
+    {
+      path: "/spendexpense",
+      title: "खर्चको आधारमा वर्गिकरण",
+      endpoint: "lg_hsurvey_expense_source",
     },
     {
       path: "/foreign",
@@ -147,6 +157,11 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
       path: "/agegroup",
       title: "उमेर समूहको आधारमा वर्गिकरण",
       endpoint: "hsurvey_agegroup",
+    },
+    {
+      path: "/animalreport",
+      title: "पशुपंशी तथ्यांक संकलन रिपोर्ट",
+      endpoint: "hsurvey_lsdetails",
     },
   ];
 

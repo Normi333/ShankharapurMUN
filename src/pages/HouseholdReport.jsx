@@ -28,6 +28,11 @@ const reportConfig = {
     title: "खाना पकाउने इन्धनको आधारमा वर्गिकरण",
     keepOriginalStyle: true,
   },
+  fueltype: {
+    endpoint: "hsurvey_cookingfueltype",
+    title: "चुल्होको प्रकारको आधारमा वर्गिकरण",
+    keepOriginalStyle: true,
+  },
   noncurable: {
     endpoint: "hsurvey_noncurable",
     title: "निको नहुने रोगको आधारमा वर्गिकरण",
@@ -58,7 +63,12 @@ const reportConfig = {
   },
   incomeexpense: {
     endpoint: "hsurvey_incomeexpense",
-    title: "आम्दानी र खर्चको आधारमा वर्गिकरण",
+    title: "आम्दानीको आधारमा वर्गिकरण",
+    keepOriginalStyle: true,
+  },
+  spendexpense: {
+    endpoint: "lg_hsurvey_expense_source",
+    title: "खर्चको आधारमा वर्गिकरण",
     keepOriginalStyle: true,
   },
   foreign: {
@@ -101,6 +111,10 @@ const reportConfig = {
   agegroup: {
     endpoint: "hsurvey_agegroup",
     title: "उमेर समूहको आधारमा वर्गिकरण",
+  },
+  animalreport: {
+    endpoint: "hsurvey_lsdetails",
+    title: "पशुपंशी तथ्यांक संकलन रिपोर्ट",
   },
 };
 
