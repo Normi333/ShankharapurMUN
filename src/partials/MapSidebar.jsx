@@ -46,6 +46,8 @@ function Sidebar({
         { id: "buildings-Government", name: "Government Office" },
         { id: "buildings-Hotel", name: "Hotel" },
         { id: "buildings-HealthPost", name: "Health Post" },
+        { id: "buildings-Temple", name: "Temple" },
+        { id: "buildings-Stupa", name: "Stupa" },
       ],
     },
     transportationLayers: {

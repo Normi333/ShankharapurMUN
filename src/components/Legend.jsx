@@ -59,33 +59,42 @@ const legendItems = {
   border: { label: "Border", className: "border" },
   forest: { label: "Forest", className: "forest" },
   river: { label: "River", className: "river" },
-  public: { label: "Public Place", className: "public" }, // Added public place
-  napi: { label: "Napi Border", className: "napi" }, // Added Napi Border
+  public: { label: "Public Place", className: "public" },
+  napi: { label: "Napi Border", className: "napi" },
 
   // Updated Road layer: Single 'roads' option
   roads: { label: "Roads", className: "roads" }, // This will represent all roads
 
-  // Updated Building layers: Specific types only, no 'buildings-all'
-  // Note: The 'buildings' generic entry is removed as it's no longer a direct layer
+  // Updated Building layers: Specific types only, including Temple and Stupa
   "buildings-Residential": {
-    label: "Residential Buildings", // Updated label for clarity
+    label: "Residential Buildings",
     className: "buildings-Residential",
   },
   "buildings-School": {
-    label: "School Buildings", // Updated label for clarity
+    label: "School Buildings",
     className: "buildings-School",
   },
   "buildings-Government": {
-    label: "Government Offices", // Updated label for clarity
+    label: "Government Offices",
     className: "buildings-Government",
   },
   "buildings-HealthPost": {
-    label: "Health Posts", // Updated label for clarity
+    label: "Health Posts",
     className: "buildings-HealthPost",
   },
   "buildings-Hotel": {
-    label: "Hotels", // Updated label for clarity
+    label: "Hotels",
     className: "buildings-Hotel",
+  },
+  "buildings-Temple": {
+    // New: Temple
+    label: "Temples",
+    className: "buildings-Temple",
+  },
+  "buildings-Stupa": {
+    // New: Stupa
+    label: "Stupas",
+    className: "buildings-Stupa",
   },
 };
 

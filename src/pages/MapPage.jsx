@@ -6,36 +6,34 @@ import Legend from "../components/Legend";
 
 const MapPage = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // Updated layerCategories to match Sidebar and Map logic
   const layerCategories = {
     baseLayers: {
       title: "Base",
       layers: [
-        // THIS IS THE CRUCIAL LINE THAT WAS ADDED/CORRECTED
-        { id: "border", name: "Border" }, // <--- This ensures 'border' is known
-        // { id: "river", name: "River" },
+        { id: "border", name: "Border" },
         { id: "napi", name: "Napi Border" },
       ],
     },
     buildingLayers: {
       title: "Infrastructure",
       layers: [
-        { id: "buildings-all", name: "All Buildings" },
+        // Removed { id: "buildings-all", name: "All Buildings" }
         { id: "buildings-Residential", name: "Residential" },
-        {
-          id: "buildings-Government-Agro Office",
-          name: "Government-Agro Office",
-        },
+        { id: "buildings-School", name: "School" },
         { id: "buildings-Government", name: "Government Office" },
         { id: "buildings-Hotel", name: "Hotel" },
-        { id: "buildings-Finance", name: "Finance Company" },
+        { id: "buildings-HealthPost", name: "Health Post" },
+        { id: "buildings-Temple", name: "Temple" }, // Added Temple
+        { id: "buildings-Stupa", name: "Stupa" }, // Added Stupa
       ],
     },
     transportationLayers: {
       title: "Transportation",
       layers: [
-        { id: "roads-all", name: "All Roads" },
-        { id: "roads-Internal", name: "Internal Roads" },
-        { id: "roads-External", name: "External Roads" },
+        // Consolidated to a single "roads" option
+        { id: "roads", name: "Roads" },
       ],
     },
     naturalResourcesLayers: {
@@ -51,6 +49,9 @@ const MapPage = () => {
     },
   };
 
+  // 'allLayerIds' is useful if you have a "select all" feature,
+  // otherwise, it's not strictly necessary for basic toggling.
+  // Kept for completeness if it's used elsewhere.
   const allLayerIds = Object.values(layerCategories).flatMap((category) =>
     category.layers.map((layer) => layer.id)
   );
@@ -81,11 +82,7 @@ const MapPage = () => {
 
         {/* Page content - This will now directly contain the map */}
         <div className="flex-1 relative overflow-hidden">
-          {" "}
-          {/* Removed padding and inner card structure */}
           <div className="h-full w-full">
-            {" "}
-            {/* Map directly fills this container */}
             <Map selectedLayers={selectedLayers} />
           </div>
           {/* Legend - positioned absolutely over the map */}
