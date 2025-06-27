@@ -67,7 +67,7 @@
   background-color: #c44f0c;
 }
 
-.legend-color.buildings-Government-Agro-Office {
+.legend-color.buildings-School {
   background-color: blue;
 }
 
@@ -75,12 +75,16 @@
   background-color: green;
 }
 
-.legend-color.buildings-Finance {
+.legend-color.buildings-HealthPost {
   background-color: purple;
 }
 
 .legend-color.buildings-Hotel {
   background-color: yellow;
+}
+
+.legend-color.public {
+  background-color: purple;
 }
 
 .gis-container {
