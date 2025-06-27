@@ -68,11 +68,11 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
       title: "आधुनिक पशुपालन (फार्म) सम्बन्धी विवरण",
       endpoint: "ahs_firms",
     },
-    // {
-    //   path: "/agriculturehumanres",
-    //   title: "कृषि तथा पशु सेवासँग सम्बन्धित मानव संसाधन (संख्या)",
-    //   endpoint: "ag_details",
-    // },
+    {
+      path: "/agriculturehumanres",
+      title: "कृषि तथा पशु सेवासँग सम्बन्धित मानव संसाधन (संख्या)",
+      endpoint: "ag_details",
+    },
     {
       path: "/agriculturecommunityorg",
       title: "कृषि तथा पशु सेवासंग सम्बन्धित सामुदायिक संस्था तथा समूह",
@@ -138,11 +138,11 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
       title: "सिंचाईको अवस्था सम्बन्धी विवरण",
       endpoint: "irr_type_details",
     },
-    // {
-    //   path: "/housingdevelopment",
-    //   title: "भवन, वस्ती विकास तथा विपन्न वर्गका लागि आवास सम्बन्धी विवरण",
-    //   endpoint: "housing_poor_details",
-    // },
+    {
+      path: "/housingdevelopment",
+      title: "भवन, वस्ती विकास तथा विपन्न वर्गका लागि आवास सम्बन्धी विवरण",
+      endpoint: "housing_poor_details",
+    },
     {
       path: "/forestenvironment",
       title: "वन तथा वातावरण सम्बन्धी विवरण",
@@ -486,7 +486,7 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
           {/* Survey Reports List */}
           <div className="mt-8 pt-8 border-t border-white/[0.2]">
             <h3 className="text-xs uppercase text-gray-300 font-semibold pl-3 mb-3">
-              घरधुरी रिपोर्ट
+              संस्थागत रिपोर्ट
             </h3>
             <div className="mt-3">
               <ul className="mt-3">

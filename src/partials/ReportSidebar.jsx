@@ -88,11 +88,11 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
       title: "बहाल विवरण रिपोर्ट",
       endpoint: "rent_details_report",
     },
-    // {
-    //   path: "/loan-source",
-    //   title: "ऋणको स्रोत रिपोर्ट",
-    //   endpoint: "loan_source_report",
-    // },
+    {
+      path: "/loan-source",
+      title: "ऋणको स्रोत रिपोर्ट",
+      endpoint: "loan_source_report",
+    },
     {
       path: "/saving-source",
       title: "बचतको स्रोत रिपोर्ट",
