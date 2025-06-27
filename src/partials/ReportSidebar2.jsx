@@ -168,16 +168,16 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
       title: "वनको विवरण",
       endpoint: "forest_detail",
     },
-    // {
-    //   path: "/landwatershed",
-    //   title: "भूमि तथा जलाधार व्यवस्थापन विवरण",
-    //   endpoint: "landwatershed_details",
-    // },
-    // {
-    //   path: "/environmenthygiene",
-    //   title: "वातावरण तथा स्वच्छता विवरण",
-    //   endpoint: "eh_details",
-    // },
+    {
+      path: "/landwatershed",
+      title: "भूमि तथा जलाधार व्यवस्थापन विवरण",
+      endpoint: "landwatershed_details",
+    },
+    {
+      path: "/environmenthygiene",
+      title: "वातावरण तथा स्वच्छता विवरण",
+      endpoint: "eh_details",
+    },
     {
       path: "/airpollution",
       title: "वायु प्रदुषणका श्रोतहरु",
