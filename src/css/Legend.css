@@ -78,6 +78,12 @@
 .legend-color.buildings-HealthPost {
   background-color: purple;
 }
+.legend-color.buildings-Temple {
+  background-color: brown;
+}
+.legend-color.buildings-Stupa {
+  background-color: gray;
+}
 
 .legend-color.buildings-Hotel {
   background-color: yellow;

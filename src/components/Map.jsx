@@ -494,218 +494,255 @@ function Map({ selectedLayers }) {
   const initialPosition = [27.77558, 85.518073];
   const initialZoom = 14;
 
-  const roadStyle = () => {
+  const roadStyle = useCallback(() => {
     if (selectedLayers.includes("roads")) {
       return {
         weight: 2,
         color: "black",
       };
     }
+    // This return is redundant if filter is used, but harmless.
+    // However, if you remove filter, this becomes critical again.
     return { opacity: 0, fillOpacity: 0 };
-  };
+  }, [selectedLayers]);
 
-  const PublicStyle = (feature) => {
-    const PublicType = feature.properties.TYPE;
-    if (
-      selectedLayers.includes("paragliding") &&
-      PublicType === "Paragliding"
-    ) {
-      return {
-        weight: 3,
-        color: "red",
-      };
-    } else if (
-      selectedLayers.includes("sarbajanik-jagga") &&
-      PublicType === "Sarbajanik Jagga"
-    ) {
-      return {
-        weight: 3,
-        color: "violet",
-      };
-    } else if (
-      selectedLayers.includes("sarbajanik-bhawan") &&
-      PublicType === "Sarbajanik Bhawan"
-    ) {
-      return {
-        weight: 3,
-        color: "blue",
-      };
-    } else if (
-      selectedLayers.includes("football-ground") &&
-      PublicType === "Football Ground"
-    ) {
-      return {
-        weight: 3,
-        color: "green",
-      };
-    }
-    return { opacity: 0, fillOpacity: 0 };
-  };
+  // --- CRITICAL CHANGE 1: PublicStyle no longer hides features ---
+  // It only defines the color for the feature type it's given
+  const PublicStyle = useCallback(
+    (feature) => {
+      const PublicType = feature.properties.TYPE;
 
-  const BuildingStyle = (feature) => {
-    const BuildingType = feature.properties.Type;
+      // You can remove all PublicStyle console logs now.
+      // They did their job perfectly!
 
-    if (
-      selectedLayers.includes("buildings-School") &&
-      BuildingType === "School"
-    ) {
-      return {
-        weight: 8,
-        color: "blue",
-      };
-    } else if (
-      selectedLayers.includes("buildings-Government") &&
-      BuildingType === "Government Office"
-    ) {
-      return {
-        weight: 8,
-        color: "green",
-      };
-    } else if (
-      selectedLayers.includes("buildings-HealthPost") &&
-      BuildingType === "Health Post"
-    ) {
-      return {
-        weight: 8,
-        color: "purple",
-      };
-    } else if (
-      selectedLayers.includes("buildings-Hotel") &&
-      BuildingType === "Hotel"
-    ) {
-      return {
-        weight: 8,
-        color: "yellow",
-      };
-    } else if (
-      selectedLayers.includes("buildings-Temple") &&
-      BuildingType === "Temple"
-    ) {
-      return {
-        weight: 6,
-        color: "brown",
-      };
-    } else if (
-      selectedLayers.includes("buildings-Stupa") &&
-      BuildingType === "Stupa"
-    ) {
-      return {
-        weight: 6,
-        color: "cyan",
-      };
-    } else if (
-      selectedLayers.includes("buildings-Residential") &&
-      BuildingType === "Residential"
-    ) {
-      return {
-        weight: 2,
-        color: "red",
-      };
-    }
-    return { opacity: 0, fillOpacity: 0 };
-  };
+      if (PublicType === "Paragliding") {
+        return {
+          weight: 3,
+          color: "red",
+        };
+      } else if (PublicType === "Sarbajanik Jagga") {
+        return {
+          weight: 3,
+          color: "violet",
+        };
+      } else if (PublicType === "Sarbajanik Bhawan") {
+        return {
+          weight: 3,
+          color: "blue",
+        };
+      } else if (PublicType === "Football Ground") {
+        return {
+          weight: 3,
+          color: "green",
+        };
+      }
+      // Default style if type doesn't match (should be filtered out by filterPublic)
+      return { opacity: 0, fillOpacity: 0 };
+    },
+    [] // --- No dependency on selectedLayers here anymore ---
+  );
 
-  const ForestStyle = {
-    weight: 1.5,
-    color: "green",
-  };
+  const BuildingStyle = useCallback(
+    (feature) => {
+      const BuildingType = feature.properties.Type;
 
-  const RiverStyle = {
-    weight: 5,
-    color: "lightblue",
-  };
+      if (
+        selectedLayers.includes("buildings-School") &&
+        BuildingType === "School"
+      ) {
+        return {
+          weight: 8,
+          color: "blue",
+        };
+      } else if (
+        selectedLayers.includes("buildings-Government") &&
+        BuildingType === "Government Office"
+      ) {
+        return {
+          weight: 8,
+          color: "green",
+        };
+      } else if (
+        selectedLayers.includes("buildings-HealthPost") &&
+        BuildingType === "Health Post"
+      ) {
+        return {
+          weight: 8,
+          color: "purple",
+        };
+      } else if (
+        selectedLayers.includes("buildings-Hotel") &&
+        BuildingType === "Hotel"
+      ) {
+        return {
+          weight: 8,
+          color: "yellow",
+        };
+      } else if (
+        selectedLayers.includes("buildings-Temple") &&
+        BuildingType === "Temple"
+      ) {
+        return {
+          weight: 6,
+          color: "brown",
+        };
+      } else if (
+        selectedLayers.includes("buildings-Stupa") &&
+        BuildingType === "Stupa"
+      ) {
+        return {
+          weight: 6,
+          color: "gray",
+        };
+      } else if (
+        selectedLayers.includes("buildings-Residential") &&
+        BuildingType === "Residential"
+      ) {
+        return {
+          weight: 2,
+          color: "red",
+        };
+      }
+      return { opacity: 0, fillOpacity: 0 };
+    },
+    [selectedLayers]
+  );
 
-  const BorderStyle = {
-    weight: 3,
-    color: "red",
-  };
+  const ForestStyle = useMemo(
+    () => ({
+      weight: 1.5,
+      color: "green",
+    }),
+    []
+  );
 
-  const NapiStyle = {
-    weight: 3,
-    color: "blue",
-  };
+  const RiverStyle = useMemo(
+    () => ({
+      weight: 5,
+      color: "lightblue",
+    }),
+    []
+  );
 
-  const onEachPublic = (feature, layer) => {
+  const BorderStyle = useMemo(
+    () => ({
+      weight: 3,
+      color: "red",
+    }),
+    []
+  );
+
+  const NapiStyle = useMemo(
+    () => ({
+      weight: 3,
+      color: "blue",
+    }),
+    []
+  );
+
+  const onEachPublic = useCallback((feature, layer) => {
     const { TYPE, Name } = feature.properties;
     layer.bindPopup(`
       <b>Type:</b> ${TYPE || "N/A"}<br/>
       <b>Name:</b> ${Name || "N/A"}<br/>
     `);
-  };
+  }, []);
 
-  const onEachRoad = (feature, layer) => {
+  const onEachRoad = useCallback((feature, layer) => {
     const { Type, Name, Details } = feature.properties;
     layer.bindPopup(`
       <b>Type:</b> ${Type}<br/>
       <b>Name:</b> ${Name || "N/A"}<br/>
       <b>Details:</b> ${Details || "N/A"}<br/>
     `);
-  };
+  }, []);
 
-  const onEachForest = (feature, layer) => {
+  const onEachForest = useCallback((feature, layer) => {
     const { Forest_Nam } = feature.properties;
     layer.bindPopup(`
       <b>Forest Name:</b> ${Forest_Nam || "N/A"}<br/>
     `);
-  };
+  }, []);
 
-  const onEachBuilding = (feature, layer) => {
+  const onEachBuilding = useCallback((feature, layer) => {
     const { Type, House_No, Name } = feature.properties;
     layer.bindPopup(`
       <b>Type:</b> ${Type || "N/A"}<br/>
       <b>Name:</b> ${Name || "N/A"}<br/>
       <b>House No:</b> ${House_No || "N/A"}<br/>
     `);
-  };
+  }, []);
 
-  const onEachRiver = (feature, layer) => {
+  const onEachRiver = useCallback((feature, layer) => {
     const { Name_River } = feature.properties;
     layer.bindPopup(`
       <b>Id:</b> ${Name_River || "N/A"}<br/>
     `);
-  };
+  }, []);
 
-  const filterRoads = () => {
+  const filterRoads = useCallback(() => {
     return selectedLayers.includes("roads");
-  };
+  }, [selectedLayers]); // Corrected dependency array
 
-  const filterBuildings = (feature) => {
-    const buildingType = feature.properties.Type;
+  // --- CRITICAL CHANGE 2: New filter function for Public Places ---
+  const filterPublic = useCallback(
+    (feature) => {
+      const PublicType = feature.properties.TYPE;
+      // Only return true if the specific type of this feature is in selectedLayers
+      return (
+        (selectedLayers.includes("paragliding") &&
+          PublicType === "Paragliding") ||
+        (selectedLayers.includes("sarbajanik-jagga") &&
+          PublicType === "Sarbajanik Jagga") ||
+        (selectedLayers.includes("sarbajanik-bhawan") &&
+          PublicType === "Sarbajanik Bhawan") ||
+        (selectedLayers.includes("football-ground") &&
+          PublicType === "Football Ground")
+      );
+    },
+    [selectedLayers] // --- This dependency is crucial ---
+  );
 
-    const anyBuildingLayerSelected =
-      selectedLayers.includes("buildings-Residential") ||
-      selectedLayers.includes("buildings-School") ||
-      selectedLayers.includes("buildings-Government") ||
-      selectedLayers.includes("buildings-HealthPost") ||
-      selectedLayers.includes("buildings-Hotel") ||
-      selectedLayers.includes("buildings-Temple") ||
-      selectedLayers.includes("buildings-Stupa");
+  const filterBuildings = useCallback(
+    (feature) => {
+      const buildingType = feature.properties.Type;
 
-    if (!anyBuildingLayerSelected) {
-      return false;
-    }
+      const anyBuildingLayerSelected =
+        selectedLayers.includes("buildings-Residential") ||
+        selectedLayers.includes("buildings-School") ||
+        selectedLayers.includes("buildings-Government") ||
+        selectedLayers.includes("buildings-HealthPost") ||
+        selectedLayers.includes("buildings-Hotel") ||
+        selectedLayers.includes("buildings-Temple") ||
+        selectedLayers.includes("buildings-Stupa");
 
-    if (
-      selectedLayers.includes("buildings-Residential") &&
-      buildingType === "Residential"
-    ) {
-      return true;
-    }
+      if (!anyBuildingLayerSelected) {
+        return false;
+      }
 
-    return (
-      (selectedLayers.includes("buildings-School") &&
-        buildingType === "School") ||
-      (selectedLayers.includes("buildings-Government") &&
-        buildingType === "Government Office") ||
-      (selectedLayers.includes("buildings-HealthPost") &&
-        buildingType === "Health Post") ||
-      (selectedLayers.includes("buildings-Hotel") &&
-        buildingType === "Hotel") ||
-      (selectedLayers.includes("buildings-Temple") &&
-        buildingType === "Temple") ||
-      (selectedLayers.includes("buildings-Stupa") && buildingType === "Stupa")
-    );
-  };
+      if (
+        selectedLayers.includes("buildings-Residential") &&
+        buildingType === "Residential"
+      ) {
+        return true;
+      }
+
+      return (
+        (selectedLayers.includes("buildings-School") &&
+          buildingType === "School") ||
+        (selectedLayers.includes("buildings-Government") &&
+          buildingType === "Government Office") ||
+        (selectedLayers.includes("buildings-HealthPost") &&
+          buildingType === "Health Post") ||
+        (selectedLayers.includes("buildings-Hotel") &&
+          buildingType === "Hotel") ||
+        (selectedLayers.includes("buildings-Temple") &&
+          buildingType === "Temple") ||
+        (selectedLayers.includes("buildings-Stupa") && buildingType === "Stupa")
+      );
+    },
+    [selectedLayers]
+  );
 
   const memoizedMapContainer = useMemo(
     () => (
@@ -748,7 +785,7 @@ function Map({ selectedLayers }) {
             data={roadData}
             style={roadStyle}
             onEachFeature={onEachRoad}
-            filter={filterRoads}
+            filter={filterRoads} // Use filter for roads as well
           />
         )}
 
@@ -777,15 +814,16 @@ function Map({ selectedLayers }) {
           />
         )}
 
-        {/* Public Layer */}
+        {/* Public Layer: NOW USES filter={filterPublic} */}
         {(selectedLayers.includes("paragliding") ||
           selectedLayers.includes("sarbajanik-jagga") ||
           selectedLayers.includes("sarbajanik-bhawan") ||
           selectedLayers.includes("football-ground")) && (
           <GeoJSON
             data={PublicData}
-            style={PublicStyle}
+            style={PublicStyle} // PublicStyle now just defines colors
             onEachFeature={onEachPublic}
+            filter={filterPublic} // --- CRITICAL CHANGE 3: Apply the new filter ---
           />
         )}
 
@@ -811,7 +849,7 @@ function Map({ selectedLayers }) {
       initialZoom,
       selectedLayers,
       roadStyle,
-      PublicStyle,
+      PublicStyle, // PublicStyle is still a dependency because it's passed to GeoJSON
       BuildingStyle,
       ForestStyle,
       RiverStyle,
@@ -824,7 +862,7 @@ function Map({ selectedLayers }) {
       onEachRiver,
       filterRoads,
       filterBuildings,
-      // Removed filterPublic from dependencies as it's no longer used
+      filterPublic, // --- ADD filterPublic as a dependency ---
     ]
   );
 
