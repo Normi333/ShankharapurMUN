@@ -15,6 +15,8 @@ import HouseholdReport from "./pages/HouseholdReport";
 import Institutionaldetailsstatistics from "./pages/Institutionaldetailsstatistics";
 import ReportViewInstitution from "./pages/Institutionaldetailsstatistics";
 import Info from "./components/Info";
+import HouseholdWardSearch from "./pages/MainChartScreenSearch";
+import MainChartScreenSearch from "./pages/MainChartScreenSearch";
 
 function App() {
   const location = useLocation();
@@ -68,6 +70,8 @@ function App() {
         /> */}
         <Route path="/ReportView/:path" element={<ReportView />} />
         <Route path="/Report/:path" element={<ReportViewInstitution />} />
+        <Route path="/DetailedReport/:path" element={<MainChartScreenSearch />} />
+        <Route path="/ward-search" element={<HouseholdWardSearch />} />
         {/* <Route
           path="/ReportView/:path"
           element={
