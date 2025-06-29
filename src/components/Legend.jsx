@@ -59,11 +59,27 @@ const legendItems = {
   border: { label: "Border", className: "border" },
   forest: { label: "Forest", className: "forest" },
   river: { label: "River", className: "river" },
-  public: { label: "Public Place", className: "public" },
   napi: { label: "Napi Border", className: "napi" },
 
   // Updated Road layer: Single 'roads' option
   roads: { label: "Roads", className: "roads" }, // This will represent all roads
+
+  paragliding: {
+    label: "Paragliding",
+    className: "paragliding",
+  },
+  "sarbajanik-jagga": {
+    label: "Sarbajanik Jagga",
+    className: "sarbajanik-jagga",
+  },
+  "sarbajanik-bhawan": {
+    label: "Sarbajanik Bhawan",
+    className: "sarbajanik-bhawan",
+  },
+  "football-ground": {
+    label: "Football Ground",
+    className: "football-ground",
+  },
 
   // Updated Building layers: Specific types only, including Temple and Stupa
   "buildings-Residential": {

@@ -87,6 +87,19 @@
   background-color: purple;
 }
 
+.legend-color.paragliding {
+  background-color: red;
+}
+.legend-color.sarbajanik-bhawan {
+  background-color: blue;
+}
+.legend-color.sarbajanik-jagga {
+  background-color: violet;
+}
+.legend-color.football-ground {
+  background-color: green;
+}
+
 .gis-container {
   display: flex;
   height: 100vh;
