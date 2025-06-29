@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 
-import ReportSidebar from "../partials/ReportSidebar";
+import ReportSidebar from "../partials/Sidebar";
 import Header from "../partials/Header";
 import MyDataComponent from "../components/MyDataComponent";
 
@@ -147,6 +147,7 @@ export default function ReportView() {
       <ReportSidebar
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
+        reportType="householdReports"
       />
 
       {/* Content area */}

@@ -22,7 +22,7 @@
 
 import React, { useState } from "react";
 import Header from "../partials/Header";
-import Sidebar from "../partials/Sidebar";
+import ReportSidebar from "../partials/Sidebar";
 import ChartGrid from "../components/Info"; // Assuming this is your ChartGrid component
 
 const ChartReportPage = () => {
@@ -32,7 +32,10 @@ const ChartReportPage = () => {
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
       {/* The Sidebar component itself will handle its responsive visibility and positioning */}
-      <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+      <ReportSidebar
+        sidebarOpen={sidebarOpen}
+        setSidebarOpen={setSidebarOpen}
+      />
 
       {/* Content area */}
       {/* On large screens (lg:), add a left margin to push content when sidebar is static */}

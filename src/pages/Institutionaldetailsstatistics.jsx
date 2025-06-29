@@ -214,7 +214,7 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 
-import ReportSidebar2 from "../partials/ReportSidebar2";
+import ReportSidebar from "../partials/Sidebar";
 import Header from "../partials/Header";
 // import MyDataComponentInstitution from "../components/InstitutionalComponent";
 import MyDataComponent from "../components/MyDataComponent";
@@ -421,9 +421,10 @@ export default function ReportViewInstitution() {
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
-      <ReportSidebar2
+      <ReportSidebar
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
+        reportType="institutionalReports"
       />
 
       {/* Content area */}
