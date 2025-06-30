@@ -71,7 +71,8 @@ function App() {
         <Route path="/ReportView/:path" element={<ReportView />} />
         <Route path="/Report/:path" element={<ReportViewInstitution />} />
         <Route path="/DetailedReport/:path" element={<MainChartScreenSearch />} />
-        <Route path="/ward-search" element={<HouseholdWardSearch />} />
+        <Route path="/DetailedReport" element={<MainChartScreenSearch />} />
+        {/* <Route path="/ward-search" element={<HouseholdWardSearch />} /> */}
         {/* <Route
           path="/ReportView/:path"
           element={

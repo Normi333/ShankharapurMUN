@@ -615,7 +615,7 @@ function MapSidebar({
               >
                 <NavLink
                   end
-                  to="/householdreport"
+                  to="/householdReport"
                   className={`block text-white truncate transition duration-150 ${
                     pathname.includes("householdreport")
                       ? ""

@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import logo from "../images/NepalGovernment.png";
+// import { fetchParameterOptions } from "../components/chartSidebar";
+// import { useAuth } from "../context/AuthContext";
+
+// const API_POSTFIX = "/models/lg_hsurvey";
 
 function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
   const location = useLocation();
@@ -8,6 +12,25 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
 
   const trigger = useRef(null);
   const sidebar = useRef(null);
+
+  // // Dynamic report columns
+  // const { axiosInstance } = useAuth();
+  // const [columns, setColumns] = useState([]);
+  // useEffect(() => {
+  //   async function fetchColumns() {
+  //     try {
+  //       const { options } = await fetchParameterOptions({
+  //         axiosInstance,
+  //         apiPostfix: API_POSTFIX,
+  //       });
+  //       setColumns(options);
+  //       console.log(options);
+  //     } catch (e) {
+  //       setColumns([]);
+  //     }
+  //   }
+  //   fetchColumns();
+  // }, [axiosInstance]);
 
   // close on click outside (only for mobile overlay sidebar)
   useEffect(() => {
@@ -396,14 +419,14 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
               </li>
               <li
                 className={`pl-4 pr-3 py-2 rounded-lg ${
-                  pathname.includes("householdreport")
+                  pathname.includes("DetailedReport")
                     ? "bg-gradient-to-r from-violet-500/[0.2] to-transparent"
                     : ""
                 } border-b border-white/[0.2]`}
               >
                 <NavLink
                   end
-                  to="/householdreport"
+                  to="/DetailedReport"
                   className={`block text-white truncate transition duration-150 ${
                     pathname.includes("householdreport")
                       ? ""
@@ -413,7 +436,7 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                   <div className="flex items-center">
                     <svg
                       className={`shrink-0 fill-none stroke-current ${
-                        pathname.includes("householdreport")
+                        pathname.includes("householdholdreport")
                           ? "text-violet-200"
                           : "text-gray-300"
                       }`}
@@ -437,7 +460,7 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
               {/* Removed 'border-b border-white/[0.2]' from this li to remove the line below it */}
               <li
                 className={`pl-4 pr-3 pt-2 pb-3 rounded-lg last:mb-0 ${
-                  pathname.includes("statisticsreport")
+                  pathname.includes("DetailedReport")
                     ? "bg-gradient-to-r from-violet-500/[0.2] to-transparent"
                     : ""
                 }`}
@@ -517,6 +540,40 @@ function ReportSidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
               </ul>
             </div>
           </div>
+          {/* Dynamic report columns section */}
+          {/* <div className="mt-8 pt-8 border-t border-white/[0.2]">
+            <h3 className="text-xs uppercase text-gray-300 font-semibold pl-3 mb-3">
+              रिपोर्टका लागि स्तम्भहरू
+            </h3>
+            <div className="mt-3">
+              <ul className="mt-3">
+                {columns.map(({ value, label }, index) => (
+                  <li
+                    key={index}
+                    className={`pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 border-b border-white/[0.2]`}
+                  >
+                    <NavLink
+                      to={`/ReportView/${value}`}
+                      className={({ isActive }) =>
+                        `block text-white transition duration-150 ${
+                          isActive
+                            ? "bg-violet-500/[0.2] text-white font-bold"
+                            : "hover:text-gray-200"
+                        }`
+                      }
+                    >
+                      <div className="flex items-center">
+                        {listIcon}
+                        <span className="text-sm font-bold ml-4 opacity-100 break-words whitespace-normal">
+                          {label}
+                        </span>
+                      </div>
+                    </NavLink>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div> */}
         </div>
       </div>
     </div>

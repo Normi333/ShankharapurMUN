@@ -468,7 +468,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
               >
                 <NavLink
                   end
-                  to="/householdreport"
+                  to="/DetailedReport"
                   className={`block text-white truncate transition duration-150 ${
                     pathname.includes("householdreport")
                       ? ""
@@ -510,7 +510,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
               >
                 <NavLink
                   end
-                  to="/statisticsreport"
+                  to="/DetailedReport"
                   className={`block text-white truncate transition duration-150 ${
                     pathname.includes("statisticsreport")
                       ? ""

@@ -114,7 +114,7 @@
 import React, { useState } from "react";
 import Map from "../components/Map";
 import Header from "../partials/Header";
-import MapSidebar from "../partials/MapSidebar";
+import ReportSidebar from "../partials/Sidebar";
 import Legend from "../components/Legend";
 
 const MapPage = () => {
@@ -176,7 +176,7 @@ const MapPage = () => {
         } md:z-auto`}
       >
         {/* Pass layerCategories down to MapSidebar */}
-        <MapSidebar
+        <ReportSidebar
           sidebarOpen={sidebarOpen}
           setSidebarOpen={setSidebarOpen}
           selectedLayers={selectedLayers}
