@@ -1,3 +1,564 @@
+// import React, { useEffect, useState } from "react";
+// import Card from "../charts/card.jsx";
+// import GenericChartPreview from "../charts/GenericChartPreview.jsx";
+// import { useAuth } from "../context/AuthContext.jsx"; // Corrected import path for AuthContext
+// import axios from "axios";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+// // Import Font Awesome components (assuming you chose the npm method for Font Awesome)
+// import {
+//   faHouse,
+//   faMale,
+//   faFemale,
+//   faUsers,
+// } from "@fortawesome/free-solid-svg-icons"; // Import male and female icons too
+
+// // Define the dashboard IDs you want to fetch and display
+// const SINGLE_VALUE_METRIC_ID = "1000000"; // For the single 'Total Households' value
+// const MULTI_ITEM_METRIC_ID = "1000001"; // For the card with multiple key-value pairs (Family/Population Details)
+// const PIE_CHART_METRIC_ID = "1000002"; // For the chart data (Religion-wise Population - Pie Chart)
+// const RING_CHART_METRIC_ID = "1000003"; // For the chart data (Mother Tongue Population - Ring/Doughnut Chart)
+// const LINE_CHART_METRIC_ID = "1000004"; // For the chart data (Ethnicity-wise Population - Line Chart)
+// const STACK_BAR_CHART_ID = "1000005"; // For the Stack Bar Graph (वडागत जनसंख्या)
+// const WARD_BAR_CHART_ID = "1000006"; // For the Ward-wise Bar Chart
+// const MULTI_ITEM_METRIC_ID_3 = "1000008"; // For the 'व्यक्तिगत घटना विवरण'
+
+// const ChartGrid = () => {
+//   const handleDownloadSVG = () => {
+//     /* ... SVG download logic ... */
+//   };
+//   const handleDownloadCSV = () => {
+//     /* ... CSV download logic ... */
+//   };
+//   const handleDownloadPNG = () => {
+//     /* ... PNG download logic ... */
+//   };
+
+//   const {
+//     token: authToken,
+//     axiosInstance,
+//     authLoading: isAuthLoading,
+//     authError: authErrorFromContext,
+//   } = useAuth();
+
+//   const [loadingDashboardData, setLoadingDashboardData] = useState(true);
+//   const [singleValueMetric, setSingleValueMetric] = useState(null);
+//   const [totalFamilyCount, setTotalFamilyCount] = useState(null); // New state for 'जम्मा परिवार संख्या'
+//   const [malePopulationDetails, setMalePopulationDetails] = useState(null); // New state for male details
+//   const [femalePopulationDetails, setFemalePopulationDetails] = useState(null); // New state for female details
+
+//   const [pieChartMetric, setPieChartMetric] = useState(null);
+//   const [ringChartMetric, setRingChartMetric] = useState(null);
+//   const [lineChartMetric, setLineChartMetric] = useState(null);
+//   const [stackBarChartMetric, setStackBarChartMetric] = useState(null);
+//   const [wardBarChartMetric, setWardBarChartMetric] = useState(null);
+//   const [multiItemMetric2, setMultiItemMetric2] = useState(null);
+//   const [multiItemMetric3, setMultiItemMetric3] = useState(null);
+//   const [error, setError] = useState(null);
+
+//   // Function to safely parse the non-standard JSON string
+//   const parseNonStandardJson = (jsonString) => {
+//     let cleanedString = jsonString;
+//     try {
+//       if (typeof jsonString !== "string") {
+//         console.warn(
+//           "Input to parseNonStandardJson is not a string:",
+//           jsonString
+//         );
+//         return null;
+//       }
+
+//       cleanedString = jsonString.trim();
+//       cleanedString = cleanedString.replace(/[\n\t\r]+/g, "");
+//       cleanedString = cleanedString.replace(/'/g, '"');
+//       cleanedString = cleanedString.replace(
+//         /([{,]\s*)([a-zA-Z_][a-zA-Z0-9_]*)\s*:/g,
+//         '$1"$2":'
+//       );
+//       cleanedString = cleanedString.replace(/,\s*([}\]])/g, "$1"); // Remove trailing commas
+
+//       const parsed = JSON.parse(cleanedString);
+//       return parsed;
+//     } catch (e) {
+//       console.error(
+//         "Failed to parse non-standard JSON:",
+//         e,
+//         "Original:",
+//         jsonString,
+//         "Attempted Cleaned:",
+//         cleanedString
+//       );
+//       return null;
+//     }
+//   };
+
+//   useEffect(() => {
+//     const fetchAllDashboardData = async () => {
+//       if (isAuthLoading) {
+//         setLoadingDashboardData(true);
+//         return;
+//       }
+
+//       if (authErrorFromContext) {
+//         setError("कृपया पृष्ठ रिफ्रेस गर्नुहोस् (Ctrl + Shift + R)");
+//         setLoadingDashboardData(false);
+//         return;
+//       }
+
+//       if (!authToken) {
+//         setError("कृपया पृष्ठ रिफ्रेस गर्नुहोस् (Ctrl + Shift + R)");
+//         setLoadingDashboardData(false);
+//         return;
+//       }
+
+//       setError(null);
+
+//       try {
+//         setLoadingDashboardData(true);
+//         let fetchedSingleValueMetric = null;
+//         let fetchedMultiItemMetric = null; // Will temporarily hold raw multi-item data
+//         let fetchedPieChartMetric = null;
+//         let fetchedRingChartMetric = null;
+//         let fetchedLineChartMetric = null;
+//         let fetchedStackBarChartMetric = null;
+//         let fetchedWardBarChartMetric = null;
+//         let fetchedMultiItemMetric2 = null;
+//         let fetchedMultiItemMetric3 = null;
+
+//         const allIdsToFetch = [
+//           SINGLE_VALUE_METRIC_ID,
+//           MULTI_ITEM_METRIC_ID,
+//           PIE_CHART_METRIC_ID,
+//           RING_CHART_METRIC_ID,
+//           LINE_CHART_METRIC_ID,
+//           STACK_BAR_CHART_ID,
+//           WARD_BAR_CHART_ID,
+//           MULTI_ITEM_METRIC_ID_3,
+//         ];
+
+//         const fetchPromises = allIdsToFetch.map(async (id) => {
+//           try {
+//             const API_DASHBOARD_URL = `/models/public_dashboard/${id}`;
+//             const response = await axiosInstance.get(API_DASHBOARD_URL);
+//             const rawData = response.data;
+
+//             if (rawData && typeof rawData.dashboard_json === "string") {
+//               const parsed = parseNonStandardJson(rawData.dashboard_json);
+
+//               if (!Array.isArray(parsed) || parsed.length === 0) {
+//                 console.warn(
+//                   `Parsed data for ID ${id} is empty or invalid:`,
+//                   parsed
+//                 );
+//                 return;
+//               }
+
+//               if (id === SINGLE_VALUE_METRIC_ID) {
+//                 fetchedSingleValueMetric = {
+//                   id: id,
+//                   name: rawData.Name,
+//                   value: parsed[0].value,
+//                 };
+//               } else if (id === MULTI_ITEM_METRIC_ID) {
+//                 fetchedMultiItemMetric = { id: id, data: parsed }; // Temporarily store the full data
+//               } else if (id === PIE_CHART_METRIC_ID) {
+//                 fetchedPieChartMetric = {
+//                   id: id,
+//                   name: rawData.Name,
+//                   type: rawData.dashboard_type,
+//                   data: parsed,
+//                 };
+//               } else if (id === RING_CHART_METRIC_ID) {
+//                 fetchedRingChartMetric = {
+//                   id: id,
+//                   name: rawData.Name,
+//                   type: rawData.dashboard_type,
+//                   data: parsed,
+//                 };
+//               } else if (id === LINE_CHART_METRIC_ID) {
+//                 fetchedLineChartMetric = {
+//                   id: id,
+//                   name: rawData.Name,
+//                   type: rawData.dashboard_type,
+//                   data: parsed,
+//                 };
+//               } else if (id === STACK_BAR_CHART_ID) {
+//                 let parsedWardData = null;
+//                 if (rawData && typeof rawData.dashboard_json2 === "string") {
+//                   parsedWardData = parseNonStandardJson(
+//                     rawData.dashboard_json2
+//                   );
+//                 }
+//                 fetchedStackBarChartMetric = {
+//                   id: id,
+//                   name: rawData.Name,
+//                   type: rawData.dashboard_type,
+//                   data: parsed,
+//                   wardData: parsedWardData,
+//                 };
+//               } else if (id === WARD_BAR_CHART_ID) {
+//                 fetchedWardBarChartMetric = {
+//                   id: id,
+//                   name: rawData.Name,
+//                   type: rawData.dashboard_type,
+//                   data: parsed,
+//                 };
+//               } else if (id === MULTI_ITEM_METRIC_ID_3) {
+//                 fetchedMultiItemMetric3 = {
+//                   id: id,
+//                   name: rawData.Name,
+//                   data: parsed,
+//                 };
+//               }
+//             } else {
+//               console.warn(
+//                 `dashboard_json not found or not a string for ID ${id}. Raw data:`,
+//                 rawData
+//               );
+//             }
+//           } catch (err) {
+//             console.error(`Error fetching dashboard data for ID ${id}:`, err);
+//             if (!axios.isCancel(err)) {
+//               setError("कृपया पृष्ठ रिफ्रेस गर्नुहोस् (Ctrl + Shift + R)");
+//             }
+//           }
+//         });
+
+//         await Promise.all(fetchPromises);
+//         setSingleValueMetric(fetchedSingleValueMetric);
+
+//         // Process the MULTI_ITEM_METRIC_ID data and distribute it
+//         if (fetchedMultiItemMetric && fetchedMultiItemMetric.data) {
+//           const allMultiItems = fetchedMultiItemMetric.data;
+//           // Assuming the order is consistent:
+//           // 0: "जम्मा परिवार संख्या"
+//           // 1: "जम्मा पुरुष संख्या"
+//           // 2: "प्रतिशत(पुरुष)"
+//           // 3: "महिला संख्या"
+//           // 4: "प्रतिशत(महिला)"
+
+//           if (allMultiItems[0]) {
+//             setTotalFamilyCount({
+//               name: "जम्मा परिवार संख्या",
+//               value: allMultiItems[0].value,
+//             });
+//           }
+//           if (allMultiItems[1] && allMultiItems[2]) {
+//             setMalePopulationDetails([allMultiItems[1], allMultiItems[2]]);
+//           }
+//           if (allMultiItems[3] && allMultiItems[4]) {
+//             setFemalePopulationDetails([allMultiItems[3], allMultiItems[4]]);
+//           }
+//         }
+
+//         setPieChartMetric(fetchedPieChartMetric);
+//         setRingChartMetric(fetchedRingChartMetric);
+//         setLineChartMetric(fetchedLineChartMetric);
+//         setStackBarChartMetric(fetchedStackBarChartMetric);
+//         setWardBarChartMetric(fetchedWardBarChartMetric);
+//         setMultiItemMetric2(fetchedMultiItemMetric2);
+//         setMultiItemMetric3(fetchedMultiItemMetric3);
+//       } catch (overallErr) {
+//         console.error("Overall error during dashboard data fetch:", overallErr);
+//         setError("कृपया पृष्ठ रिफ्रेस गर्नुहोस् (Ctrl + Shift + R)");
+//       } finally {
+//         setLoadingDashboardData(false);
+//       }
+//     };
+
+//     fetchAllDashboardData();
+//   }, [authToken, axiosInstance, isAuthLoading, authErrorFromContext]);
+
+//   const overallLoading = isAuthLoading || loadingDashboardData;
+
+//   return (
+//     // The outermost grid for the entire ChartGrid component
+//     <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6 p-4">
+//       {overallLoading && (
+//         <p className="text-center py-4 text-gray-600 col-span-full">
+//           ड्यासबोर्ड मेट्रिक्स लोड हुँदैछ...
+//         </p>
+//       )}
+//       {error && (
+//         <p className="text-red-500 text-center py-4 col-span-full">
+//           त्रुटि: {error}
+//         </p>
+//       )}
+
+//       {/* Household Highlights Section */}
+//       {!overallLoading &&
+//         !error &&
+//         (singleValueMetric ||
+//           totalFamilyCount ||
+//           malePopulationDetails ||
+//           femalePopulationDetails) && (
+//           <>
+//             <div className="col-span-full">
+//               <h2 className="text-2xl font-bold text-gray-800 mb-4">
+//                 घरधुरीका मुख्य विशेषताहरू
+//               </h2>
+//               <hr className="my-4 border-gray-300" />
+//             </div>
+//             {/* THIS IS THE KEY CHANGE: Added items-stretch and flex-col for Card content */}
+//             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 col-span-full items-stretch">
+//               {/* Card for the single value metric (e.g., ID 1000000) */}
+//               {singleValueMetric && (
+//                 <Card title={singleValueMetric.name} loading={false}>
+//                   {/* Added flex-grow to ensure this div takes available space */}
+//                   <div className="flex-grow flex items-center justify-center space-x-4 py-8">
+//                     <div className="flex-shrink-0 w-16 h-16 bg-[#8c6eff] rounded-xl flex items-center justify-center text-white text-3xl">
+//                       <FontAwesomeIcon icon={faHouse} />
+//                     </div>
+//                     <div className="flex flex-col items-center">
+//                       <div className="text-4xl font-bold text-gray-800">
+//                         {singleValueMetric.value}
+//                       </div>
+//                     </div>
+//                   </div>
+//                 </Card>
+//               )}
+
+//               {/* NEW CARD: जम्मा परिवार संख्या */}
+//               {totalFamilyCount && (
+//                 <Card title="जम्मा जनसंख्या" loading={false}>
+//                   {/* Added flex-grow to ensure this div takes available space */}
+//                   <div className="flex-grow flex items-center justify-center space-x-4 py-8">
+//                     <div className="flex-shrink-0 w-16 h-16 bg-blue-500 rounded-xl flex items-center justify-center text-white text-3xl">
+//                       <FontAwesomeIcon icon={faUsers} />{" "}
+//                     </div>
+//                     <div className="flex flex-col items-center">
+//                       <div className="text-4xl font-bold text-gray-800">
+//                         {totalFamilyCount.value}
+//                       </div>
+//                     </div>
+//                   </div>
+//                 </Card>
+//               )}
+
+//               {/* These two cards will now be managed by the same grid as above */}
+//               {/* NEW CARD: पुरुष जनसंख्या विवरण */}
+//               {malePopulationDetails && (
+//                 <Card title="पुरुष जनसंख्या विवरण" loading={false}>
+//                   {/* Added flex-grow to ensure this div takes available space and justify-center to center content if short */}
+//                   <div className="flex-grow flex flex-col justify-center space-y-2 text-base py-2">
+//                     <div className="flex items-center space-x-4">
+//                       <div className="flex-shrink-0 w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center text-white text-2xl">
+//                         <FontAwesomeIcon icon={faMale} />
+//                       </div>
+//                       <div className="flex-grow flex flex-col">
+//                         {malePopulationDetails.map((item, idx) => (
+//                           <div
+//                             key={item.name || idx}
+//                             className="flex justify-between items-center py-1 border-b border-gray-200 last:border-b-0"
+//                           >
+//                             <span className="font-semibold text-gray-700">
+//                               {item.name}:
+//                             </span>
+//                             <span className="text-blue-700">{item.value}</span>
+//                           </div>
+//                         ))}
+//                       </div>
+//                     </div>
+//                   </div>
+//                 </Card>
+//               )}
+
+//               {/* NEW CARD: महिला जनसंख्या विवरण */}
+//               {femalePopulationDetails && (
+//                 <Card title="महिला जनसंख्या विवरण" loading={false}>
+//                   {/* Added flex-grow to ensure this div takes available space and justify-center to center content if short */}
+//                   <div className="flex-grow flex flex-col justify-center space-y-2 text-base py-2">
+//                     <div className="flex items-center space-x-4">
+//                       <div className="flex-shrink-0 w-12 h-12 bg-pink-500 rounded-xl flex items-center justify-center text-white text-2xl">
+//                         <FontAwesomeIcon icon={faFemale} />
+//                       </div>
+//                       <div className="flex-grow flex flex-col">
+//                         {femalePopulationDetails.map((item, idx) => (
+//                           <div
+//                             key={item.name || idx}
+//                             className="flex justify-between items-center py-1 border-b border-gray-200 last:border-b-0"
+//                           >
+//                             <span className="font-semibold text-gray-700">
+//                               {item.name}:
+//                             </span>
+//                             <span className="text-blue-700">{item.value}</span>
+//                           </div>
+//                         ))}
+//                       </div>
+//                     </div>
+//                   </div>
+//                 </Card>
+//               )}
+//             </div>
+//           </>
+//         )}
+
+//       {/* Graphical Highlights Section */}
+//       {!overallLoading &&
+//         !error &&
+//         (pieChartMetric ||
+//           ringChartMetric ||
+//           lineChartMetric ||
+//           stackBarChartMetric ||
+//           wardBarChartMetric) && (
+//           <>
+//             <div className="col-span-full mt-8">
+//               <h2 className="text-2xl font-bold text-gray-800 mb-4">
+//                 ग्राफिकल हाइलाइटहरू
+//               </h2>
+//               <hr className="my-4 border-gray-300" />
+//             </div>
+//             {/* The primary grid handles the charts well. You can adjust the minmax value
+//                 if you want larger charts on smaller screens, or fewer charts per row. */}
+//             {/* Card for the Pie Chart dashboard (e.g., ID 1000002) */}
+//             {pieChartMetric && (
+//               <Card
+//                 title={pieChartMetric.name || "चार्ट डेटा"}
+//                 loading={false}
+//                 enableDownloads={true}
+//                 onDownloadSVG={handleDownloadSVG}
+//                 onDownloadCSV={handleDownloadCSV}
+//                 onDownloadPNG={handleDownloadPNG}
+//               >
+//                 <GenericChartPreview
+//                   type={
+//                     pieChartMetric.type?.toLowerCase() === "pie chart"
+//                       ? "pie"
+//                       : "bar"
+//                   }
+//                   labelKey="name"
+//                   valueKey="value"
+//                   chartLabel={pieChartMetric.name || "जनसंख्या"}
+//                   title={pieChartMetric.name || "जनसंख्या विवरण"}
+//                   data={pieChartMetric.data}
+//                 />
+//               </Card>
+//             )}
+//             {/* Card for the Ring Chart dashboard (e.g., ID 1000003) */}
+//             {ringChartMetric && (
+//               <Card
+//                 title={ringChartMetric.name || "चार्ट डेटा"}
+//                 loading={false}
+//                 enableDownloads={true}
+//                 onDownloadSVG={handleDownloadSVG}
+//                 onDownloadCSV={handleDownloadCSV}
+//                 onDownloadPNG={handleDownloadPNG}
+//               >
+//                 <GenericChartPreview
+//                   type={
+//                     ringChartMetric.type?.toLowerCase() === "ring chart"
+//                       ? "doughnut"
+//                       : "bar"
+//                   }
+//                   labelKey="name"
+//                   valueKey="value"
+//                   chartLabel={ringChartMetric.name || "जनसंख्या"}
+//                   title={ringChartMetric.name || "जनसंख्या विवरण"}
+//                   data={ringChartMetric.data}
+//                 />
+//               </Card>
+//             )}
+//             {/* Card for the Line Chart dashboard (e.g., ID 1000004) */}
+//             {lineChartMetric && (
+//               <Card
+//                 title={lineChartMetric.name || "चार्ट डेटा"}
+//                 loading={false}
+//                 enableDownloads={true}
+//                 onDownloadSVG={handleDownloadSVG}
+//                 onDownloadCSV={handleDownloadCSV}
+//                 onDownloadPNG={handleDownloadPNG}
+//               >
+//                 <GenericChartPreview
+//                   type={
+//                     lineChartMetric.type?.toLowerCase() === "line chart"
+//                       ? "line"
+//                       : "bar"
+//                   }
+//                   labelKey="name"
+//                   valueKey="value"
+//                   chartLabel={lineChartMetric.name || "जनसंख्या"}
+//                   title={lineChartMetric.name || "जनसंख्या विवरण"}
+//                   data={lineChartMetric.data}
+//                 />
+//               </Card>
+//             )}
+//             {/* Card for the Stack Bar Chart dashboard (e.g., ID 1000005) */}
+//             {stackBarChartMetric && (
+//               <Card
+//                 title={stackBarChartMetric.name || "वडागत जनसंख्या"}
+//                 loading={false}
+//                 className="col-span-full" // This card will always span full width
+//                 enableDownloads={true}
+//                 onDownloadSVG={handleDownloadSVG}
+//                 onDownloadCSV={handleDownloadCSV}
+//                 onDownloadPNG={handleDownloadPNG}
+//               >
+//                 <GenericChartPreview
+//                   type={
+//                     stackBarChartMetric.type?.toLowerCase() ===
+//                     "stack bar graph"
+//                       ? "stackbar"
+//                       : "bar"
+//                   }
+//                   labelKey="name"
+//                   valueKey="value"
+//                   chartLabel={stackBarChartMetric.name || "जनसंख्या"}
+//                   title={stackBarChartMetric.name || "जनसंख्या विवरण"}
+//                   data={stackBarChartMetric.data}
+//                   wardData={stackBarChartMetric.wardData}
+//                 />
+//               </Card>
+//             )}
+//             {/* Card for the Ward-wise Bar Chart (e.g., ID 1000006) */}
+//             {wardBarChartMetric && (
+//               <Card
+//                 title={wardBarChartMetric.name || "वडा स्तरीय जनसंख्या"}
+//                 loading={false}
+//                 enableDownloads={true}
+//                 onDownloadSVG={handleDownloadSVG}
+//                 onDownloadCSV={handleDownloadCSV}
+//                 onDownloadPNG={handleDownloadPNG}
+//               >
+//                 <GenericChartPreview
+//                   type={
+//                     wardBarChartMetric.type?.toLowerCase() === "bar chart"
+//                       ? "bar"
+//                       : "bar"
+//                   }
+//                   labelKey="name"
+//                   valueKey="value"
+//                   chartLabel={wardBarChartMetric.name || "जनसंख्या"}
+//                   title={wardBarChartMetric.name || "जनसंख्या विवरण"}
+//                   data={wardBarChartMetric.data}
+//                 />
+//               </Card>
+//             )}
+//           </>
+//         )}
+
+//       {/* Fallback if no dashboard metrics can be displayed after loading */}
+//       {!overallLoading &&
+//         !error &&
+//         !singleValueMetric &&
+//         !totalFamilyCount && // Check new states
+//         !malePopulationDetails &&
+//         !femalePopulationDetails &&
+//         !multiItemMetric3 &&
+//         !pieChartMetric &&
+//         !ringChartMetric &&
+//         !lineChartMetric &&
+//         !stackBarChartMetric &&
+//         !wardBarChartMetric && (
+//           <p className="text-center py-4 text-gray-500 col-span-full">
+//             डाटा उपलब्ध छैन।
+//           </p>
+//         )}
+//     </div>
+//   );
+// };
+
+// export default ChartGrid;
+
 import React, { useEffect, useState } from "react";
 import Card from "../charts/card.jsx";
 import GenericChartPreview from "../charts/GenericChartPreview.jsx";
@@ -21,8 +582,8 @@ const RING_CHART_METRIC_ID = "1000003"; // For the chart data (Mother Tongue Pop
 const LINE_CHART_METRIC_ID = "1000004"; // For the chart data (Ethnicity-wise Population - Line Chart)
 const STACK_BAR_CHART_ID = "1000005"; // For the Stack Bar Graph (वडागत जनसंख्या)
 const WARD_BAR_CHART_ID = "1000006"; // For the Ward-wise Bar Chart
-// const MULTI_ITEM_METRIC_ID_2 = "1000007"; // For the 'घट्ट,मिल तथा संकलन तथा प्रसोधन केन्द्र सम्बन्धी विवरण'
 const MULTI_ITEM_METRIC_ID_3 = "1000008"; // For the 'व्यक्तिगत घटना विवरण'
+const INTRO_TEXT_METRIC_ID = "1000007"; // New ID for the introductory text
 
 const ChartGrid = () => {
   const handleDownloadSVG = () => {
@@ -55,6 +616,7 @@ const ChartGrid = () => {
   const [wardBarChartMetric, setWardBarChartMetric] = useState(null);
   const [multiItemMetric2, setMultiItemMetric2] = useState(null);
   const [multiItemMetric3, setMultiItemMetric3] = useState(null);
+  const [introTextMetric, setIntroTextMetric] = useState(null); // New state for intro text
   const [error, setError] = useState(null);
 
   // Function to safely parse the non-standard JSON string
@@ -125,6 +687,7 @@ const ChartGrid = () => {
         let fetchedWardBarChartMetric = null;
         let fetchedMultiItemMetric2 = null;
         let fetchedMultiItemMetric3 = null;
+        let fetchedIntroTextMetric = null; // New variable for intro text
 
         const allIdsToFetch = [
           SINGLE_VALUE_METRIC_ID,
@@ -134,8 +697,8 @@ const ChartGrid = () => {
           LINE_CHART_METRIC_ID,
           STACK_BAR_CHART_ID,
           WARD_BAR_CHART_ID,
-          // MULTI_ITEM_METRIC_ID_2,
           MULTI_ITEM_METRIC_ID_3,
+          INTRO_TEXT_METRIC_ID, // Add the new ID here
         ];
 
         const fetchPromises = allIdsToFetch.map(async (id) => {
@@ -205,16 +768,18 @@ const ChartGrid = () => {
                   type: rawData.dashboard_type,
                   data: parsed,
                 };
-              // } else if (id === MULTI_ITEM_METRIC_ID_2) {
-              //   fetchedMultiItemMetric2 = {
-              //     id: id,
-              //     name: rawData.Name,
-              //     data: parsed,
-              //   };
               } else if (id === MULTI_ITEM_METRIC_ID_3) {
                 fetchedMultiItemMetric3 = {
                   id: id,
                   name: rawData.Name,
+                  data: parsed,
+                };
+              } else if (id === INTRO_TEXT_METRIC_ID) {
+                // Handle the new intro text data
+                fetchedIntroTextMetric = {
+                  id: id,
+                  name: rawData.Name,
+                  type: rawData.dashboard_type,
                   data: parsed,
                 };
               }
@@ -266,6 +831,7 @@ const ChartGrid = () => {
         setWardBarChartMetric(fetchedWardBarChartMetric);
         setMultiItemMetric2(fetchedMultiItemMetric2);
         setMultiItemMetric3(fetchedMultiItemMetric3);
+        setIntroTextMetric(fetchedIntroTextMetric); // Set the new state
       } catch (overallErr) {
         console.error("Overall error during dashboard data fetch:", overallErr);
         setError("कृपया पृष्ठ रिफ्रेस गर्नुहोस् (Ctrl + Shift + R)");
@@ -278,6 +844,17 @@ const ChartGrid = () => {
   }, [authToken, axiosInstance, isAuthLoading, authErrorFromContext]);
 
   const overallLoading = isAuthLoading || loadingDashboardData;
+
+  // Filter intro text data once here to avoid repetitive filtering in JSX
+  const shankharapurIntro = introTextMetric?.data.find(
+    (item) => item.name === "ShankharapurIntro"
+  );
+  const municipalIntro = introTextMetric?.data.find(
+    (item) => item.name === "EstablishInfo"
+  );
+  const whyDigital = introTextMetric?.data.find(
+    (item) => item.name === "WhyDigital"
+  );
 
   return (
     // The outermost grid for the entire ChartGrid component
@@ -293,113 +870,140 @@ const ChartGrid = () => {
         </p>
       )}
 
-      {/* Household Highlights Section */}
-      {!overallLoading &&
-        !error &&
-        (singleValueMetric ||
-          totalFamilyCount ||
-          malePopulationDetails ||
-          femalePopulationDetails) && (
-          <>
-            <div className="col-span-full">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">
-                घरधुरीका मुख्य विशेषताहरू
-              </h2>
-              <hr className="my-4 border-gray-300" />
-            </div>
-            {/* THIS IS THE KEY CHANGE: Added items-stretch and flex-col for Card content */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 col-span-full items-stretch">
-              {/* Card for the single value metric (e.g., ID 1000000) */}
-              {singleValueMetric && (
-                <Card title={singleValueMetric.name} loading={false}>
-                  {/* Added flex-grow to ensure this div takes available space */}
-                  <div className="flex-grow flex items-center justify-center space-x-4 py-8">
-                    <div className="flex-shrink-0 w-16 h-16 bg-[#8c6eff] rounded-xl flex items-center justify-center text-white text-3xl">
-                      <FontAwesomeIcon icon={faHouse} />
-                    </div>
-                    <div className="flex flex-col items-center">
-                      <div className="text-4xl font-bold text-gray-800">
-                        {singleValueMetric.value}
-                      </div>
-                    </div>
-                  </div>
-                </Card>
-              )}
+      {/* Intro Text Section (Now only contains ShankharapurIntro, MunicipalIntro, WhyDigital) */}
+      {!overallLoading && !error && introTextMetric && (
+        <>
+          {/* Grid for "Shankharapur Municipal" and "Municipal Intro" side-by-side */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 col-span-full">
+            {shankharapurIntro && (
+              <Card
+                key={shankharapurIntro.name}
+                title={"Shankharapur Municipal"}
+                loading={false}
+              >
+                <p className="text-gray-700 leading-relaxed whitespace-pre-wrap text-justify">
+                  {shankharapurIntro.value}
+                </p>
+              </Card>
+            )}
+            {municipalIntro && (
+              <Card
+                key={municipalIntro.name}
+                title={"Municipal Intro"}
+                loading={false}
+              >
+                <p className="text-gray-700 leading-relaxed whitespace-pre-wrap text-justify">
+                  {municipalIntro.value}
+                </p>
+              </Card>
+            )}
+          </div>
 
-              {/* NEW CARD: जम्मा परिवार संख्या */}
-              {totalFamilyCount && (
-                <Card title="जम्मा जनसंख्या" loading={false}>
-                  {/* Added flex-grow to ensure this div takes available space */}
-                  <div className="flex-grow flex items-center justify-center space-x-4 py-8">
-                    <div className="flex-shrink-0 w-16 h-16 bg-blue-500 rounded-xl flex items-center justify-center text-white text-3xl">
-                      <FontAwesomeIcon icon={faUsers} />{" "}
-                    </div>
-                    <div className="flex flex-col items-center">
-                      <div className="text-4xl font-bold text-gray-800">
-                        {totalFamilyCount.value}
-                      </div>
-                    </div>
-                  </div>
-                </Card>
-              )}
+          {/* Separate grid for "Why Digital Municipality?" to be on a new line */}
+          <div className="grid grid-cols-1 gap-6 col-span-full">
+            {whyDigital && (
+              <Card
+                key={whyDigital.name}
+                title={"Why Digital Municipality? "}
+                loading={false}
+              >
+                <p className="text-gray-700 leading-relaxed whitespace-pre-wrap text-justify">
+                  {whyDigital.value}
+                </p>
+              </Card>
+            )}
+          </div>
+        </>
+      )}
 
-              {/* These two cards will now be managed by the same grid as above */}
-              {/* NEW CARD: पुरुष जनसंख्या विवरण */}
-              {malePopulationDetails && (
-                <Card title="पुरुष जनसंख्या विवरण" loading={false}>
-                  {/* Added flex-grow to ensure this div takes available space and justify-center to center content if short */}
-                  <div className="flex-grow flex flex-col justify-center space-y-2 text-base py-2">
-                    <div className="flex items-center space-x-4">
-                      <div className="flex-shrink-0 w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center text-white text-2xl">
-                        <FontAwesomeIcon icon={faMale} />
-                      </div>
-                      <div className="flex-grow flex flex-col">
-                        {malePopulationDetails.map((item, idx) => (
-                          <div
-                            key={item.name || idx}
-                            className="flex justify-between items-center py-1 border-b border-gray-200 last:border-b-0"
-                          >
-                            <span className="font-semibold text-gray-700">
-                              {item.name}:
-                            </span>
-                            <span className="text-blue-700">{item.value}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
+      {/* Combined Household and Population/Intro Cards */}
+      {!overallLoading && !error && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 col-span-full items-stretch">
+          {/* Card for the single value metric (e.g., ID 1000000) - Total Households */}
+          {singleValueMetric && (
+            <Card title={singleValueMetric.name} loading={false}>
+              <div className="flex-grow flex items-center justify-center space-x-4 py-8">
+                <div className="flex-shrink-0 w-16 h-16 bg-[#8c6eff] rounded-xl flex items-center justify-center text-white text-3xl">
+                  <FontAwesomeIcon icon={faHouse} />
+                </div>
+                <div className="flex flex-col items-center">
+                  <div className="text-4xl font-bold text-gray-800">
+                    {singleValueMetric.value}
                   </div>
-                </Card>
-              )}
+                </div>
+              </div>
+            </Card>
+          )}
 
-              {/* NEW CARD: महिला जनसंख्या विवरण */}
-              {femalePopulationDetails && (
-                <Card title="महिला जनसंख्या विवरण" loading={false}>
-                  {/* Added flex-grow to ensure this div takes available space and justify-center to center content if short */}
-                  <div className="flex-grow flex flex-col justify-center space-y-2 text-base py-2">
-                    <div className="flex items-center space-x-4">
-                      <div className="flex-shrink-0 w-12 h-12 bg-pink-500 rounded-xl flex items-center justify-center text-white text-2xl">
-                        <FontAwesomeIcon icon={faFemale} />
-                      </div>
-                      <div className="flex-grow flex flex-col">
-                        {femalePopulationDetails.map((item, idx) => (
-                          <div
-                            key={item.name || idx}
-                            className="flex justify-between items-center py-1 border-b border-gray-200 last:border-b-0"
-                          >
-                            <span className="font-semibold text-gray-700">
-                              {item.name}:
-                            </span>
-                            <span className="text-blue-700">{item.value}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
+          {/* NEW CARD: जम्मा जनसंख्या */}
+          {totalFamilyCount && (
+            <Card title="जम्मा जनसंख्या" loading={false}>
+              <div className="flex-grow flex items-center justify-center space-x-4 py-8">
+                <div className="flex-shrink-0 w-16 h-16 bg-blue-500 rounded-xl flex items-center justify-center text-white text-3xl">
+                  <FontAwesomeIcon icon={faUsers} />{" "}
+                </div>
+                <div className="flex flex-col items-center">
+                  <div className="text-4xl font-bold text-gray-800">
+                    {totalFamilyCount.value}
                   </div>
-                </Card>
-              )}
-            </div>
-          </>
-        )}
+                </div>
+              </div>
+            </Card>
+          )}
+
+          {/* NEW CARD: पुरुष जनसंख्या विवरण */}
+          {malePopulationDetails && (
+            <Card title="पुरुष जनसंख्या विवरण" loading={false}>
+              <div className="flex-grow flex flex-col justify-center space-y-2 text-base py-2">
+                <div className="flex items-center space-x-4">
+                  <div className="flex-shrink-0 w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center text-white text-2xl">
+                    <FontAwesomeIcon icon={faMale} />
+                  </div>
+                  <div className="flex-grow flex flex-col">
+                    {malePopulationDetails.map((item, idx) => (
+                      <div
+                        key={item.name || idx}
+                        className="flex justify-between items-center py-1 border-b border-gray-200 last:border-b-0"
+                      >
+                        <span className="font-semibold text-gray-700">
+                          {item.name}:
+                        </span>
+                        <span className="text-blue-700">{item.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </Card>
+          )}
+
+          {/* NEW CARD: महिला जनसंख्या विवरण */}
+          {femalePopulationDetails && (
+            <Card title="महिला जनसंख्या विवरण" loading={false}>
+              <div className="flex-grow flex flex-col justify-center space-y-2 text-base py-2">
+                <div className="flex items-center space-x-4">
+                  <div className="flex-shrink-0 w-12 h-12 bg-pink-500 rounded-xl flex items-center justify-center text-white text-2xl">
+                    <FontAwesomeIcon icon={faFemale} />
+                  </div>
+                  <div className="flex-grow flex flex-col">
+                    {femalePopulationDetails.map((item, idx) => (
+                      <div
+                        key={item.name || idx}
+                        className="flex justify-between items-center py-1 border-b border-gray-200 last:border-b-0"
+                      >
+                        <span className="font-semibold text-gray-700">
+                          {item.name}:
+                        </span>
+                        <span className="text-blue-700">{item.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </Card>
+          )}
+        </div>
+      )}
 
       {/* Graphical Highlights Section */}
       {!overallLoading &&
@@ -417,7 +1021,7 @@ const ChartGrid = () => {
               <hr className="my-4 border-gray-300" />
             </div>
             {/* The primary grid handles the charts well. You can adjust the minmax value
-                if you want larger charts on smaller screens, or fewer charts per row. */}
+                    if you want larger charts on smaller screens, or fewer charts per row. */}
             {/* Card for the Pie Chart dashboard (e.g., ID 1000002) */}
             {pieChartMetric && (
               <Card
@@ -551,13 +1155,13 @@ const ChartGrid = () => {
         !totalFamilyCount && // Check new states
         !malePopulationDetails &&
         !femalePopulationDetails &&
-        !multiItemMetric2 &&
         !multiItemMetric3 &&
         !pieChartMetric &&
         !ringChartMetric &&
         !lineChartMetric &&
         !stackBarChartMetric &&
-        !wardBarChartMetric && (
+        !wardBarChartMetric &&
+        !introTextMetric && ( // Check new introTextMetric
           <p className="text-center py-4 text-gray-500 col-span-full">
             डाटा उपलब्ध छैन।
           </p>

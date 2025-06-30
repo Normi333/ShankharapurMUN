@@ -31,7 +31,7 @@ const ChartReportPage = () => {
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
-      {/* The Sidebar component itself will handle its responsive visibility and positioning */}
+      {/* The ReportSidebar component itself will handle its responsive visibility and positioning, including its own backdrop. */}
       <ReportSidebar
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
@@ -50,15 +50,10 @@ const ChartReportPage = () => {
         {/* Main content */}
         <main className="grow flex flex-col">
           <div className="px-4 sm:px-6 lg:px-8 py-4 w-full max-w-9xl mx-auto">
-            {/* Overlay for mobile when sidebar is open */}
-            {/* This overlay should only be active on screens smaller than 'lg' */}
-            {sidebarOpen && (
-              <div
-                className="fixed inset-0 z-40 lg:hidden"
-                onClick={() => setSidebarOpen(false)} // Close sidebar when clicking overlay
-                aria-hidden="true"
-              ></div>
-            )}
+            {/* Removed the redundant fixed inset-0 z-40 lg:hidden div here.
+              The backdrop is now correctly handled within the ReportSidebar component,
+              ensuring it's behind the sidebar but still captures clicks to close it.
+            */}
             <ChartGrid />
           </div>
         </main>
