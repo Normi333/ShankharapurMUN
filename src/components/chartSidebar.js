@@ -2,7 +2,7 @@
 
 // Exclude any key that includes these substrings (case-insensitive)
 const EXCLUDE_KEYS = [
-    'medium', 'Rate', 'prod', 'children', 'spouse', 'eng', 'Amount', 'Expense', 'death', 'time', 'meat_qty', 'prod_qty', 'meat_qty', 'total_qty', 'model-name', 'income', 'floor_no', 'pass_or', 'follow_or', 'Rate', 'kitta', 'municipal', 'rent_type', 'age', 'ward', 'bank', 'seq', 'owner', 'dob', 'citizenship', 'pasport', 'driving', 'abroad', 'epedemic', 'vaccin', 'pan', 'ssf', 'house', 'family', 'location', 'health', 'id', 'date', 'phone', 'client', 'org', 'created', 'updated', 'by', 'uid', 'identifier', 'propertylabel', 'status', 'doc', 'processed', 'year', 'c_', 'ad_', 'lg_', 'value', 'documentno', 'isactive', 'isapproved', 'skip-records', 'array-count', 'page-count', 'records-size', 'row-count'
+   'r_na', 'grand', 'rea', 'fish', 'waste', 'land', 'building_type', 'first', 'father', 'has', 'hospital', 'medium', 'ate', 'prod', 'children', 'spouse', 'eng', 'ount', 'pense', 'death', 'time', 'meat_qty', 'prod_qty', 'meat_qty', 'total_qty', 'model-name', 'income', 'floor_no', 'pass_or', 'follow_or', 'Rate', 'kitta', 'municipal', 'rent_type', 'age', 'ward', 'bank', 'seq', 'owner', 'dob', 'citizenship', 'pasport', 'driving', 'abroad', 'epedemic', 'vaccin', 'pan', 'ssf', 'house', 'family', 'location', 'health', 'id', 'date', 'phone', 'client', 'org', 'created', 'updated', 'by', 'uid', 'identifier', 'propertylabel', 'status', 'doc', 'processed', 'year', 'c_', 'ad_', 'lg_', 'value', 'documentno', 'isactive', 'isapproved', 'skip-records', 'array-count', 'page-count', 'records-size', 'row-count'
 ];
 
 function filterColumns(record) {

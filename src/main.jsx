@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import ThemeProvider from "./utils/ThemeContext";
 import { AuthProvider } from "./context/AuthContext";
 import App from "./App";
+import 'flowbite';
 // import leaflet/dist/leaflet.css';
 
 ReactDOM.createRoot(document.getElementById("root")).render(

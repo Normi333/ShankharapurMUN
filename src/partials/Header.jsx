@@ -19,7 +19,7 @@ function Header({
 
   return (
     <header
-      className={`sticky top-0 before:absolute before:inset-0 before:bg-[#234a83] before:-z-10 z-30
+      className={`sticky top-0 before:absolute before:inset-0 before:bg-[#234a83] before:-z-10 z-50
       ${
         variant === "v2" || variant === "v3"
           ? "" // Removed 'after:' pseudo-element here in the previous step
