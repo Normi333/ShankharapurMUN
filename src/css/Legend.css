@@ -60,7 +60,7 @@
 }
 
 .legend-color.border {
-  background-color: red;
+  background-color: blue;
 }
 
 .legend-color.buildings-Residential {
@@ -104,6 +104,10 @@
 }
 .legend-color.football-ground {
   background-color: green;
+}
+
+.legend-color.napi {
+  background-color: red;
 }
 
 .gis-container {

@@ -624,7 +624,7 @@ function Map({ selectedLayers }) {
     []
   );
 
-  const BorderStyle = useMemo(
+  const NapiStyle = useMemo(
     () => ({
       weight: 3,
       color: "red",
@@ -632,7 +632,7 @@ function Map({ selectedLayers }) {
     []
   );
 
-  const NapiStyle = useMemo(
+  const BorderStyle = useMemo(
     () => ({
       weight: 3,
       color: "blue",
@@ -835,11 +835,11 @@ function Map({ selectedLayers }) {
             onEachFeature={onEachRiver}
           />
         )}
-        {selectedLayers.includes("border") && (
-          <GeoJSON data={BorderData} style={BorderStyle} />
-        )}
         {selectedLayers.includes("napi") && (
-          <GeoJSON data={NapiData} style={NapiStyle} />
+          <GeoJSON data={BorderData} style={NapiStyle} />
+        )}
+        {selectedLayers.includes("border") && (
+          <GeoJSON data={NapiData} style={BorderStyle} />
         )}
       </MapContainer>
     ),

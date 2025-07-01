@@ -2375,6 +2375,10 @@ export const COLUMN_TO_API_POSTFIX_MAP = {
     api: "/models/lg_hsurvey_expense_source",
     column: "Name",
   },
+  "loan-source-name": {
+    api: "/models/lg_hsurvey_loan_source",
+    column: "Name",
+  },
   // Assuming 'lg_hsurvey_service_source' also has a 'Name' field, adding it here.
   // If this model or 'Name' field does not exist, remove this line.
   // "service-source-name": {
@@ -2420,7 +2424,7 @@ export const NEPAL_COLUMN_NAMES = {
   "family-mother_tongue": "मातृभाषाको आधारमा वर्गिकरण",
   "family-education_detail": "शैक्षिक विवरण",
   "family-occupation": "पेशाको आधारमा वर्गिकरण",
-  "family-disease_name": "रोगलागेको आधारमा  विवरण",
+  "family-disease_name": "रोगलागेको आधारमा विवरण",
 
   // Land related
   "land-purpose": "जग्गाको प्रयोग",
@@ -2436,11 +2440,12 @@ export const NEPAL_COLUMN_NAMES = {
   "inv-source-name": "लगानी सम्बन्धी विवरण ",
   "expense-source-name": "खर्च सम्बन्धी विवरण",
   "service-source-name": "सेवाको स्रोत", // Added this one for 'service_source' Name
+  "loan-source-name": "ऋणको प्रयोजन ",
 
   // Other specific
   "loan-source": "ऋणको स्रोतको विवरण",
   "work-division-description": "कार्य विवरण", // For work division's 'Description'
-  "death-disease": "रोगको आधारमा वर्गिकरण", // For death count disease
+  "death-disease": "१ बर्ष भित्र मृत्यु भएका सदस्यको रोग विवरण", // For death count disease
 
   // Hsurvey related
   "hsurvey-cooking_fuel": "खाना पकाउने इन्धनको आधारमा",
