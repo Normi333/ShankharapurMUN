@@ -11,12 +11,24 @@ export default {
                 kalimati: ['Kalimati', 'sans-serif'],
                 sans: ['"Nunito Sans"', 'sans-serif'],
             },
+            keyframes: {
+                spin: { // This matches your @keyframes name
+                    '0%': { transform: 'rotate(0deg)' },
+                    '100%': { transform: 'rotate(360deg)' },
+                },
+            },
+            animation: {
+                'my-custom-spin': 'spin 1s linear infinite', // Refers to your 'spin' keyframes
+            }
         },
     },
     plugins: [
         require('flowbite/plugin'),
         require('tailwind-scrollbar-hide'),
     ],
+    corePlugins: {
+        preflight: true,
+    },
     safelist: [
         // --- Essential Layout Classes from ChartGrid.jsx and general structure ---
         'flex',
