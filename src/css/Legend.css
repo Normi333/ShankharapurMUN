@@ -40,10 +40,10 @@
 }
 
 .legend-color.river {
-  background-color: #215ef8;
+  background-color: cyan;
 }
 
-.legend-color.roads-all {
+.legend-color.roads {
   background-color: black;
 }
 
@@ -94,7 +94,7 @@
 }
 
 .legend-color.paragliding {
-  background-color: red;
+  background-color: orange;
 }
 .legend-color.sarbajanik-bhawan {
   background-color: blue;
