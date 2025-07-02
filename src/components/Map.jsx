@@ -446,557 +446,6 @@
 // --------------------------------------------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------------------------------------------------
 
-// import React, { useState, useMemo, useCallback, useEffect } from "react";
-// import {
-//   MapContainer,
-//   WMSTileLayer,
-//   TileLayer,
-//   GeoJSON,
-//   LayersControl,
-//   useMapEvent,
-// } from "react-leaflet";
-// import "leaflet/dist/leaflet.css";
-// import "../css/map.css";
-// import { FaHome } from "react-icons/fa";
-
-// function SetViewOnClick() {
-//   const map = useMapEvent("click", (e) => {
-//     map.setView(e.latlng, map.getZoom(), {
-//       animate: true,
-//     });
-//   });
-//   return null;
-// }
-
-// function ResetMapButton({ map, resetCenter, resetZoom }) {
-//   const handleReset = useCallback(() => {
-//     if (map) {
-//       map.setView(resetCenter, resetZoom);
-//     }
-//   }, [map, resetCenter, resetZoom]);
-
-//   if (!map) return null;
-
-//   return (
-//     <div
-//       style={{
-//         position: "absolute",
-//         top: "90px",
-//         left: "20px",
-//         zIndex: 1000,
-//       }}
-//     >
-//       <button
-//         onClick={handleReset}
-//         title="नक्सा रिसेट गर्नुहोस्"
-//         className="p-2 bg-white text-blue-600 border border-gray-300 rounded-md cursor-pointer shadow-md flex items-center justify-center w-9 h-9 text-base hover:bg-gray-100 hover:text-blue-700 transition-colors duration-200"
-//       >
-//         <FaHome size={20} />
-//       </button>
-//     </div>
-//   );
-// }
-
-// function Map({ selectedLayers }) {
-//   const [map, setMap] = useState(null);
-
-//   const [dynamicGeoJSONData, setDynamicGeoJSONData] = useState({});
-//   const [loadingStates, setLoadingStates] = useState({});
-//   const [errorStates, setErrorStates] = useState({});
-
-//   const initialPosition = [27.77558, 85.518073];
-//   const initialZoom = 14;
-
-//   const geoserverWFSUrl = "http://maps.phnx.com.np:9090/geoserver/ows";
-
-//   // Define all your dynamic layers with their GeoServer typeNames and default styles
-//   // IMPORTANT: For grouped layers (Buildings, Public Places), define the *base* layer
-//   // and then individual "sub-layers" with their filter properties and specific styles.
-//   const dynamicLayersConfig = useMemo(
-//     () => [
-//       // Borders
-//       {
-//         id: "border",
-//         typeName: "shankharapur:Napi_Border",
-//         style: { weight: 3, color: "blue", fillOpacity: 0.1 },
-//         displayName: "Border Data", // Added for loading messages
-//       },
-//       {
-//         id: "napi",
-//         typeName: "shankharapur:Shanakarapur_Map",
-//         style: { weight: 3, color: "red", fillOpacity: 0.1 },
-//         displayName: "Napi Map", // Added for loading messages
-//       },
-//       // Roads
-//       {
-//         id: "roads",
-//         typeName: "shankharapur:FINAL_ROADS_CLIPPED",
-//         style: { weight: 2, color: "black", fillOpacity: 0.1 },
-//         displayName: "Roads Data", // Added for loading messages
-//       },
-//       // Natural Features
-//       {
-//         id: "forest",
-//         typeName: "shankharapur:FOREST_CLIPPED",
-//         style: { weight: 1.5, color: "darkgreen", fillOpacity: 0.5 },
-//         displayName: "Forest Data", // Added for loading messages
-//       },
-//       {
-//         id: "river",
-//         typeName: "shankharapur:River",
-//         style: { weight: 5, color: "cyan", fillOpacity: 0.1 },
-//         displayName: "River Data", // Added for loading messages
-//       },
-//       // Grouped Layers - Define the base layer and its sub-layers
-//       {
-//         id: "buildings", // Base ID for fetching all building data
-//         typeName: "shankharapur:Buildings_Clipped",
-//         displayName: "Buildings Data",
-//         isGroup: true,
-//         subLayers: [
-//           {
-//             id: "buildings-Residential",
-//             filterProperty: "Type",
-//             filterValue: "Residential",
-//             style: { weight: 2, color: "red", fillOpacity: 0.7 },
-//             displayName: "Residential Buildings",
-//           },
-//           {
-//             id: "buildings-School",
-//             filterProperty: "Type",
-//             filterValue: "School",
-//             style: { weight: 8, color: "blue", fillOpacity: 0.7 },
-//             displayName: "School Buildings",
-//           },
-//           {
-//             id: "buildings-Government",
-//             filterProperty: "Type",
-//             filterValue: "Government Office",
-//             style: { weight: 8, color: "green", fillOpacity: 0.7 },
-//             displayName: "Government Buildings",
-//           },
-//           {
-//             id: "buildings-HealthPost",
-//             filterProperty: "Type",
-//             filterValue: "Health Post",
-//             style: { weight: 8, color: "purple", fillOpacity: 0.7 },
-//             displayName: "Health Post Buildings",
-//           },
-//           {
-//             id: "buildings-Hotel",
-//             filterProperty: "Type",
-//             filterValue: "Hotel",
-//             style: { weight: 8, color: "yellow", fillOpacity: 0.7 },
-//             displayName: "Hotel Buildings",
-//           },
-//           {
-//             id: "buildings-Temple",
-//             filterProperty: "Type",
-//             filterValue: "Temple",
-//             style: { weight: 6, color: "brown", fillOpacity: 0.7 },
-//             displayName: "Temple Buildings",
-//           },
-//           {
-//             id: "buildings-Stupa",
-//             filterProperty: "Type",
-//             filterValue: "Stupa",
-//             style: { weight: 6, color: "gray", fillOpacity: 0.7 },
-//             displayName: "Stupa Buildings",
-//           },
-//         ],
-//       },
-//       {
-//         id: "public-places", // Base ID for fetching all public place data
-//         typeName: "shankharapur:Public_Place",
-//         displayName: "Public Places Data",
-//         isGroup: true,
-//         subLayers: [
-//           {
-//             id: "paragliding",
-//             filterProperty: "TYPE",
-//             filterValue: "Paraglading",
-//             style: { weight: 3, color: "orange", fillOpacity: 0.7 },
-//             displayName: "Paragliding Area",
-//           },
-//           {
-//             id: "sarbajanik-jagga",
-//             filterProperty: "TYPE",
-//             filterValue: "Sarbajanik Jagga",
-//             style: { weight: 3, color: "violet", fillOpacity: 0.7 },
-//             displayName: "Sarbajanik Jagga",
-//           },
-//           {
-//             id: "sarbajanik-bhawan",
-//             filterProperty: "TYPE",
-//             filterValue: "Sarbajanik Bhawan",
-//             style: { weight: 3, color: "darkblue", fillOpacity: 0.7 },
-//             displayName: "Sarbajanik Bhawan",
-//           },
-//           {
-//             id: "football-ground",
-//             filterProperty: "TYPE",
-//             filterValue: "Football Ground",
-//             style: { weight: 3, color: "lightgreen", fillOpacity: 0.7 },
-//             displayName: "Football Ground",
-//           },
-//         ],
-//       },
-//     ],
-//     []
-//   );
-
-//   // Helper to flatten dynamicLayersConfig for easier lookup of all individual IDs
-//   const allLayerIds = useMemo(() => {
-//     const ids = [];
-//     dynamicLayersConfig.forEach((layer) => {
-//       if (layer.isGroup && layer.subLayers) {
-//         layer.subLayers.forEach((sub) => ids.push(sub.id));
-//       } else {
-//         ids.push(layer.id);
-//       }
-//     });
-//     return ids;
-//   }, [dynamicLayersConfig]);
-
-//   // Generic function to fetch WFS data
-//   const fetchWFSData = useCallback(
-//     async (layerId, typeName) => {
-//       if (loadingStates[layerId] || dynamicGeoJSONData[layerId]) {
-//         return;
-//       }
-
-//       const wfsRequestUrl = `${geoserverWFSUrl}?service=WFS&version=1.1.0&request=GetFeature&typeName=${typeName}&outputFormat=application/json`;
-
-//       setLoadingStates((prev) => ({ ...prev, [layerId]: true }));
-//       setErrorStates((prev) => ({ ...prev, [layerId]: null }));
-//       console.log(`Fetching ${layerId} WFS data from:`, wfsRequestUrl);
-
-//       try {
-//         const response = await fetch(wfsRequestUrl);
-//         if (!response.ok) {
-//           throw new Error(`HTTP error! status: ${response.status}`);
-//         }
-//         const data = await response.json();
-//         console.log(`${layerId} WFS data fetched successfully:`, data);
-//         setDynamicGeoJSONData((prev) => ({ ...prev, [layerId]: data }));
-//       } catch (error) {
-//         console.error(`Error fetching ${layerId} WFS data:`, error);
-//         setErrorStates((prev) => ({ ...prev, [layerId]: error.message }));
-//       } finally {
-//         setLoadingStates((prev) => ({ ...prev, [layerId]: false }));
-//       }
-//     },
-//     [geoserverWFSUrl, loadingStates, dynamicGeoJSONData]
-//   );
-
-//   // useEffect to trigger fetches for selected layers
-//   useEffect(() => {
-//     dynamicLayersConfig.forEach((layer) => {
-//       if (layer.isGroup) {
-//         // For grouped layers, check if any of its sub-layers are selected
-//         const isAnySubLayerSelected = layer.subLayers.some((subLayer) =>
-//           selectedLayers.includes(subLayer.id)
-//         );
-//         if (isAnySubLayerSelected) {
-//           fetchWFSData(layer.id, layer.typeName); // Fetch the base data
-//         }
-//       } else {
-//         // For individual layers, check if it's selected directly
-//         if (selectedLayers.includes(layer.id)) {
-//           fetchWFSData(layer.id, layer.typeName);
-//         }
-//       }
-//     });
-//   }, [selectedLayers, dynamicLayersConfig, fetchWFSData]);
-
-//   // Consolidated onEachFeature handler for popups
-//   const onEachFeatureGeneric = useCallback((feature, layer) => {
-//     const properties = feature.properties;
-//     if (properties) {
-//       let popupContent =
-//         "<table style='width: 100%; border-collapse: collapse;'>";
-//       for (const key in properties) {
-//         if (Object.prototype.hasOwnProperty.call(properties, key)) {
-//           popupContent += `<tr><td style='padding: 4px; border: 1px solid #ddd; font-weight: bold;'>${key}:</td><td style='padding: 4px; border: 1px solid #ddd;'>${
-//             properties[key] || "N/A"
-//           }</td></tr>`;
-//         }
-//       }
-//       popupContent += "</table>";
-//       layer.bindPopup(popupContent);
-//     }
-//   }, []);
-
-//   // Smart style function for grouped layers
-//   const getGroupedLayerStyle = useCallback(
-//     (baseLayerId, feature) => {
-//       const defaultHiddenStyle = {
-//         opacity: 0,
-//         fillOpacity: 0,
-//         weight: 0,
-//         clickable: false, // Make feature not clickable when hidden
-//       };
-
-//       if (baseLayerId === "public-places") {
-//         console.log(
-//           "Public Place Feature:",
-//           feature.properties.TYPE,
-//           "Selected:",
-//           selectedLayers
-//         );
-//       }
-
-//       const baseConfig = dynamicLayersConfig.find(
-//         (config) => config.id === baseLayerId
-//       );
-//       if (!baseConfig || !baseConfig.isGroup || !baseConfig.subLayers) {
-//         return defaultHiddenStyle; // Should not happen for grouped layers
-//       }
-
-//       // Find the sub-layer configuration that matches the feature's properties and is selected
-//       for (const subLayerConfig of baseConfig.subLayers) {
-//         if (selectedLayers.includes(subLayerConfig.id)) {
-//           if (
-//             feature.properties[subLayerConfig.filterProperty] ===
-//             subLayerConfig.filterValue
-//           ) {
-//             return { ...subLayerConfig.style, clickable: true }; // Apply style if it matches and is selected
-//           }
-//         }
-//       }
-
-//       return defaultHiddenStyle; // If no matching sub-layer is selected, hide the feature
-//     },
-//     [selectedLayers, dynamicLayersConfig]
-//   );
-
-//   // Filter function for grouped layers - to prevent non-selected features from even being added
-//   const filterGroupedFeatures = useCallback(
-//     (baseLayerId, feature) => {
-//       const baseConfig = dynamicLayersConfig.find(
-//         (config) => config.id === baseLayerId
-//       );
-//       if (!baseConfig || !baseConfig.isGroup || !baseConfig.subLayers) {
-//         return false; // Should not happen
-//       }
-
-//       // Check if any selected sub-layer matches this feature's properties
-//       return baseConfig.subLayers.some(
-//         (subLayerConfig) =>
-//           selectedLayers.includes(subLayerConfig.id) &&
-//           feature.properties[subLayerConfig.filterProperty] ===
-//             subLayerConfig.filterValue
-//       );
-//     },
-//     [selectedLayers, dynamicLayersConfig]
-//   );
-
-//   const wmsLayerEventHandlers = useMemo(
-//     () => ({
-//       add: () => {
-//         console.log(
-//           'WMSTileLayer "Drone Image Ward 2" has been added to the map and is being fetched.'
-//         );
-//       },
-//     }),
-//     []
-//   );
-
-//   const memoizedMapContainer = useMemo(
-//     () => (
-//       <MapContainer
-//         center={initialPosition}
-//         zoom={initialZoom}
-//         zoomControl={true}
-//         className="map"
-//         ref={setMap}
-//       >
-//         {map && (
-//           <ResetMapButton
-//             map={map}
-//             resetCenter={initialPosition}
-//             resetZoom={initialZoom}
-//           />
-//         )}
-
-//         <LayersControl position="topright">
-//           <LayersControl.BaseLayer checked name="OpenStreetMap">
-//             <TileLayer
-//               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-//               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-//             />
-//             <SetViewOnClick />
-//           </LayersControl.BaseLayer>
-
-//           <LayersControl.BaseLayer name="Google Satellite">
-//             <TileLayer
-//               url="https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}"
-//               attribution="&copy; Google"
-//             />
-//             <SetViewOnClick />
-//           </LayersControl.BaseLayer>
-
-//           <LayersControl.BaseLayer name="Drone Image Ward 2">
-//             <WMSTileLayer
-//               url="http://maps.phnx.com.np:9090/geoserver/ows"
-//               layers="shankharapur:basemap_ward_2"
-//               format="image/jpeg"
-//               version="1.1.0"
-//               transparent={false}
-//               tiled={true}
-//               attribution="My GeoServer Data"
-//               eventHandlers={wmsLayerEventHandlers}
-//             />
-//             <SetViewOnClick />
-//           </LayersControl.BaseLayer>
-//         </LayersControl>
-
-//         {/* Dynamically rendered GeoJSON layers */}
-//         {dynamicLayersConfig.map((layerConfig) => {
-//           const isBaseLayerActive =
-//             layerConfig.isGroup &&
-//             layerConfig.subLayers.some((sub) =>
-//               selectedLayers.includes(sub.id)
-//             );
-//           const isIndividualLayerActive =
-//             !layerConfig.isGroup && selectedLayers.includes(layerConfig.id);
-
-//           const dataToRender = dynamicGeoJSONData[layerConfig.id];
-
-//           // Render a GeoJSON component if the layer (or any of its sub-layers) is selected
-//           // AND data is available AND not currently loading for this base layer.
-//           if (
-//             (isBaseLayerActive || isIndividualLayerActive) &&
-//             dataToRender &&
-//             !loadingStates[layerConfig.id]
-//           ) {
-//             if (layerConfig.isGroup) {
-//               return (
-//                 <GeoJSON
-//                   key={layerConfig.id} // Key off the base ID for grouped layers
-//                   data={dataToRender}
-//                   style={(feature) =>
-//                     getGroupedLayerStyle(layerConfig.id, feature)
-//                   }
-//                   onEachFeature={onEachFeatureGeneric}
-//                   filter={(feature) =>
-//                     filterGroupedFeatures(layerConfig.id, feature)
-//                   }
-//                 />
-//               );
-//             } else {
-//               // For non-grouped layers, just render if selected and data is available
-//               return (
-//                 <GeoJSON
-//                   key={layerConfig.id}
-//                   data={dataToRender}
-//                   style={layerConfig.style}
-//                   onEachFeature={onEachFeatureGeneric}
-//                 />
-//               );
-//             }
-//           }
-//           return null; // Don't render if not selected or data not available
-//         })}
-
-//         {/* Display loading/error messages for dynamic layers */}
-//         {allLayerIds.map((layerId) => {
-//           const config = dynamicLayersConfig.find(
-//             (lc) =>
-//               lc.id === layerId || lc.subLayers?.some((sl) => sl.id === layerId)
-//           );
-//           let baseLayerId = layerId; // Assume it's a base layer initially
-//           let displayName = config?.displayName;
-
-//           // If it's a sub-layer, find its base and determine display name
-//           if (
-//             config &&
-//             config.isGroup &&
-//             config.subLayers?.some((sl) => sl.id === layerId)
-//           ) {
-//             const subConfig = config.subLayers.find((sl) => sl.id === layerId);
-//             baseLayerId = config.id; // Use the base layer ID for loading state checks
-//             displayName = subConfig?.displayName;
-//           } else if (!config) {
-//             // If it's a sub-layer not found directly in dynamicLayersConfig (e.g., "buildings-Residential")
-//             for (const lc of dynamicLayersConfig) {
-//               if (lc.isGroup && lc.subLayers) {
-//                 const subConfig = lc.subLayers.find((sl) => sl.id === layerId);
-//                 if (subConfig) {
-//                   baseLayerId = lc.id;
-//                   displayName = subConfig.displayName;
-//                   break;
-//                 }
-//               }
-//             }
-//           }
-
-//           if (selectedLayers.includes(layerId) && loadingStates[baseLayerId]) {
-//             return (
-//               <div
-//                 key={`loading-${layerId}`}
-//                 style={{
-//                   position: "absolute",
-//                   top: `${10 + allLayerIds.indexOf(layerId) * 30}px`, // Adjust position dynamically
-//                   right: "10px",
-//                   zIndex: 1000,
-//                   background: "white",
-//                   padding: "5px",
-//                   borderRadius: "5px",
-//                   fontSize: "12px",
-//                 }}
-//               >
-//                 Loading {displayName || layerId.replace(/-/g, " ")} Data...
-//               </div>
-//             );
-//           }
-//           if (selectedLayers.includes(layerId) && errorStates[baseLayerId]) {
-//             return (
-//               <div
-//                 key={`error-${layerId}`}
-//                 style={{
-//                   position: "absolute",
-//                   top: `${10 + allLayerIds.indexOf(layerId) * 30}px`, // Adjust position dynamically
-//                   right: "10px",
-//                   zIndex: 1000,
-//                   background: "white",
-//                   padding: "5px",
-//                   borderRadius: "5px",
-//                   color: "red",
-//                   fontSize: "12px",
-//                 }}
-//               >
-//                 Error loading {displayName || layerId.replace(/-/g, " ")} Data:{" "}
-//                 {errorStates[baseLayerId]}
-//               </div>
-//             );
-//           }
-//           return null;
-//         })}
-//       </MapContainer>
-//     ),
-//     [
-//       map,
-//       initialPosition,
-//       initialZoom,
-//       selectedLayers,
-//       wmsLayerEventHandlers,
-//       dynamicGeoJSONData,
-//       loadingStates,
-//       errorStates,
-//       dynamicLayersConfig,
-//       onEachFeatureGeneric,
-//       getGroupedLayerStyle,
-//       filterGroupedFeatures,
-//       allLayerIds, // Include allLayerIds in dependency array
-//     ]
-//   );
-
-//   return <div className="map-area">{memoizedMapContainer}</div>;
-// }
-
-// export default Map;
-
 import React, { useState, useMemo, useCallback, useEffect } from "react";
 import {
   MapContainer,
@@ -1060,6 +509,9 @@ function Map({ selectedLayers }) {
 
   const geoserverWFSUrl = "http://maps.phnx.com.np:9090/geoserver/ows";
 
+  // Define all your dynamic layers with their GeoServer typeNames and default styles
+  // IMPORTANT: For grouped layers (Buildings, Public Places), define the *base* layer
+  // and then individual "sub-layers" with their filter properties and specific styles.
   const dynamicLayersConfig = useMemo(
     () => [
       // Borders
@@ -1067,33 +519,33 @@ function Map({ selectedLayers }) {
         id: "border",
         typeName: "shankharapur:Napi_Border",
         style: { weight: 3, color: "blue", fillOpacity: 0.1 },
-        displayName: "Border Data",
+        displayName: "Border Data", // Added for loading messages
       },
       {
         id: "napi",
         typeName: "shankharapur:Shanakarapur_Map",
         style: { weight: 3, color: "red", fillOpacity: 0.1 },
-        displayName: "Napi Map",
+        displayName: "Napi Map", // Added for loading messages
       },
       // Roads
       {
         id: "roads",
         typeName: "shankharapur:FINAL_ROADS_CLIPPED",
         style: { weight: 2, color: "black", fillOpacity: 0.1 },
-        displayName: "Roads Data",
+        displayName: "Roads Data", // Added for loading messages
       },
       // Natural Features
       {
         id: "forest",
         typeName: "shankharapur:FOREST_CLIPPED",
         style: { weight: 1.5, color: "darkgreen", fillOpacity: 0.5 },
-        displayName: "Forest Data",
+        displayName: "Forest Data", // Added for loading messages
       },
       {
         id: "river",
         typeName: "shankharapur:River",
-        style: { weight: 5, color: "blue", fillOpacity: 0.1 },
-        displayName: "River Data",
+        style: { weight: 5, color: "cyan", fillOpacity: 0.1 },
+        displayName: "River Data", // Added for loading messages
       },
       // Grouped Layers - Define the base layer and its sub-layers
       {
@@ -1161,8 +613,8 @@ function Map({ selectedLayers }) {
         subLayers: [
           {
             id: "paragliding",
-            filterProperty: "TYPE", // Confirmed this is the correct property name
-            filterValue: "Paragliding", // Confirmed this is the correct value
+            filterProperty: "TYPE",
+            filterValue: "Paraglading",
             style: { weight: 3, color: "orange", fillOpacity: 0.7 },
             displayName: "Paragliding Area",
           },
@@ -1193,6 +645,7 @@ function Map({ selectedLayers }) {
     []
   );
 
+  // Helper to flatten dynamicLayersConfig for easier lookup of all individual IDs
   const allLayerIds = useMemo(() => {
     const ids = [];
     dynamicLayersConfig.forEach((layer) => {
@@ -1205,6 +658,7 @@ function Map({ selectedLayers }) {
     return ids;
   }, [dynamicLayersConfig]);
 
+  // Generic function to fetch WFS data
   const fetchWFSData = useCallback(
     async (layerId, typeName) => {
       if (loadingStates[layerId] || dynamicGeoJSONData[layerId]) {
@@ -1235,16 +689,19 @@ function Map({ selectedLayers }) {
     [geoserverWFSUrl, loadingStates, dynamicGeoJSONData]
   );
 
+  // useEffect to trigger fetches for selected layers
   useEffect(() => {
     dynamicLayersConfig.forEach((layer) => {
       if (layer.isGroup) {
+        // For grouped layers, check if any of its sub-layers are selected
         const isAnySubLayerSelected = layer.subLayers.some((subLayer) =>
           selectedLayers.includes(subLayer.id)
         );
         if (isAnySubLayerSelected) {
-          fetchWFSData(layer.id, layer.typeName);
+          fetchWFSData(layer.id, layer.typeName); // Fetch the base data
         }
       } else {
+        // For individual layers, check if it's selected directly
         if (selectedLayers.includes(layer.id)) {
           fetchWFSData(layer.id, layer.typeName);
         }
@@ -1252,6 +709,7 @@ function Map({ selectedLayers }) {
     });
   }, [selectedLayers, dynamicLayersConfig, fetchWFSData]);
 
+  // Consolidated onEachFeature handler for popups
   const onEachFeatureGeneric = useCallback((feature, layer) => {
     const properties = feature.properties;
     if (properties) {
@@ -1269,55 +727,63 @@ function Map({ selectedLayers }) {
     }
   }, []);
 
-  // --- REVISED getGroupedLayerStyle ---
+  // Smart style function for grouped layers
   const getGroupedLayerStyle = useCallback(
     (baseLayerId, feature) => {
       const defaultHiddenStyle = {
         opacity: 0,
         fillOpacity: 0,
         weight: 0,
-        clickable: false,
+        clickable: false, // Make feature not clickable when hidden
       };
+
+      if (baseLayerId === "public-places") {
+        console.log(
+          "Public Place Feature:",
+          feature.properties.TYPE,
+          "Selected:",
+          selectedLayers
+        );
+      }
 
       const baseConfig = dynamicLayersConfig.find(
         (config) => config.id === baseLayerId
       );
       if (!baseConfig || !baseConfig.isGroup || !baseConfig.subLayers) {
-        return defaultHiddenStyle;
+        return defaultHiddenStyle; // Should not happen for grouped layers
       }
 
-      // Find the style for the first *selected* sub-layer that matches this feature's properties
+      // Find the sub-layer configuration that matches the feature's properties and is selected
       for (const subLayerConfig of baseConfig.subLayers) {
-        if (
-          selectedLayers.includes(subLayerConfig.id) && // Check if this specific sub-layer is selected
-          feature.properties[subLayerConfig.filterProperty] ===
+        if (selectedLayers.includes(subLayerConfig.id)) {
+          if (
+            feature.properties[subLayerConfig.filterProperty] ===
             subLayerConfig.filterValue
-        ) {
-          // If a match is found and it's selected, return its style
-          return { ...subLayerConfig.style, clickable: true };
+          ) {
+            return { ...subLayerConfig.style, clickable: true }; // Apply style if it matches and is selected
+          }
         }
       }
 
-      // If no matching selected sub-layer is found for this feature, hide it
-      return defaultHiddenStyle;
+      return defaultHiddenStyle; // If no matching sub-layer is selected, hide the feature
     },
     [selectedLayers, dynamicLayersConfig]
   );
 
-  // --- REVISED filterGroupedFeatures ---
+  // Filter function for grouped layers - to prevent non-selected features from even being added
   const filterGroupedFeatures = useCallback(
     (baseLayerId, feature) => {
       const baseConfig = dynamicLayersConfig.find(
         (config) => config.id === baseLayerId
       );
       if (!baseConfig || !baseConfig.isGroup || !baseConfig.subLayers) {
-        return false;
+        return false; // Should not happen
       }
 
-      // Check if this feature matches *ANY* of the currently selected sub-layers
+      // Check if any selected sub-layer matches this feature's properties
       return baseConfig.subLayers.some(
         (subLayerConfig) =>
-          selectedLayers.includes(subLayerConfig.id) && // Check if this specific sub-layer is selected
+          selectedLayers.includes(subLayerConfig.id) &&
           feature.properties[subLayerConfig.filterProperty] ===
             subLayerConfig.filterValue
       );
@@ -1397,6 +863,8 @@ function Map({ selectedLayers }) {
 
           const dataToRender = dynamicGeoJSONData[layerConfig.id];
 
+          // Render a GeoJSON component if the layer (or any of its sub-layers) is selected
+          // AND data is available AND not currently loading for this base layer.
           if (
             (isBaseLayerActive || isIndividualLayerActive) &&
             dataToRender &&
@@ -1405,7 +873,7 @@ function Map({ selectedLayers }) {
             if (layerConfig.isGroup) {
               return (
                 <GeoJSON
-                  key={layerConfig.id}
+                  key={layerConfig.id} // Key off the base ID for grouped layers
                   data={dataToRender}
                   style={(feature) =>
                     getGroupedLayerStyle(layerConfig.id, feature)
@@ -1417,6 +885,7 @@ function Map({ selectedLayers }) {
                 />
               );
             } else {
+              // For non-grouped layers, just render if selected and data is available
               return (
                 <GeoJSON
                   key={layerConfig.id}
@@ -1427,7 +896,7 @@ function Map({ selectedLayers }) {
               );
             }
           }
-          return null;
+          return null; // Don't render if not selected or data not available
         })}
 
         {/* Display loading/error messages for dynamic layers */}
@@ -1436,18 +905,20 @@ function Map({ selectedLayers }) {
             (lc) =>
               lc.id === layerId || lc.subLayers?.some((sl) => sl.id === layerId)
           );
-          let baseLayerId = layerId;
+          let baseLayerId = layerId; // Assume it's a base layer initially
           let displayName = config?.displayName;
 
+          // If it's a sub-layer, find its base and determine display name
           if (
             config &&
             config.isGroup &&
             config.subLayers?.some((sl) => sl.id === layerId)
           ) {
             const subConfig = config.subLayers.find((sl) => sl.id === layerId);
-            baseLayerId = config.id;
+            baseLayerId = config.id; // Use the base layer ID for loading state checks
             displayName = subConfig?.displayName;
           } else if (!config) {
+            // If it's a sub-layer not found directly in dynamicLayersConfig (e.g., "buildings-Residential")
             for (const lc of dynamicLayersConfig) {
               if (lc.isGroup && lc.subLayers) {
                 const subConfig = lc.subLayers.find((sl) => sl.id === layerId);
@@ -1466,7 +937,7 @@ function Map({ selectedLayers }) {
                 key={`loading-${layerId}`}
                 style={{
                   position: "absolute",
-                  top: `${10 + allLayerIds.indexOf(layerId) * 30}px`,
+                  top: `${10 + allLayerIds.indexOf(layerId) * 30}px`, // Adjust position dynamically
                   right: "10px",
                   zIndex: 1000,
                   background: "white",
@@ -1485,7 +956,7 @@ function Map({ selectedLayers }) {
                 key={`error-${layerId}`}
                 style={{
                   position: "absolute",
-                  top: `${10 + allLayerIds.indexOf(layerId) * 30}px`,
+                  top: `${10 + allLayerIds.indexOf(layerId) * 30}px`, // Adjust position dynamically
                   right: "10px",
                   zIndex: 1000,
                   background: "white",
@@ -1517,7 +988,7 @@ function Map({ selectedLayers }) {
       onEachFeatureGeneric,
       getGroupedLayerStyle,
       filterGroupedFeatures,
-      allLayerIds,
+      allLayerIds, // Include allLayerIds in dependency array
     ]
   );
 
