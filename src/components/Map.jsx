@@ -519,39 +519,39 @@ function Map({ selectedLayers }) {
         id: "border",
         typeName: "shankharapur:Napi_Border",
         style: { weight: 3, color: "blue", fillOpacity: 0.1 },
-        displayName: "Border Data", // Added for loading messages
+        // displayName: "Border Data", // Added for loading messages
       },
       {
         id: "napi",
         typeName: "shankharapur:Shanakarapur_Map",
         style: { weight: 3, color: "red", fillOpacity: 0.1 },
-        displayName: "Napi Map", // Added for loading messages
+        // displayName: "Napi Map", // Added for loading messages
       },
       // Roads
       {
         id: "roads",
         typeName: "shankharapur:FINAL_ROADS_CLIPPED",
         style: { weight: 2, color: "black", fillOpacity: 0.1 },
-        displayName: "Roads Data", // Added for loading messages
+        // displayName: "Roads Data", // Added for loading messages
       },
       // Natural Features
       {
         id: "forest",
         typeName: "shankharapur:FOREST_CLIPPED",
         style: { weight: 1.5, color: "darkgreen", fillOpacity: 0.5 },
-        displayName: "Forest Data", // Added for loading messages
+        // displayName: "Forest Data", // Added for loading messages
       },
       {
         id: "river",
         typeName: "shankharapur:River",
         style: { weight: 5, color: "cyan", fillOpacity: 0.1 },
-        displayName: "River Data", // Added for loading messages
+        // displayName: "River Data", // Added for loading messages
       },
       // Grouped Layers - Define the base layer and its sub-layers
       {
         id: "buildings", // Base ID for fetching all building data
         typeName: "shankharapur:Buildings_Clipped",
-        displayName: "Buildings Data",
+        // displayName: "Buildings Data",
         isGroup: true,
         subLayers: [
           {
@@ -559,56 +559,56 @@ function Map({ selectedLayers }) {
             filterProperty: "Type",
             filterValue: "Residential",
             style: { weight: 2, color: "red", fillOpacity: 0.7 },
-            displayName: "Residential Buildings",
+            // displayName: "Residential Buildings",
           },
           {
             id: "buildings-School",
             filterProperty: "Type",
             filterValue: "School",
             style: { weight: 8, color: "blue", fillOpacity: 0.7 },
-            displayName: "School Buildings",
+            // displayName: "School Buildings",
           },
           {
             id: "buildings-Government",
             filterProperty: "Type",
             filterValue: "Government Office",
             style: { weight: 8, color: "green", fillOpacity: 0.7 },
-            displayName: "Government Buildings",
+            // displayName: "Government Buildings",
           },
           {
             id: "buildings-HealthPost",
             filterProperty: "Type",
             filterValue: "Health Post",
             style: { weight: 8, color: "purple", fillOpacity: 0.7 },
-            displayName: "Health Post Buildings",
+            // displayName: "Health Post Buildings",
           },
           {
             id: "buildings-Hotel",
             filterProperty: "Type",
             filterValue: "Hotel",
             style: { weight: 8, color: "yellow", fillOpacity: 0.7 },
-            displayName: "Hotel Buildings",
+            // displayName: "Hotel Buildings",
           },
           {
             id: "buildings-Temple",
             filterProperty: "Type",
             filterValue: "Temple",
             style: { weight: 6, color: "brown", fillOpacity: 0.7 },
-            displayName: "Temple Buildings",
+            // displayName: "Temple Buildings",
           },
           {
             id: "buildings-Stupa",
             filterProperty: "Type",
             filterValue: "Stupa",
             style: { weight: 6, color: "gray", fillOpacity: 0.7 },
-            displayName: "Stupa Buildings",
+            // displayName: "Stupa Buildings",
           },
         ],
       },
       {
         id: "public-places", // Base ID for fetching all public place data
         typeName: "shankharapur:Public_Place",
-        displayName: "Public Places Data",
+        // displayName: "Public Places Data",
         isGroup: true,
         subLayers: [
           {
@@ -616,28 +616,28 @@ function Map({ selectedLayers }) {
             filterProperty: "TYPE",
             filterValue: "Paraglading",
             style: { weight: 3, color: "orange", fillOpacity: 0.7 },
-            displayName: "Paragliding Area",
+            // displayName: "Paragliding Area",
           },
           {
             id: "sarbajanik-jagga",
             filterProperty: "TYPE",
             filterValue: "Sarbajanik Jagga",
             style: { weight: 3, color: "violet", fillOpacity: 0.7 },
-            displayName: "Sarbajanik Jagga",
+            // displayName: "Sarbajanik Jagga",
           },
           {
             id: "sarbajanik-bhawan",
             filterProperty: "TYPE",
             filterValue: "Sarbajanik Bhawan",
             style: { weight: 3, color: "darkblue", fillOpacity: 0.7 },
-            displayName: "Sarbajanik Bhawan",
+            // displayName: "Sarbajanik Bhawan",
           },
           {
             id: "football-ground",
             filterProperty: "TYPE",
             filterValue: "Football Ground",
             style: { weight: 3, color: "lightgreen", fillOpacity: 0.7 },
-            displayName: "Football Ground",
+            // displayName: "Football Ground",
           },
         ],
       },
