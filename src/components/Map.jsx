@@ -1282,7 +1282,8 @@ function Map({ selectedLayers }) {
   const initialPosition = [27.77558, 85.518073]; // Kathmandu, Nepal approximate center
   const initialZoom = 14;
 
-  const geoserverWFSUrl = "http://maps.phnx.com.np:9090/geoserver/ows";
+  // const geoserverWFSUrl = "http://maps.phnx.com.np:9090/geoserver/ows";
+  const geoserverWFSUrl = "https://maps.phnx.com.np/geoserver/ows";
 
   const dynamicLayersConfig = useMemo(
     () => [
@@ -1338,152 +1339,126 @@ function Map({ selectedLayers }) {
           // Add other river-specific properties as needed
         ],
       },
-      // Grouped Layers - Buildings
       {
-        id: "buildings", // Base ID for fetching all building data
-        typeName: "shankharapur:Buildings_Clipped",
-        displayName: "Buildings Data",
-        isGroup: true,
-        // popupProperties for base buildings is not directly used, sub-layers define them
-        subLayers: [
-          {
-            id: "buildings-Residential",
-            filterProperty: "Type",
-            filterValue: "Residential",
-            style: { weight: 2, color: "red", fillOpacity: 0.7 },
-            displayName: "Residential Buildings",
-            popupProperties: [
-              { key: "Name", displayName: "घरधनीको नाम" }, // Specific for Residential Buildings
-              { key: "House_No", displayName: "घरको नम्बर" },
-              { key: "Type", displayName: "प्रकार" },
-              // Add other residential building specific properties
-            ],
-          },
-          {
-            id: "buildings-School",
-            filterProperty: "Type",
-            filterValue: "School",
-            style: { weight: 8, color: "blue", fillOpacity: 0.7 },
-            displayName: "School Buildings",
-            popupProperties: [
-              { key: "Name", displayName: "विद्यालयको नाम" }, // Specific for School Buildings
-              { key: "House_No", displayName: "घरको नम्बर" },
-              { key: "Type", displayName: "प्रकार" },
-            ],
-          },
-          {
-            id: "buildings-Government",
-            filterProperty: "Type",
-            filterValue: "Government Office",
-            style: { weight: 8, color: "green", fillOpacity: 0.7 },
-            displayName: "Government Buildings",
-            popupProperties: [
-              { key: "Name", displayName: "कार्यालयको नाम" },
-              { key: "House_No", displayName: "घरको नम्बर" },
-              { key: "Type", displayName: "प्रकार" },
-            ],
-          },
-          {
-            id: "buildings-HealthPost",
-            filterProperty: "Type",
-            filterValue: "Health Post",
-            style: { weight: 8, color: "purple", fillOpacity: 0.7 },
-            displayName: "Health Post Buildings",
-            popupProperties: [
-              { key: "Name", displayName: "स्वास्थ्य चौकीको नाम" },
-              { key: "House_No", displayName: "घरको नम्बर" },
-              { key: "Type", displayName: "प्रकार" },
-            ],
-          },
-          {
-            id: "buildings-Hotel",
-            filterProperty: "Type",
-            filterValue: "Hotel",
-            style: { weight: 8, color: "yellow", fillOpacity: 0.7 },
-            displayName: "Hotel Buildings",
-            popupProperties: [
-              { key: "Name", displayName: "होटलको नाम" },
-              { key: "House_No", displayName: "घरको नम्बर" },
-              { key: "Type", displayName: "प्रकार" },
-            ],
-          },
-          {
-            id: "buildings-Temple",
-            filterProperty: "Type",
-            filterValue: "Temple",
-            style: { weight: 6, color: "brown", fillOpacity: 0.7 },
-            displayName: "Temple Buildings",
-            popupProperties: [
-              { key: "Name", displayName: "मन्दिरको नाम" },
-              { key: "House_No", displayName: "घरको नम्बर" },
-              { key: "Type", displayName: "प्रकार" },
-            ],
-          },
-          {
-            id: "buildings-Stupa",
-            filterProperty: "Type",
-            filterValue: "Stupa",
-            style: { weight: 6, color: "gray", fillOpacity: 0.7 },
-            displayName: "Stupa Buildings",
-            popupProperties: [
-              { key: "Name", displayName: "स्तुपाको नाम" },
-              { key: "House_No", displayName: "घरको नम्बर" },
-              { key: "Type", displayName: "प्रकार" },
-            ],
-          },
+        id: "buildings-Government",
+        typeName: "shankharapur:Government_Office",
+        style: { weight: 5, color: "green", fillOpacity: 0.1 },
+        displayName: "Government Office",
+        popupProperties: [
+          { key: "Name", displayName: "कार्यालयको नाम" },
+          { key: "House_No", displayName: "घरको नम्बर" },
+          { key: "Type", displayName: "प्रकार" },
         ],
       },
       {
-        id: "public-places", // Base ID for fetching all public place data
-        typeName: "shankharapur:Public_Place",
-        displayName: "Public Places Data",
-        isGroup: true,
-        // popupProperties for base public places is not directly used, sub-layers define them
-        subLayers: [
-          {
-            id: "paragliding",
-            filterProperty: "TYPE",
-            filterValue: "Paraglading", // Ensure this matches your data exactly
-            style: { weight: 3, color: "orange", fillOpacity: 0.7 },
-            displayName: "Paragliding Area",
-            popupProperties: [
-              { key: "Name", displayName: "स्थानको नाम" }, // Specific for Public Places
-              { key: "TYPE", displayName: "प्रकार" },
-            ],
-          },
-          {
-            id: "sarbajanik-jagga",
-            filterProperty: "TYPE",
-            filterValue: "Sarbajanik Jagga",
-            style: { weight: 3, color: "violet", fillOpacity: 0.7 },
-            displayName: "Sarbajanik Jagga",
-            popupProperties: [
-              { key: "Name", displayName: "स्थानको नाम" },
-              { key: "TYPE", displayName: "प्रकार" },
-            ],
-          },
-          {
-            id: "sarbajanik-bhawan",
-            filterProperty: "TYPE",
-            filterValue: "Sarbajanik Bhawan",
-            style: { weight: 3, color: "darkblue", fillOpacity: 0.7 },
-            displayName: "Sarbajanik Bhawan",
-            popupProperties: [
-              { key: "Name", displayName: "भवनको नाम" },
-              { key: "TYPE", displayName: "प्रकार" },
-            ],
-          },
-          {
-            id: "football-ground",
-            filterProperty: "TYPE",
-            filterValue: "Football Ground",
-            style: { weight: 3, color: "lightgreen", fillOpacity: 0.7 },
-            displayName: "Football Ground",
-            popupProperties: [
-              { key: "Name", displayName: "मैदानको नाम" },
-              { key: "TYPE", displayName: "प्रकार" },
-            ],
-          },
+        id: "buildings-Residential",
+        typeName: "shankharapur:Residential",
+        style: { weight: 5, color: "red", fillOpacity: 0.1 },
+        displayName: "Government Office",
+        popupProperties: [
+          { key: "Name", displayName: "घरधनीको नाम" }, // Specific for Residential Buildings
+          { key: "House_No", displayName: "घरको नम्बर" },
+          { key: "Type", displayName: "प्रकार" },
+        ],
+      },
+      {
+        id: "buildings-HealthPost",
+        typeName: "shankharapur:Health_Post",
+        style: { weight: 8, color: "purple", fillOpacity: 0.7 },
+        displayName: "Health Post Buildings",
+        popupProperties: [
+          { key: "Name", displayName: "स्वास्थ्य चौकीको नाम" },
+          { key: "House_No", displayName: "घरको नम्बर" },
+          { key: "Type", displayName: "प्रकार" },
+        ],
+      },
+      {
+        id: "buildings-School",
+        typeName: "shankharapur:School",
+        style: { weight: 8, color: "blue", fillOpacity: 0.7 },
+        displayName: "School Buildings",
+        popupProperties: [
+          { key: "Name", displayName: "विद्यालयको नाम" },
+          { key: "House_No", displayName: "घरको नम्बर" },
+          { key: "Type", displayName: "प्रकार" },
+        ],
+      },
+
+      {
+        id: "buildings-Hotel",
+        typeName: "shankharapur:Hotel",
+        style: { weight: 8, color: "yellow", fillOpacity: 0.7 },
+        displayName: "Hotel Buildings",
+        popupProperties: [
+          { key: "Name", displayName: "होटलको नाम" },
+          { key: "House_No", displayName: "घरको नम्बर" },
+          { key: "Type", displayName: "प्रकार" },
+        ],
+      },
+      {
+        id: "buildings-Temple",
+        typeName: "shankharapur:Temple",
+        style: { weight: 6, color: "brown", fillOpacity: 0.7 },
+        displayName: "Temple Buildings",
+        popupProperties: [
+          { key: "Name", displayName: "मन्दिरको नाम" },
+          { key: "House_No", displayName: "घरको नम्बर" },
+          { key: "Type", displayName: "प्रकार" },
+        ],
+      },
+
+      {
+        id: "buildings-Stupa",
+        typeName: "shankharapur:Stupa",
+        style: { weight: 6, color: "gray", fillOpacity: 0.7 },
+        displayName: "Stupa Buildings",
+        popupProperties: [
+          { key: "Name", displayName: "स्तुपाको नाम" },
+          { key: "House_No", displayName: "घरको नम्बर" },
+          { key: "Type", displayName: "प्रकार" },
+        ],
+      },
+
+      {
+        id: "sarbajanik-bhawan",
+        typeName: "shankharapur:Bhawan",
+        style: { weight: 3, color: "darkblue", fillOpacity: 0.7 },
+        displayName: "Sarbajanik Bhawan",
+        popupProperties: [
+          { key: "Name", displayName: "भवनको नाम" },
+          { key: "TYPE", displayName: "प्रकार" },
+        ],
+      },
+
+      {
+        id: "sarbajanik-jagga",
+        typeName: "shankharapur:publicLand",
+        style: { weight: 3, color: "violet", fillOpacity: 0.7 },
+        displayName: "Sarbajanik Jagga",
+        popupProperties: [
+          { key: "Name", displayName: "स्थानको नाम" },
+          { key: "TYPE", displayName: "प्रकार" },
+        ],
+      },
+
+      {
+        id: "paragliding",
+        typeName: "shankharapur:paragliding",
+        style: { weight: 3, color: "orange", fillOpacity: 0.7 },
+        displayName: "Paragliding Area",
+        popupProperties: [
+          { key: "Name", displayName: "स्थानको नाम" }, // Specific for Public Places
+          { key: "TYPE", displayName: "प्रकार" },
+        ],
+      },
+      {
+        id: "football-ground",
+        typeName: "shankharapur:Football_Ground",
+        style: { weight: 3, color: "lightgreen", fillOpacity: 0.7 },
+        displayName: "Football Ground",
+        popupProperties: [
+          { key: "Name", displayName: "मैदानको नाम" },
+          { key: "TYPE", displayName: "प्रकार" },
         ],
       },
     ],
@@ -1721,7 +1696,7 @@ function Map({ selectedLayers }) {
 
           <LayersControl.BaseLayer name="Drone Image Ward 2">
             <WMSTileLayer
-              url="http://maps.phnx.com.np:9090/geoserver/ows"
+              url="http://maps.phnx.com.np/geoserver/ows"
               layers="shankharapur:basemap_ward_2"
               format="image/jpeg"
               version="1.1.0"
