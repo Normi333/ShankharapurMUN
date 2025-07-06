@@ -47,18 +47,6 @@
   background-color: black;
 }
 
-.legend-color.roads-Internal {
-  background-color: orange;
-}
-
-.legend-color.roads-External {
-  background-color: yellow;
-}
-
-.legend-color.buildings-all {
-  background-color: gray;
-}
-
 .legend-color.border {
   background-color: blue;
 }
