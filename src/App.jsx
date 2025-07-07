@@ -38,52 +38,18 @@ function App() {
           path="/login"
           element={<Login setIsLoggedIn={setIsLoggedIn} />}
         />{" "}
-        {/* <Route path="/signup" element={<Signup />} /> */}
-        {/* <Route
-          path="/"
-          element={
-            isLoggedIn ? <Dashboard /> : <Login setIsLoggedIn={setIsLoggedIn} />
-          }
-        /> */}
         <Route path="/householdreport" element={<HouseholdReport />} />
         <Route
           path="/statisticsreport"
           element={<Institutionaldetailsstatistics />}
         />
         <Route path="/" element={<ChartReportPage />} />
-        {/* <Route
-          path="/report"
-          element={
-            isLoggedIn ? (
-              <ChartReportPage />
-            ) : (
-              <Login setIsLoggedIn={setIsLoggedIn} />
-            )
-          }
-        /> */}
         <Route path="/maps" element={<MapPage />} />
-        {/* <Route
-          path="/maps"
-          element={
-            isLoggedIn ? <MapPage /> : <Login setIsLoggedIn={setIsLoggedIn} />
-          }
-        /> */}
         <Route path="/ReportView/:path" element={<ReportView />} />
         <Route path="/Report/:path" element={<ReportViewInstitution />} />
         <Route path="/DetailedReport/:path" element={<MainChartScreenSearch />} />
         <Route path="/DetailedReport" element={<MainChartScreenSearch />} />
-        {/* <Route path="/ward-search" element={<HouseholdWardSearch />} /> */}
-        {/* <Route
-          path="/ReportView/:path"
-          element={
-            isLoggedIn ? (
-              <ReportView />
-            ) : (
-              <Login setIsLoggedIn={setIsLoggedIn} />
-            )
-          }
-        /> */}
-        <Route path="/info" element={<Info />} />
+        {/* <Route path="/info" element={<Info />} /> */}
       </Routes>
     </>
   );
