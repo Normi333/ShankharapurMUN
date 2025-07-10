@@ -26,6 +26,12 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
       },
+      '/shankharapurapi': {
+        target: 'https://shankharapurmun.phnx.com.np',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/shankharapurapi/, '/shankharapurapi'),
+        secure: false,
+      },
     }
   }
 });
